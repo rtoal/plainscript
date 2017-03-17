@@ -1,0 +1,17 @@
+extends: airbnb-base
+plugins:
+  - import
+rules:
+  no-console:
+    off
+  import/no-dynamic-require:
+    off
+  import/no-extraneous-dependencies:
+    off
+  no-constant-condition:
+    off
+  no-restricted-syntax:
+    - error
+    - WithStatement
+env:
+  mocha: true

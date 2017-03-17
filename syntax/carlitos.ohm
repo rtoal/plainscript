@@ -1,0 +1,53 @@
+Carlitos {
+  Program     =  Stmt+
+  Stmt        =  SimpleStmt
+              |  "while" Exp Suite               -- while
+              |  "if" Exp Suite
+                 ("elsif" Exp Suite)*
+                 ("else" Suite)?                 -- if
+              |  "function" id Bindings Suite    -- fundecl
+  SimpleStmt  =  VarExpLit "=" ExpList           -- assign
+              |  Call
+              |  "break"
+              |  "return" Exp?                   -- return
+  Params      =  "(" Binding ("," Binding)* ")"  -- multi
+              |  "(" ")"                         -- none
+  Binding     =  id ("=" Exp)?
+  Suite       =  SimpleStmt                      -- small
+              |  newline indent Stmt+ dedent     -- large
+  Exp         =  Exp "or" Exp1                   -- or
+              |  Exp "and" Exp1                  -- and
+              |  Exp1
+  Exp1        =  Exp2 relop Exp2                 -- binary
+              |  Exp2
+  Exp2        =  Exp2 addop Exp3                 -- binary
+              |  Exp3
+  Exp3        =  Exp3 mulop Exp4                 -- binary
+              |  Exp4
+  Exp4        =  prefixop Exp5                   -- unary
+              |  Exp5
+  Exp6        =  boollit
+              |  intlit
+              |  VarExp
+              |  "(" Exp ")"                     -- parens
+              |  Call
+  Call        =  VarExp "(" Args ")"
+  VarExp      = id
+  Args        = Exp ("," Exp)*
+
+  keyword     =  ("function" | "if" | "elsif" | "else" | "while" | "return"
+              |  "break" | "and" | "or" | "not" | "true" | "false") ~idrest
+  id          =  ~keyword letter idrest*
+  idrest      =  "_" | alnum
+  numlit      =  digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?
+  boollit     =  "true" | "false"
+  addop       =  "+" | "-"
+  relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
+  mulop       =  "*" | "/" | "%"
+  prefixop    =  "-" | "not"
+  indent      = "\u21b3"
+  dedent      = "\u21b5"
+
+  space      +=  comment
+  comment     =  "#" (~"\n" any)* "\n"
+}
