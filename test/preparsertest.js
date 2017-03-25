@@ -1,34 +1,25 @@
+/*
+ * Preparser Tests
+ *
+ * Tests that the pre-parser produces the correct pre-parsed output when it
+ * should, and emits the expected errors when given badly indented programs.
+ */
+
+const fs = require('fs');
 const assert = require('assert');
 const withIndentsAndDedents = require('../syntax/preparser');
 
-const input = `function f():
-       pass
+const TEST_DIR = './test/preparser-checks';
 
-def g():
-  if x < 1:
-       x = 3
-       print(x)
-  else:
-     return 'z'
-
-f()
-`;
-
-const expected = `function f():
-⇨pass
-
-⇦def g():
-⇨if x < 1:
-⇨x = 3
-print(x)
-⇦else:
-⇨return 'z'
-
-⇦⇦f()
-`;
-
-describe('The preparser', () => {
-  it('can preprocess a simple program', () => {
-    assert.equal(withIndentsAndDedents(input), expected);
+describe('The pre-parser', () => {
+  fs.readdirSync(TEST_DIR).forEach((name) => {
+    if (name.endsWith('.carlitos')) {
+      it(`produces the correct markup for ${name}`, (done) => {
+        const input = fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8');
+        const expected = fs.readFileSync(`${TEST_DIR}/${name}.expected`, 'utf-8');
+        assert.equal(withIndentsAndDedents(input), expected);
+        done();
+      });
+    }
   });
 });

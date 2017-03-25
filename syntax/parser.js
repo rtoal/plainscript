@@ -83,7 +83,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
 });
 /* eslint-enable no-unused-vars */
 
-exports.parse = (text) => {
+module.exports = (text) => {
   const match = grammar.match(withIndentsAndDedents(text));
   if (!match.succeeded()) {
     throw match.message;

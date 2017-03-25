@@ -9,7 +9,7 @@
  *       function will throw an error message.
  */
 
-exports.withIndentsAndDedents = (text) => {
+module.exports = (text) => {
   const stack = [0];
   const result = [];
   for (const line of text.split('\n')) {
