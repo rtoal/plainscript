@@ -3,11 +3,11 @@
  *
  *   const withIndentsAndDedents = require('./preparser');
  *
- *   withIndentsAndDedents(programText) returns the programText with ➡️ characters
- *   replacing indent regions and ⬅️ replacing dedents. If the programText is
- *   malformed, returns an object of the form:
+ *   withIndentsAndDedents(programText) returns the programText with ⍈ characters
+ *       replacing indent regions and ⍇ replacing dedents, and empty lines removed.
+ *       If the programText is malformed, returns an object of the form:
  *
- *     { error: <some string> }
+ *           { error: <some string> }
  */
 
 function withIndentsAndDedents(text) {
@@ -17,7 +17,7 @@ function withIndentsAndDedents(text) {
     const lineMatch = /^( *)(.*)/.exec(line);
     const [indent, content] = [lineMatch[1].length, lineMatch[2]];
     if (content === '') {
-      result.push('');
+      continue;
     } else if (/\s/.test(content[0])) {
       return { error: 'Illegal whitespace character' };
     } else if (indent === stack[stack.length - 1]) {

@@ -5,22 +5,22 @@ const input = `function f():
        pass
 
 def g():
-  if (x):
-       pass
+  if x < 1:
+       x = 3
+       print(x)
   else:
-     pass
+     return 'z'
 
 f()`;
 
 const expected = `function f():
 ⍈pass
-
 ⍇def g():
-⍈if (x):
-⍈pass
+⍈if x < 1:
+⍈x = 3
+print(x)
 ⍇else:
-⍈pass
-
+⍈return 'z'
 ⍇⍇f()`;
 
 describe('The preparser', () => {

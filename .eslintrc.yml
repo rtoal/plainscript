@@ -10,6 +10,8 @@ rules:
     off
   no-constant-condition:
     off
+  no-continue:
+    off
   no-restricted-syntax:
     - error
     - WithStatement
