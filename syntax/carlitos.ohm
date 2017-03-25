@@ -53,6 +53,6 @@ Carlitos {
   dedent      =  "⇦"
 
   newline     =  "\n"+
-  space      :=  " " | "\t"
+  space      :=  " " | "\t" | comment
   comment     =  "#" (~"\n" any)* "\n"
 }
