@@ -8,4 +8,13 @@ def actions(a, b, c):
           while true:
                if x: print(x)
 
+               
+               break
+        elif false:
+                     print(7, sep: dog)
+
 actions(b: 9, a: b*b, 1)
+
+def rat(cute=true, fun=true): return true
+
+print(5/7*27.3E10)

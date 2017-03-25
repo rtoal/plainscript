@@ -5,9 +5,9 @@ Carlitos {
               |  "if" Exp Suite
                  ("elif" Exp Suite)*
                  ("else" Suite)?                 -- if
-              |  "def" id "(" Params ")" Suite   -- fundecl
+              |  "def" id "(" Params ")" Suite   -- def
   SimpleStmt  =  VarExps "=" Exps                -- assign
-              |  Call                            -- call
+              |  Call
               |  "break"                         -- break
               |  "return" Exp?                   -- return
   Suite       =  ":" SimpleStmt newline          -- small
@@ -26,18 +26,18 @@ Carlitos {
               |  Exp5
   Exp5        =  boollit
               |  numlit
-              |  Call                            -- call
+              |  Call
               |  VarExp
               |  "(" Exp ")"                     -- parens
   Call        =  VarExp "(" Args ")"
 
-  Exps        =  Exp ("," Exp)*
+  Exps        =  NonemptyListOf<Exp, ",">
   VarExp      =  id
-  VarExps     =  VarExp ("," VarExp)*
+  VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  id ("=" Exp)?
-  Params      =  (Param ("," Param)*)?
+  Params      =  ListOf<Param, ",">
   Arg         =  (id ":")? Exp
-  Args        =  (Arg ("," Arg)*)?
+  Args        =  ListOf<Arg, ",">
 
   keyword     =  ("function" | "if" | "elif" | "else" | "while" | "return"
               |  "break" | "and" | "or" | "not" | "true" | "false") ~idrest
