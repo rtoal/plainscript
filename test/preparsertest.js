@@ -11,17 +11,21 @@ def g():
   else:
      return 'z'
 
-f()`;
+f()
+`;
 
 const expected = `function f():
-⍈pass
-⍇def g():
-⍈if x < 1:
-⍈x = 3
+⇨pass
+
+⇦def g():
+⇨if x < 1:
+⇨x = 3
 print(x)
-⍇else:
-⍈return 'z'
-⍇⍇f()`;
+⇦else:
+⇨return 'z'
+
+⇦⇦f()
+`;
 
 describe('The preparser', () => {
   it('can preprocess a simple program', () => {

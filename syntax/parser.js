@@ -3,7 +3,7 @@ const fs = require('fs');
 const error = require('../error/error');
 const withIndentsAndDedents = require('./preparser');
 
-const grammar = ohm.grammar(fs.readFileSync('./carlitos.ohm'));
+const grammar = ohm.grammar(fs.readFileSync('./syntax/carlitos.ohm'));
 
 function ast(match) {
   // TODO Ohm Semantics

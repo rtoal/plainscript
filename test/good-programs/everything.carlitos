@@ -1,0 +1,11 @@
+a = 42
+
+def hello():
+    print(a)
+
+def actions(a, b, c):
+        if x < 3 and 9 / 2 == b:
+          while true:
+               if x: print(x)
+
+actions(b: 9, a: b*b, 1)

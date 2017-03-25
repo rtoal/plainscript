@@ -1,20 +1,18 @@
 Carlitos {
   Program     =  Stmt+
-  Stmt        =  SimpleStmt
+  Stmt        =  SimpleStmt newline              -- simple
               |  "while" Exp Suite               -- while
               |  "if" Exp Suite
-                 ("elsif" Exp Suite)*
+                 ("elif" Exp Suite)*
                  ("else" Suite)?                 -- if
-              |  "function" id Bindings Suite    -- fundecl
-  SimpleStmt  =  VarExpLit "=" ExpList           -- assign
-              |  Call
-              |  "break"
+              |  "def" id "(" Params ")" Suite   -- fundecl
+  SimpleStmt  =  VarExps "=" Exps                -- assign
+              |  Call                            -- call
+              |  "break"                         -- break
               |  "return" Exp?                   -- return
-  Params      =  "(" Binding ("," Binding)* ")"  -- multi
-              |  "(" ")"                         -- none
-  Binding     =  id ("=" Exp)?
-  Suite       =  SimpleStmt                      -- small
-              |  newline indent Stmt+ dedent     -- large
+  Suite       =  ":" SimpleStmt newline          -- small
+              |  ":" newline indent Stmt+ dedent -- large
+
   Exp         =  Exp "or" Exp1                   -- or
               |  Exp "and" Exp1                  -- and
               |  Exp1
@@ -26,16 +24,22 @@ Carlitos {
               |  Exp4
   Exp4        =  prefixop Exp5                   -- unary
               |  Exp5
-  Exp6        =  boollit
-              |  intlit
+  Exp5        =  boollit
+              |  numlit
+              |  Call                            -- call
               |  VarExp
               |  "(" Exp ")"                     -- parens
-              |  Call
   Call        =  VarExp "(" Args ")"
-  VarExp      = id
-  Args        = Exp ("," Exp)*
 
-  keyword     =  ("function" | "if" | "elsif" | "else" | "while" | "return"
+  Exps        =  Exp ("," Exp)*
+  VarExp      =  id
+  VarExps     =  VarExp ("," VarExp)*
+  Param       =  id ("=" Exp)?
+  Params      =  (Param ("," Param)*)?
+  Arg         =  (id ":")? Exp
+  Args        =  (Arg ("," Arg)*)?
+
+  keyword     =  ("function" | "if" | "elif" | "else" | "while" | "return"
               |  "break" | "and" | "or" | "not" | "true" | "false") ~idrest
   id          =  ~keyword letter idrest*
   idrest      =  "_" | alnum
@@ -45,9 +49,10 @@ Carlitos {
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
   mulop       =  "*" | "/" | "%"
   prefixop    =  "-" | "not"
-  indent      = "\u21b3"
-  dedent      = "\u21b5"
+  indent      =  "⇨"
+  dedent      =  "⇦"
 
-  space      +=  comment
+  newline     =  "\n"+
+  space      :=  " " | "\t"
   comment     =  "#" (~"\n" any)* "\n"
 }

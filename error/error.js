@@ -20,7 +20,7 @@ function error(message, location) {
     }
   }
   if (!error.quiet) {
-    console.err(`Error: ${output}`);
+    console.error(`Error: ${output}`);
   }
   error.count += 1;
 }
