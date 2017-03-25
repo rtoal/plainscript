@@ -10,7 +10,7 @@ rules:
     off
   no-constant-condition:
     off
-  no-continue:
+  no-throw-literal:
     off
   no-restricted-syntax:
     - error
