@@ -1,6 +1,18 @@
+/*
+ * Parser module
+ *
+ *   const parse = require('./parser');
+ *
+ *   parse(text)
+ *       returns the abstract syntax tree for the given program text. This
+ *       function will first pre-parse (figure out indents and dedents)
+ *       before parsing with an Ohm grammar, then applying AST generation
+ *       rules. If there are any errors, this function will throw an error
+ *       message.
+ */
+
 const fs = require('fs');
 const ohm = require('ohm-js');
-const error = require('../error/error');
 const withIndentsAndDedents = require('./preparser');
 
 const Program = require('../ast/program');
@@ -21,12 +33,13 @@ const NumericLiteral = require('../ast/numeric-literal');
 
 const grammar = ohm.grammar(fs.readFileSync('./syntax/carlitos.ohm'));
 
+// Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function unpack(a) {
   return a.length === 0 ? null : a[0];
 }
 
 /* eslint-disable no-unused-vars */
-const semantics = grammar.createSemantics().addOperation('ast', {
+const astGenerator = grammar.createSemantics().addOperation('ast', {
   Program(body) { return new Program(body.ast()); },
   Stmt_simple(statement, _) { return statement.ast(); },
   Stmt_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
@@ -70,13 +83,10 @@ const semantics = grammar.createSemantics().addOperation('ast', {
 });
 /* eslint-enable no-unused-vars */
 
-function parse(text) {
-  const preprocessedText = withIndentsAndDedents(text);
-  if (error.count > 0) {
-    return '';
+exports.parse = (text) => {
+  const match = grammar.match(withIndentsAndDedents(text));
+  if (!match.succeeded()) {
+    throw match.message;
   }
-  const match = grammar.match(withIndentsAndDedents(preprocessedText));
-  return match.succeeded() ? semantics(match).ast() : error(match.message);
-}
-
-module.exports = parse;
+  return astGenerator(match).ast();
+};

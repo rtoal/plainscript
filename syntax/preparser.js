@@ -3,14 +3,13 @@
  *
  *   const withIndentsAndDedents = require('./preparser');
  *
- *   withIndentsAndDedents(programText) returns the programText with ⇨ characters
- *       replacing indent regions and ⇦ replacing dedents, and empty lines removed.
- *       If the programText is malformed, returns an object of the form:
- *
- *           { error: <some string> }
+ *   withIndentsAndDedents(text)
+ *       returns text with ⇨ characters replacing indent regions and ⇦
+ *       replacing dedents. If the program text is misindented, the
+ *       function will throw an error message.
  */
 
-function withIndentsAndDedents(text) {
+exports.withIndentsAndDedents = (text) => {
   const stack = [0];
   const result = [];
   for (const line of text.split('\n')) {
@@ -19,7 +18,7 @@ function withIndentsAndDedents(text) {
     if (content === '') {
       result.push('');
     } else if (/\s/.test(content[0])) {
-      return { error: 'Illegal whitespace character' };
+      throw 'Illegal whitespace character';
     } else if (indent === stack[stack.length - 1]) {
       result.push(content);
     } else if (indent > stack[stack.length - 1]) {
@@ -29,7 +28,7 @@ function withIndentsAndDedents(text) {
       for (let dedents = 1; true; dedents += 1) {
         const next = (stack.pop(), stack[stack.length - 1]);
         if (indent > next) {
-          return { error: 'Indent Error' };
+          throw 'Indent Error';
         } else if (indent === next) {
           result.push(`${'⇦'.repeat(dedents)}${content}`);
           break;
@@ -38,6 +37,4 @@ function withIndentsAndDedents(text) {
     }
   }
   return result.join('\n');
-}
-
-module.exports = withIndentsAndDedents;
+};
