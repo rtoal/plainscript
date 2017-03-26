@@ -15,16 +15,19 @@ describe('The pre-parser', () => {
   fs.readdirSync(TEST_DIR).forEach((name) => {
     if (name.endsWith('.carlitos')) {
       it(`produces the correct indent/dedent markup for ${name}`, (done) => {
-        const input = fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8');
-        const expected = fs.readFileSync(`${TEST_DIR}/${name}.expected`, 'utf-8');
-        assert.equal(withIndentsAndDedents(input), expected);
-        done();
+        fs.readFile(`${TEST_DIR}/${name}`, 'utf-8', (err, input) => {
+          fs.readFile(`${TEST_DIR}/${name}.expected`, 'utf-8', (_err, expected) => {
+            assert.equal(withIndentsAndDedents(input), expected);
+            done();
+          });
+        });
       });
     } else if (name.endsWith('.indent-error')) {
       it(`detects indentation errors in ${name}`, (done) => {
-        const input = fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8');
-        assert.throws(() => { withIndentsAndDedents(input); }, /Indent Error/);
-        done();
+        fs.readFile(`${TEST_DIR}/${name}`, 'utf-8', (err, input) => {
+          assert.throws(() => withIndentsAndDedents(input), /Indent Error/);
+          done();
+        });
       });
     }
   });
