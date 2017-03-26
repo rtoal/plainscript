@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const assert = require('assert');
+const util = require('util');
 const parse = require('../syntax/parser');
 
 const TEST_DIR = './test/syntax-checks';
@@ -18,7 +19,7 @@ describe('The parser', () => {
       it(`produces the correct AST for ${name}`, (done) => {
         const input = fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8');
         // const expected = fs.readFileSync(`${TEST_DIR}/${name}.expected`, 'utf-8');
-        console.log(parse(input));
+        console.log(util.inspect(parse(input), { depth: 10 }));
         // assert.equal(parse(input), expected);
         done();
       });

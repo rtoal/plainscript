@@ -20,6 +20,7 @@ const AssignmentStatement = require('../ast/assignment-statement');
 const BreakStatement = require('../ast/break-statement');
 const ReturnStatement = require('../ast/return-statement');
 const IfStatement = require('../ast/if-statement');
+const Case = require('../ast/case');
 const WhileStatement = require('../ast/while-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const BinaryExpression = require('../ast/binary-expression');
@@ -44,10 +45,10 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Stmt_simple(statement, _) { return statement.ast(); },
   Stmt_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
   Stmt_if(_1, eFirst, sFirst, _2, eRest, sRest, _3, sLast) {
-    const cases = [new IfStatement.Case(eFirst.ast(), sFirst.ast())];
+    const cases = [new Case(eFirst.ast(), sFirst.ast())];
     const tests = eRest.ast();
     const bodies = sRest.ast();
-    tests.forEach((test, index) => { cases.push(new IfStatement.Case(test, bodies[index])); });
+    tests.forEach((test, index) => { cases.push(new Case(test, bodies[index])); });
     return new IfStatement(cases, sLast.ast());
   },
   Stmt_def(_1, id, _2, params, _3, suite) {
@@ -72,7 +73,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Exp4_unary(op, operand) { return new UnaryExpression('-', operand.ast()); },
   Exp5_parens(_1, expression, _2) { return expression.ast(); },
   Call(fun, _1, args, _2) { return new Call(fun.ast(), args.ast()); },
-  VarExp(id) { return new VariableExpression(id); },
+  VarExp(id) { return new VariableExpression(id.ast()); },
   Param(id, _, exp) { return new Parameter(id.sourceString, unpack(exp.ast())); },
   Arg(id, _, exp) { return new Argument(unpack(id.ast()), exp.ast()); },
   NonemptyListOf(first, _, rest) { return [first.ast()].concat(rest.ast()); },
