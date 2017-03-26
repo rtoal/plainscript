@@ -16,6 +16,6 @@ print(sum_of_digits(n=8835299))
 
 Yep, that looks a lot like Python.
 
-See the file carlitos.ohm for the syntax.
+See the file [carlitos.ohm](https://github.com/rtoal/carlitos/blob/master/syntax/carlitos.ohm) for the syntax.
 
 More documentation on its way.
