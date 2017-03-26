@@ -20,7 +20,7 @@ module.exports = (text) => {
     if (content === '') {
       result += '\n';
     } else if (/\s/.test(content[0])) {
-      throw new Error('Illegal whitespace character');
+      throw new Error(`Illegal whitespace character: \\u{${content.charCodeAt(0).toString(16)}}`);
     } else if (indent === stack[stack.length - 1]) {
       result += `${content}\n`;
     } else if (indent > stack[stack.length - 1]) {
