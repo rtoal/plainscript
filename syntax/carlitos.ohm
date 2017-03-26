@@ -1,5 +1,5 @@
 Carlitos {
-  Program     =  newline* Stmt+
+  Program     =  newline* Stmt+ newline*
   Stmt        =  SimpleStmt newline              -- simple
               |  "while" Exp Suite               -- while
               |  "if" Exp Suite

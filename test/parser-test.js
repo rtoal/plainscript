@@ -17,16 +17,18 @@ describe('The grammar', () => {
   fs.readdirSync(SYNTAX_TEST_DIR).forEach((name) => {
     if (name.endsWith('.carlitos')) {
       it(`matches the program ${name}`, (done) => {
-        const input = fs.readFileSync(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8');
-        parse(input);
-        // console.log(util.inspect(parse(input), { depth: 10 }));
-        done();
+        fs.readFile(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8', (err, input) => {
+          // In this test we just care that it parses without errors
+          assert.ok(parse(input));
+          done();
+        });
       });
     } else if (name.endsWith('.error')) {
-      it(`detects the correct errors in ${name}`, (done) => {
-        const input = fs.readFileSync(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8');
-        assert.throws(() => parse(input)); // TODO SAY WHAT KIND OF THROW
-        done();
+      it(`detects a syntax error in ${name}`, (done) => {
+        fs.readFile(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8', (err, input) => {
+          assert.throws(() => parse(input), /Syntax Error/);
+          done();
+        });
       });
     }
   });
@@ -36,11 +38,13 @@ describe('The parser', () => {
   fs.readdirSync(PARSER_TEST_DIR).forEach((name) => {
     if (name.endsWith('.carlitos')) {
       it(`produces the correct AST for ${name}`, (done) => {
-        const input = fs.readFileSync(`${PARSER_TEST_DIR}/${name}`, 'utf-8');
-        //
-        // TODO assert parsed input is as expected
-        //
-        done();
+        fs.readFile(`${PARSER_TEST_DIR}/${name}`, 'utf-8', (err, input) => {
+          const ast = parse(input);
+          //
+          // TODO assert parsed input is as expected
+          //
+          done();
+        });
       });
     }
   });

@@ -12,30 +12,36 @@
 
 module.exports = (text) => {
   const stack = [0];
-  const result = [];
-  for (const line of text.split('\n')) {
-    const lineMatch = /^( *)(.*)/.exec(line);
+  let result = '';
+  const linePattern = /( *)([^\n]*)\n/g;
+  let lineMatch;
+  while ((lineMatch = linePattern.exec(text)) !== null) { // eslint-disable-line no-cond-assign
     const [indent, content] = [lineMatch[1].length, lineMatch[2]];
     if (content === '') {
-      result.push('');
+      result += '\n';
     } else if (/\s/.test(content[0])) {
       throw new Error('Illegal whitespace character');
     } else if (indent === stack[stack.length - 1]) {
-      result.push(content);
+      result += `${content}\n`;
     } else if (indent > stack[stack.length - 1]) {
       stack.push(indent);
-      result.push(`⇨${content}`);
+      result += `⇨${content}\n`;
     } else {
       for (let dedents = 1; true; dedents += 1) {
         const next = (stack.pop(), stack[stack.length - 1]);
         if (indent > next) {
           throw new Error('Indent Error');
         } else if (indent === next) {
-          result.push(`${'⇦'.repeat(dedents)}${content}`);
+          result += `${'⇦'.repeat(dedents)}${content}\n`;
           break;
         }
       }
     }
   }
-  return result.join('\n');
+
+  // Emit any extra dedents that are needed
+  if (stack.length > 1) {
+    result += `${'⇦'.repeat(stack.length - 1)}\n`;
+  }
+  return result;
 };
