@@ -8,33 +8,40 @@
 
 const fs = require('fs');
 const assert = require('assert');
-const util = require('util');
 const parse = require('../syntax/parser');
 
-const TEST_DIR = './test/syntax-checks';
+const SYNTAX_TEST_DIR = './test/syntax-checks';
+const PARSER_TEST_DIR = './test/parser-checks';
 
-describe('The parser', () => {
-  fs.readdirSync(TEST_DIR).forEach((name) => {
+describe('The grammar', () => {
+  fs.readdirSync(SYNTAX_TEST_DIR).forEach((name) => {
     if (name.endsWith('.carlitos')) {
-      it(`produces the correct AST for ${name}`, (done) => {
-        const input = fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8');
-        // const expected = fs.readFileSync(`${TEST_DIR}/${name}.expected`, 'utf-8');
-        console.log(util.inspect(parse(input), { depth: 10 }));
-        // assert.equal(parse(input), expected);
+      it(`matches the program ${name}`, (done) => {
+        const input = fs.readFileSync(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8');
+        parse(input);
+        // console.log(util.inspect(parse(input), { depth: 10 }));
+        done();
+      });
+    } else if (name.endsWith('.error')) {
+      it(`detects the correct errors in ${name}`, (done) => {
+        const input = fs.readFileSync(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8');
+        assert.throws(() => parse(input)); // TODO SAY WHAT KIND OF THROW
         done();
       });
     }
   });
+});
 
-  // fs.readdirSync(TEST_DIR).forEach((name) => {
-  //   if (name.endsWith('.carlitos')) {
-  //     it(`detects the correct errors in ${name}`, (done) => {
-  //       const input = fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8');
-  //       const expected = fs.readFileSync(`${TEST_DIR}/${name}.expected`, 'utf-8');
-  //       assert.equal(error.count, 0);
-  //       assert.equal(parse(input), expected);
-  //       done();
-  //     });
-  //   }
-  // });
+describe('The parser', () => {
+  fs.readdirSync(PARSER_TEST_DIR).forEach((name) => {
+    if (name.endsWith('.carlitos')) {
+      it(`produces the correct AST for ${name}`, (done) => {
+        const input = fs.readFileSync(`${PARSER_TEST_DIR}/${name}`, 'utf-8');
+        //
+        // TODO assert parsed input is as expected
+        //
+        done();
+      });
+    }
+  });
 });
