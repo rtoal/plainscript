@@ -4,11 +4,10 @@
  *   const parse = require('./parser');
  *
  *   parse(text)
- *       returns the abstract syntax tree for the given program text. This
- *       function will first pre-parse (figure out indents and dedents)
- *       before parsing with an Ohm grammar, then applying AST generation
- *       rules. If there are any errors, this function will throw an error
- *       message.
+ *       Returns the abstract syntax tree for the given program text. This
+ *       function will first pre-parse (figure out indents and dedents),
+ *       then match against an Ohm grammar, then apply AST generation
+ *       rules. If there are any errors, this function will throw an error.
  */
 
 const fs = require('fs');
@@ -44,12 +43,11 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Program(body) { return new Program(body.ast()); },
   Stmt_simple(statement, _) { return statement.ast(); },
   Stmt_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
-  Stmt_if(_1, eFirst, sFirst, _2, eRest, sRest, _3, sLast) {
-    const cases = [new Case(eFirst.ast(), sFirst.ast())];
-    const tests = eRest.ast();
-    const bodies = sRest.ast();
-    tests.forEach((test, index) => { cases.push(new Case(test, bodies[index])); });
-    return new IfStatement(cases, sLast.ast());
+  Stmt_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
+    const tests = [firstTest.ast()].concat(moreTests.ast());
+    const bodies = [firstSuite.ast()].concat(moreSuites.ast());
+    const cases = tests.map((test, index) => new Case(test, bodies[index]));
+    return new IfStatement(cases, lastSuite.ast());
   },
   Stmt_def(_1, id, _2, params, _3, suite) {
     return new FunctionDeclaration(id.ast(), params.ast(), suite.ast());
