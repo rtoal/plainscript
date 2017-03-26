@@ -14,6 +14,11 @@ const withIndentsAndDedents = require('../syntax/preparser');
 const TEST_DIR = './test/preparser-checks';
 
 describe('The pre-parser', () => {
+  // When testing that the preprocessor works as indented, we have a bunch of
+  // files in the preparser-checks directory, including both source code files
+  // and the expected results of pre-parsing. The test script picks up all the
+  // files it finds, based on file names, and processes them and checks them
+  // against the expectation.
   fs.readdirSync(TEST_DIR).forEach((name) => {
     if (name.endsWith('.carlitos')) {
       it(`produces the correct indent/dedent markup for ${name}`, (done) => {
@@ -34,6 +39,15 @@ describe('The pre-parser', () => {
     }
   });
 
+  // Here's a test to make sure we can tolerate files that don't end with
+  // newline characters. These aren't kept in files because some text editor
+  // configurations automatically add the newlines.
+  it('handles files that do not end with newlines', (done) => {
+    const input = 'def f():\n  return 0';
+    assert.equal(withIndentsAndDedents(input), 'def f():\n⇨return 0\n⇦\n');
+    done();
+  });
+
   // To check whitespace errors, we are NOT going to read files. This is because
   // some text editor configurations (e.g., the ones I use) will turn tabs into
   // spaces on save. We're just going to embed the test program here.
@@ -48,7 +62,7 @@ describe('The pre-parser', () => {
     done();
   });
   it('detects non-breaking spaces and says they are bad', (done) => {
-    const input = 'def f():\n\xA0return 0\n';
+    const input = 'def f():\n\xA0return 0';
     assert.throws(() => withIndentsAndDedents(input), /Illegal whitespace.*?\{a0\}/);
     done();
   });
