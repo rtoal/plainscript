@@ -1,3 +1,9 @@
+# The purpose of this example program is to just throw every syntactic
+# construct of the language in one file. One can write a test that checks
+# that this file can be matched agains the grammar, but as it is a kitchen
+# sink of features, we probably don't need to use this file as a source of
+# AST generation tests.
+
 a = 42
 
 def hello():
@@ -9,7 +15,7 @@ def actions(a, b, c):
                if x: print(x)
 
 
-               break
+               break    # Comment
         elif false:
                      print(7, sep: dog)
 
@@ -24,4 +30,4 @@ if false:
     print(5/7*27.3E10)
 elif p:
   dog()
-elif z/zz/z/z/z: print(dog())  
+elif z/zz/z/z/z: print(dog())

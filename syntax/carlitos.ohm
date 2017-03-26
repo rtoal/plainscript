@@ -1,5 +1,5 @@
 Carlitos {
-  Program     =  Stmt+
+  Program     =  newline* Stmt+
   Stmt        =  SimpleStmt newline              -- simple
               |  "while" Exp Suite               -- while
               |  "if" Exp Suite
@@ -54,5 +54,5 @@ Carlitos {
 
   newline     =  "\n"+
   space      :=  " " | "\t" | comment
-  comment     =  "#" (~"\n" any)* "\n"
+  comment     =  "#" (~"\n" any)*
 }
