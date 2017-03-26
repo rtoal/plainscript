@@ -52,35 +52,30 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
     return new IfStatement(cases, sLast.ast());
   },
   Stmt_def(_1, id, _2, params, _3, suite) {
-    return new FunctionDeclaration(id.sourceString, params.ast(), suite.ast());
+    return new FunctionDeclaration(id.ast(), params.ast(), suite.ast());
   },
   SimpleStmt_assign(v, _, e) { return new AssignmentStatement(v.ast(), e.ast()); },
   SimpleStmt_break(_) { return new BreakStatement(); },
   SimpleStmt_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
   Suite_small(_1, statement, _2) { return [statement.ast()]; },
   Suite_large(_1, _2, _3, statements, _4) { return statements.ast(); },
-  Exp_or(left, _1, right) { return new BinaryExpression('Or', left.ast(), right.ast()); },
-  Exp_and(left, _1, right) { return new BinaryExpression('And', left.ast(), right.ast()); },
-  Exp1_binary(left, op, right) {
-    return new BinaryExpression(op.sourceString, left.ast(), right.ast());
-  },
-  Exp2_binary(left, op, right) {
-    return new BinaryExpression(op.sourceString, left.ast(), right.ast());
-  },
-  Exp3_binary(left, op, right) {
-    return new BinaryExpression(op.sourceString, left.ast(), right.ast());
-  },
-  Exp4_unary(op, operand) { return new UnaryExpression('-', operand.ast()); },
+  Exp_or(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp_and(left, op, right) { return new BinaryExpression(op.ast(), right.ast()); },
+  Exp1_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp2_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp3_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
+  Exp4_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
   Exp5_parens(_1, expression, _2) { return expression.ast(); },
-  Call(fun, _1, args, _2) { return new Call(fun.ast(), args.ast()); },
+  Call(callee, _1, args, _2) { return new Call(callee.ast(), args.ast()); },
   VarExp(id) { return new VariableExpression(id.ast()); },
-  Param(id, _, exp) { return new Parameter(id.sourceString, unpack(exp.ast())); },
+  Param(id, _, exp) { return new Parameter(id.ast(), unpack(exp.ast())); },
   Arg(id, _, exp) { return new Argument(unpack(id.ast()), exp.ast()); },
   NonemptyListOf(first, _, rest) { return [first.ast()].concat(rest.ast()); },
   EmptyListOf() { return []; },
   boollit(_) { return new BooleanLiteral(this.sourceString); },
   numlit(_1, _2, _3, _4, _5, _6) { return new NumericLiteral(+this.sourceString); },
   id(_1, _2) { return this.sourceString; },
+  _terminal() { return this.sourceString; },
 });
 /* eslint-enable no-unused-vars */
 
