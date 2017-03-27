@@ -1,0 +1,4 @@
+  print(42)
+
+# See how the first line didn't start at column 1?
+# That's an error because the first token is an indent.
