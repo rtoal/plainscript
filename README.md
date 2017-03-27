@@ -20,6 +20,20 @@ See the file [carlitos.ohm](https://github.com/rtoal/carlitos/blob/master/syntax
 
 ## Features
 
+## Data Types
 
+## Declarations
+
+### Variables
+
+### Functions
+
+## Expressions
+
+## Statements
+
+## Future Plans
+
+---
 
 More documentation on its way.
