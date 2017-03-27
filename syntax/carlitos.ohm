@@ -6,7 +6,8 @@ Carlitos {
                  ("elif" Exp Suite)*
                  ("else" Suite)?                 -- if
               |  "def" id "(" Params ")" Suite   -- def
-  SimpleStmt  =  VarExps "=" Exps                -- assign
+  SimpleStmt  =  "let" Ids "=" Exps              -- vardecl
+              |  VarExps "=" Exps                -- assign
               |  Call
               |  "break"                         -- break
               |  "return" Exp?                   -- return
@@ -32,6 +33,7 @@ Carlitos {
   Call        =  VarExp "(" Args ")"
 
   Exps        =  NonemptyListOf<Exp, ",">
+  Ids         =  NonemptyListOf<id, ",">
   VarExp      =  id
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  id ("=" Exp)?
@@ -39,9 +41,9 @@ Carlitos {
   Arg         =  (id ":")? Exp
   Args        =  ListOf<Arg, ",">
 
-  keyword     =  ("function" | "if" | "elif" | "else" | "while" | "return"
+  keyword     =  ("while" | "if" | "elif" | "else" | "def" | "let" | "return"
               |  "break" | "and" | "or" | "not" | "true" | "false") ~idrest
-  id          =  ~keyword letter idrest*
+  id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?
   boollit     =  "true" | "false"
