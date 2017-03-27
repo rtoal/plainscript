@@ -19,16 +19,23 @@ class Context {
     this.inLoop = inLoop;
   }
 
-  createChildContextForLoop() {
-    return new Context({ parent: this, inLoop: true });
+  createChildContextForFunctionBody(currentFunction) {
+    // When entering a new function, we're not in a loop anymore
+    return new Context({ parent: this, currentFunction, inLoop: false });
   }
 
-  createChildContextForFunctionBody(currentFunction) {
-    return new Context({ parent: this, currentFunction });
+  createChildContextForLoop() {
+    // When entering a loop body, just set the inLoop field, retain others
+    return new Context({ parent: this, currentFunction: this.currentFunction, inLoop: true });
   }
 
   createChildContextForBlock() {
-    return new Context({ parent: this });
+    // Retain function and loop setting
+    return new Context({
+      parent: this,
+      currentFunction: this.currentFunction,
+      inLoop: this.inLoop,
+    });
   }
 
   addVariable(id, entity) {
@@ -54,7 +61,7 @@ class Context {
     }
   }
 
-  assertIsFunction(entity) {
+  assertIsFunction(entity) { // eslint-disable-line class-methods-use-this
     if (entity.constructor !== FunctionDeclaration) {
       throw new Error(`${entity.id} is not a function`);
     }

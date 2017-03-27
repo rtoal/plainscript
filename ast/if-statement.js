@@ -5,7 +5,9 @@ module.exports = class IfStatement {
   }
 
   analyze(context) {
-    this.cases.forEach(c => c.analyze(context));
-    this.alternate.analyze();
+    this.cases.forEach(c => c.analyze(context.createChildContextForBlock()));
+    if (this.alternate) {
+      this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
+    }
   }
 };

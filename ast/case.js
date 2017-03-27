@@ -7,6 +7,6 @@ module.exports = class Case {
   analyze(context) {
     this.test.analyze(context);
     const bodyContext = context.createChildContextForBlock();
-    this.body.analyze(bodyContext);
+    this.body.forEach(s => s.analyze(bodyContext));
   }
 };

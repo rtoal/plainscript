@@ -48,7 +48,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
     const tests = [firstTest.ast()].concat(moreTests.ast());
     const bodies = [firstSuite.ast()].concat(moreSuites.ast());
     const cases = tests.map((test, index) => new Case(test, bodies[index]));
-    return new IfStatement(cases, lastSuite.ast());
+    return new IfStatement(cases, unpack(lastSuite.ast()));
   },
   Stmt_def(_1, id, _2, params, _3, suite) {
     return new FunctionDeclaration(id.ast(), params.ast(), suite.ast());

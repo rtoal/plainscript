@@ -8,7 +8,7 @@ module.exports = class AssignmentStatement {
     if (this.targets.length !== this.sources.length) {
       throw new Error('Number of variables does not equal number of expressions');
     }
-    this.targets.forEach(v => v.analyze(context));
     this.sources.forEach(e => e.analyze(context));
+    this.targets.forEach(v => v.analyze(context));
   }
 };
