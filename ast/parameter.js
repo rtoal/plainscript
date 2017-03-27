@@ -3,4 +3,8 @@ module.exports = class Parameter {
     this.id = id;
     this.defaultExpression = defaultExpression;
   }
+  analyze(context) {
+    this.defaultExpression.analyze();
+    context.addVariable(this.id, this);
+  }
 };

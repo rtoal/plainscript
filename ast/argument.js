@@ -3,4 +3,8 @@ module.exports = class Argument {
     this.id = id;
     this.expression = expression;
   }
+
+  analyze(context) {
+    this.expression.analyze(context);
+  }
 };

@@ -3,4 +3,9 @@ module.exports = class AssignmentStatement {
     this.targets = targets;
     this.sources = sources;
   }
+
+  analyze(context) {
+    this.targets.forEach(v => v.analyze(context));
+    this.sources.forEach(e => e.analyze(context));
+  }
 };

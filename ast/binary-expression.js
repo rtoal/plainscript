@@ -4,4 +4,8 @@ module.exports = class BinaryExpression {
     this.left = left;
     this.right = right;
   }
+  analyze(context) {
+    this.left.analyze(context);
+    this.operand.right(context);
+  }
 };
