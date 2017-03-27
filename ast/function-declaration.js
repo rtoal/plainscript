@@ -24,6 +24,8 @@ module.exports = class FunctionDeclaration {
     // usual "outward moving" scope search. Of course, if you declare a local
     // variable with the same name as the function inside the function, you'll
     // shadow it, which would probably be not a good idea.
-    this.body.analyze(localContext);
+    if (this.body) {
+      this.body.forEach(s => s.analyze(localContext));
+    }
   }
 };

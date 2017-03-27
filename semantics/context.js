@@ -44,7 +44,7 @@ class Context {
     } else if (this.parent === null) {
       throw new Error(`Identifier ${id} has not been declared`);
     } else {
-      return context.parent.lookup(id);
+      return this.parent.lookup(id);
     }
   }
 

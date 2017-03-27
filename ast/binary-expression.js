@@ -7,6 +7,6 @@ module.exports = class BinaryExpression {
 
   analyze(context) {
     this.left.analyze(context);
-    this.operand.right(context);
+    this.right.analyze(context);
   }
 };

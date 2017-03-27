@@ -5,7 +5,9 @@ module.exports = class Parameter {
   }
 
   analyze(context) {
-    this.defaultExpression.analyze();
+    if (this.defaultExpression) {
+      this.defaultExpression.analyze();
+    }
     context.addVariable(this.id, this);
   }
 };
