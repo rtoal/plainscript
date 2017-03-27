@@ -3,6 +3,7 @@ module.exports = class UnaryExpression {
     this.op = op;
     this.operand = operand;
   }
+
   analyze(context) {
     this.operand.analyze(context);
   }

@@ -3,9 +3,10 @@ module.exports = class WhileStatement {
     this.test = test;
     this.body = body;
   }
+
   analyze(context) {
     this.test.analyze();
-    const bodyContext = context.newChildContext({ inLoop: true });
+    const bodyContext = context.createChildContextForLoop();
     this.body.forEach(s => s.analyze(bodyContext));
   }
 };

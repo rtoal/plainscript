@@ -31,6 +31,13 @@ class Context {
     return new Context({ parent: this });
   }
 
+  addVariable(id, entity) {
+    if (id in this.variables) {
+      throw new Error(`Identitier ${id} already declared in this scope`);
+    }
+    this.variables[id] = entity;
+  }
+
   lookup(id) {
     if (id in this.variables) {
       return this.variables[id];
@@ -38,6 +45,18 @@ class Context {
       throw new Error(`Identifier ${id} has not been declared`);
     } else {
       return context.parent.lookup(id);
+    }
+  }
+
+  assertInFunction(message) {
+    if (!this.currentFunction) {
+      throw new Error(message);
+    }
+  }
+
+  assertIsFunction(entity) {
+    if (this.entity.constructor !== FunctionDeclaration) {
+      throw new Error(`${entity.id} is not a function`);
     }
   }
 }

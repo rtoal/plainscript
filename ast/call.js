@@ -5,9 +5,10 @@ module.exports = class Call {
   }
 
   analyze(context) {
-    const callee = context.lookupFunction(this.callee);
-    this.checkNumberOfArguments(callee);
-    this.checkArgumentNamesAndPositionalRules(callee);
+    this.callee.analyze(context);
+    context.assertIsFunction(this.callee.referent);
+    this.checkNumberOfArguments(this.callee.referent);
+    this.checkArgumentNamesAndPositionalRules(this.callee.referent);
   }
 
   checkNumberOfArguments(callee) {
