@@ -12,9 +12,9 @@ const FunctionDeclaration = require('../ast/function-declaration');
 const Parameter = require('../ast/parameter');
 
 class Context {
-  constructor({ parent = null, currentFunction = null, inLoop = false }) {
+  constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
     this.parent = parent;
-    this.variables = Object.create();
+    this.variables = Object.create(null);
     this.currentFunction = currentFunction;
     this.inLoop = inLoop;
   }
@@ -55,7 +55,7 @@ class Context {
   }
 
   assertIsFunction(entity) {
-    if (this.entity.constructor !== FunctionDeclaration) {
+    if (entity.constructor !== FunctionDeclaration) {
       throw new Error(`${entity.id} is not a function`);
     }
   }
