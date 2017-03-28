@@ -32,7 +32,7 @@ const Argument = require('../ast/argument');
 const BooleanLiteral = require('../ast/boolean-literal');
 const NumericLiteral = require('../ast/numeric-literal');
 
-const grammar = ohm.grammar(fs.readFileSync('./syntax/carlitos.ohm'));
+const grammar = ohm.grammar(fs.readFileSync('./syntax/plainscript.ohm'));
 
 // Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function unpack(a) {

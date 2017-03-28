@@ -15,7 +15,7 @@ const PARSER_TEST_DIR = './test/parser-checks';
 
 describe('The grammar', () => {
   fs.readdirSync(SYNTAX_TEST_DIR).forEach((name) => {
-    if (name.endsWith('.carlitos')) {
+    if (name.endsWith('.pls')) {
       it(`matches the program ${name}`, (done) => {
         fs.readFile(`${SYNTAX_TEST_DIR}/${name}`, 'utf-8', (err, input) => {
           // In this test we just care that it parses without errors
@@ -36,7 +36,7 @@ describe('The grammar', () => {
 
 describe('The parser', () => {
   fs.readdirSync(PARSER_TEST_DIR).forEach((name) => {
-    if (name.endsWith('.carlitos')) {
+    if (name.endsWith('.pls')) {
       it(`produces the correct AST for ${name}`, (done) => {
         fs.readFile(`${PARSER_TEST_DIR}/${name}`, 'utf-8', (err, input) => {
           const ast = parse(input);

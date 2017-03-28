@@ -20,7 +20,7 @@ describe('The pre-parser', () => {
   // files it finds, based on file names, and processes them and checks them
   // against the expectation.
   fs.readdirSync(TEST_DIR).forEach((name) => {
-    if (name.endsWith('.carlitos')) {
+    if (name.endsWith('.pls')) {
       it(`produces the correct indent/dedent markup for ${name}`, (done) => {
         fs.readFile(`${TEST_DIR}/${name}`, 'utf-8', (err, input) => {
           fs.readFile(`${TEST_DIR}/${name}.expected`, 'utf-8', (_err, expected) => {

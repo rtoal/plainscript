@@ -1,4 +1,4 @@
-Carlitos {
+PlainScript {
   Program     =  newline* Stmt+ newline*
   Stmt        =  SimpleStmt newline              -- simple
               |  "while" Exp Suite               -- while

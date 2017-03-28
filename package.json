@@ -1,21 +1,21 @@
 {
-  "name": "carlitos",
+  "name": "plainscript",
   "version": "1.0.0",
   "description": "A compiler for a little scripting language",
-  "main": "carlitos.js",
+  "main": "plainscript.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rtoal/carlitos.git"
+    "url": "git+https://github.com/rtoal/plainscript.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rtoal/carlitos/issues"
+    "url": "https://github.com/rtoal/plainscript/issues"
   },
-  "homepage": "https://github.com/rtoal/carlitos#readme",
+  "homepage": "https://github.com/rtoal/plainscript#readme",
   "devDependencies": {
     "eslint": "^3.17.1",
     "eslint-config-airbnb-base": "^11.1.1",
