@@ -20,7 +20,11 @@ See the file [plainscript.ohm](https://github.com/rtoal/plainscript/blob/master/
 
 ## Data Types
 
-As of now, PlainScript has only two data types, `number` (IEEE 754 64-bit) and `bool` (`true` and `false`). The language is dynamically typed.
+As of now, PlainScript has only two data types:
+  * `number` (IEEE 754 64-bit)
+  * `bool` (`true` and `false`).
+
+The language is dynamically and weakly typed. Numbers and booleans are compatible with each other as in JavaScript. Sigh.
 
 ## Declarations
 
@@ -35,7 +39,12 @@ if true:
     let x = x + 5    # Right hand side refers to the outer x
     print(x)
 ```
-It is illegal to have multiple declarations of the same identifier within a scope. Scopes are (1) the entire program, (2) the parameters plus the body of a function, (3) bodies of while-statements and if-statement cases. Inner scopes make holes in outer scopes, and inner declarations always shadow outer ones.
+It is illegal to have multiple declarations of the same identifier within a scope. Scopes are:
+  * the entire program
+  * the parameters plus the body of a function
+  * bodies of while-statements and if-statement cases.
+
+Inner scopes make holes in outer scopes, and inner declarations always shadow outer ones.
 
 Function declarations look like this:
 ```
@@ -115,5 +124,3 @@ This language as it stands isn’t good for much. You should extend it to make s
   * Classes
   * Processes
   * (First-class) function types
-
----
