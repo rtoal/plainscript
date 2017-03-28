@@ -1,5 +1,28 @@
 #!/usr/bin/env node
 
+/*
+ * A PlainScript Compiler
+ *
+ * This is a command line application that compiles a PlainScript program from
+ * a file. There are three options:
+ *
+ * ./plainscript.js -a <filename>
+ *     writes out the AST and stops
+ *
+ * ./plainscript.js -i <filename>
+ *     writes the decorated AST then stops
+ *
+ * ./plainscript.js <filename>
+ *     compiles the PlainScript program to JavaScript, writing the generated
+ *     JavaScript code to standard output.
+ *
+ * ./plainscript.js -o <filename>
+ *     optimizes the intermediate code before generating target JavaScript.
+ *
+ * Output of the AST and decorated AST uses the object inspection functionality
+ * built into Node.js.
+ */
+
 const argv = require('yargs')
   .usage('$0 [-a] [-o] [-i] filename')
   .boolean(['a', 'o', 'i'])
