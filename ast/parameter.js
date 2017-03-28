@@ -4,6 +4,10 @@ module.exports = class Parameter {
     this.defaultExpression = defaultExpression;
   }
 
+  isRequired() {
+    return this.defaultExpression === null;
+  }
+
   analyze(context) {
     if (this.defaultExpression) {
       this.defaultExpression.analyze();

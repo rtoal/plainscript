@@ -13,20 +13,23 @@ module.exports = class Call {
 
   checkNumberOfArguments(callee) {
     const numArgs = this.args.length;
-    const numParams = callee.params.length;
-    if (numArgs !== numParams) {
-      throw new Error(`Expected ${numParams} arguments but called with ${numArgs}`);
+    const numRequiredParams = callee.requiredParameterNames.size;
+    const numParams = callee.allParameterNames.size;
+    if (numArgs < numRequiredParams) {
+      throw new Error(`Expected at least ${numRequiredParams} arguments but called with ${numArgs}`);
+    }
+    if (numArgs > numParams) {
+      throw new Error(`Expected at most ${numParams} arguments but called with ${numArgs}`);
     }
   }
 
   checkArgumentNamesAndPositionalRules(callee) {
     let keywordArgumentSeen = false;
-    const parameterNames = callee.parameterNames;
     this.args.forEach((arg) => {
       if (arg.id) {
         // This is a keyword argument, record that fact and check that it's okay
         keywordArgumentSeen = true;
-        if (!parameterNames.has(arg.id)) {
+        if (!callee.allParameterNames.has(arg.id)) {
           throw new Error(`Function does not have a parameter called ${arg.id}`);
         }
       } else if (keywordArgumentSeen) {
