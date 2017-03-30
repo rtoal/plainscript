@@ -38,11 +38,11 @@ class Context {
     });
   }
 
-  addVariable(id, entity) {
-    if (id in this.variables) {
-      throw new Error(`Identitier ${id} already declared in this scope`);
+  addVariable(entity) {
+    if (entity.id in this.variables) {
+      throw new Error(`Identitier ${entity.id} already declared in this scope`);
     }
-    this.variables[id] = entity;
+    this.variables[entity.id] = entity;
   }
 
   lookup(id) {

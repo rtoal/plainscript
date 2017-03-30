@@ -30,7 +30,7 @@ module.exports = class FunctionDeclaration {
     // the parameters have been inserted into the inner scope. This is because
     // we don't want to allow the function itself to be called in the default
     // expression of any parameter. Think about it. :)
-    context.addVariable(this.id, this);
+    context.addVariable(this);
 
     // Now we analyze the body with the local context. Note that recursion is
     // allowed, because we've already inserted the function itself into the

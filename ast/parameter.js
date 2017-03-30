@@ -12,6 +12,6 @@ module.exports = class Parameter {
     if (this.defaultExpression) {
       this.defaultExpression.analyze();
     }
-    context.addVariable(this.id, this);
+    context.addVariable(this);
   }
 };
