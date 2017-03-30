@@ -1,22 +1,23 @@
 const Variable = require('./variable');
 
 module.exports = class VariableDeclaration {
-  constructor(targets, sources) {
-    this.targets = targets;
-    this.sources = sources;
+  constructor(ids, initializers) {
+    this.ids = ids;
+    this.initializers = initializers;
   }
 
   analyze(context) {
-    if (this.targets.length !== this.sources.length) {
+    if (this.ids.length !== this.initializers.length) {
       throw new Error('Number of variables does not equal number of initializers');
     }
 
     // We don't want the declared variables to come into scope until after the
     // declaration line, so we will analyze all the initializing expressions
     // first.
-    this.sources.forEach(e => e.analyze(context));
+    this.initializers.forEach(e => e.analyze(context));
 
-    // Now we can add each new variable to the current context.
-    this.targets.forEach(id => context.addVariable(id, new Variable(id)));
+    // Now we can create actual variable objects and add to the current context.
+    this.variables = this.ids.map(id => new Variable(id));
+    this.variables.forEach(variable => context.addVariable(variable));
   }
 };
