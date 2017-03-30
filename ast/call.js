@@ -16,9 +16,11 @@ module.exports = class Call {
     const numRequiredParams = callee.requiredParameterNames.size;
     const numParams = callee.allParameterNames.size;
     if (numArgs < numRequiredParams) {
+      // We have to at least cover all the required parameters
       throw new Error(`Expected at least ${numRequiredParams} arguments but called with ${numArgs}`);
     }
     if (numArgs > numParams) {
+      // We can't pass more arguments than the total number of parameters
       throw new Error(`Expected at most ${numParams} arguments but called with ${numArgs}`);
     }
   }
