@@ -69,9 +69,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-Context.INITIAL.variables = {
-  print: new FunctionDeclaration('print', [new Parameter('_', null)], null),
-  sqrt: new FunctionDeclaration('sqrt', [new Parameter('_', null)], null),
-};
+new FunctionDeclaration('print', [new Parameter('_', null)], null).analyze(Context.INITIAL);
+new FunctionDeclaration('sqrt', [new Parameter('_', null)], null).analyze(Context.INITIAL);
 
 module.exports = Context;
