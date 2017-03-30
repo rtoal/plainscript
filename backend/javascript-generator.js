@@ -30,20 +30,20 @@ function makeOp(op) {
   return { not: '!', and: '&&', or: '||', '==': '===', '!=': '!==' }[op] || op;
 }
 
-// javaScriptVariable(v) takes a Variable object and produces the text for the
-// corresponding variable in JavaScript, which will be something like '_v1' or
-// '_v503'. It uses a cache so it can return the same exact string each time
-// it is called with a particular variable.
-function javaScriptVariable() {
+// javaScriptVariable(v) takes a PlainScript object with an id property, such
+// as a Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
+// variable, something like '_v1' or '_v503'. It uses a cache so it can return
+// the same exact string each time it is called with a particular entity.
+const javaScriptVariable = (() => {
   let lastId = 0;
-  const map = Object.create(null);
+  const map = new Map();
   return (v) => {
-    if (v in map) {
-      map[v] = ++lastId; // eslint-disable-line no-plusplus
+    if (!(map.has(v))) {
+      map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    return `_v${map[v]}`;
+    return `_v${map.get(v)}`;
   };
-}
+})();
 
 function gen(e) {
   return generator[e.constructor.name](e);
@@ -56,8 +56,8 @@ const generator = {
   },
 
   AssignmentStatement(s) {
-    const targets = s.targets.forEach(gen);
-    const sources = s.sources.forEach(gen);
+    const targets = s.targets.map(gen);
+    const sources = s.sources.map(gen);
     emit(`${targets} = ${sources};`);
   },
 
@@ -66,7 +66,7 @@ const generator = {
   },
 
   BooleanLiteral(literal) {
-    return `${literal}`;
+    return `${literal.value}`;
   },
 
   BreakStatement() {
@@ -74,12 +74,12 @@ const generator = {
   },
 
   Call(c) {
-    // TODO THIS IS NOT DONE IT ONLY CONSIDERS POSITIONAL ARGS
-    emit();
+    // TODO: THIS ISN'T DONE YET. DO WE NEED TO PROCESS THE ARGS HERE OR PRIOR TO HERE?
+    return `${javaScriptVariable(c.callee.referent)} (${c.args.map(gen).join(', ')}) {`;
   },
 
   FunctionDeclaration(f) {
-    emit(`function ${f.id} (${f.params.map(gen).join(', ')}) {`);
+    emit(`function ${javaScriptVariable(this)} (${f.params.map(gen).join(', ')}) {`);
     emitStatementList(f.body);
     emit('}');
   },
@@ -98,14 +98,15 @@ const generator = {
   },
 
   NumericLiteral(literal) {
-    return `${literal}`;
+    return `${literal.value}`;
   },
 
   Parameter(p) {
+    let translation = javaScriptVariable(p);
     if (p.defaultExpression) {
-      return `${p.id} = ${p.defaultExpression}`;
+      translation += ` = ${p.defaultExpression}`;
     }
-    return `${p.id}`;
+    return translation;
   },
 
   Program(program) {
@@ -128,8 +129,8 @@ const generator = {
   },
 
   VariableDeclaration(v) {
-    const variables = v.variables.forEach(gen);
-    const initializers = v.initializers.forEach(gen);
+    const variables = v.variables.map(gen);
+    const initializers = v.initializers.map(gen);
     emit(`let ${variables} = ${initializers};`);
   },
 
