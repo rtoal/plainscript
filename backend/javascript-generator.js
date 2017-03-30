@@ -73,9 +73,13 @@ const generator = {
     emit('break;');
   },
 
+  CallStatement(c) {
+    emit(`${gen(c.call)};`);
+  },
+
   Call(c) {
     // TODO: THIS ISN'T DONE YET. DO WE NEED TO PROCESS THE ARGS HERE OR PRIOR TO HERE?
-    return `${javaScriptVariable(c.callee.referent)} (${c.args.map(gen).join(', ')}) {`;
+    return `${javaScriptVariable(c.callee.referent)}(${c.args.map(gen).join(', ')})`;
   },
 
   FunctionDeclaration(f) {
@@ -118,7 +122,7 @@ const generator = {
 
   ReturnStatement(s) {
     if (s.returnValue) {
-      emit(`return ${gen(s.returnValue)}`);
+      emit(`return ${gen(s.returnValue)};`);
     } else {
       emit('return;');
     }

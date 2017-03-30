@@ -22,6 +22,7 @@ const ReturnStatement = require('../ast/return-statement');
 const IfStatement = require('../ast/if-statement');
 const Case = require('../ast/case');
 const WhileStatement = require('../ast/while-statement');
+const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const BinaryExpression = require('../ast/binary-expression');
 const UnaryExpression = require('../ast/unary-expression');
@@ -57,6 +58,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   SimpleStmt_assign(v, _, e) { return new AssignmentStatement(v.ast(), e.ast()); },
   SimpleStmt_break(_) { return new BreakStatement(); },
   SimpleStmt_return(_, e) { return new ReturnStatement(unpack(e.ast())); },
+  SimpleStmt_call(c) { return new CallStatement(c.ast()); },
   Suite_small(_1, statement, _2) { return [statement.ast()]; },
   Suite_large(_1, _2, _3, statements, _4) { return statements.ast(); },
   Exp_or(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },

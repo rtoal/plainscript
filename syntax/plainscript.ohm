@@ -8,7 +8,7 @@ PlainScript {
               |  "def" id "(" Params ")" Suite   -- def
   SimpleStmt  =  "let" Ids "=" Exps              -- vardecl
               |  VarExps "=" Exps                -- assign
-              |  Call
+              |  Call                            -- call
               |  "break"                         -- break
               |  "return" Exp?                   -- return
   Suite       =  ":" SimpleStmt newline          -- small
