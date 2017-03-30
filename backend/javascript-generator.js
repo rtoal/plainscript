@@ -9,6 +9,8 @@
  * generateJavaScript(program);
  */
 
+const Context = require('../semantics/context');
+
 module.exports = (program) => {
   gen(program);
 };
@@ -45,6 +47,13 @@ const javaScriptVariable = (() => {
   };
 })();
 
+function bracketIfNecessary(a) {
+  if (a.length === 1) {
+    return `${a}`;
+  }
+  return `[${a.join(', ')}]`;
+}
+
 function gen(e) {
   return generator[e.constructor.name](e);
 }
@@ -58,7 +67,7 @@ const generator = {
   AssignmentStatement(s) {
     const targets = s.targets.map(gen);
     const sources = s.sources.map(gen);
-    emit(`${targets} = ${sources};`);
+    emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
   },
 
   BinaryExpression(e) {
@@ -114,10 +123,8 @@ const generator = {
   },
 
   Program(program) {
-    indentLevel = 0;
-    emit('(function () {');
-    emitStatementList(program.statements);
-    emit('}());');
+    generateLibraryFunctions();
+    program.statements.forEach(gen);
   },
 
   ReturnStatement(s) {
@@ -135,7 +142,7 @@ const generator = {
   VariableDeclaration(v) {
     const variables = v.variables.map(gen);
     const initializers = v.initializers.map(gen);
-    emit(`let ${variables} = ${initializers};`);
+    emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
   },
 
   VariableExpression(v) {
@@ -152,3 +159,13 @@ const generator = {
     emit('}');
   },
 };
+
+function generateLibraryFunctions() {
+  function generateLibraryStub(name, params, body) {
+    const entity = Context.INITIAL.variables[name];
+    emit(`function ${javaScriptVariable(entity)} (${params}) {${body}}`);
+  }
+  // This is sloppy. There should be a better way to do this.
+  generateLibraryStub('print', 's', 'console.log(s);');
+  generateLibraryStub('sqrt', 'x', 'return Math.sqrt(x);');
+}
