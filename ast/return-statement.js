@@ -3,7 +3,8 @@ module.exports = class ReturnStatement {
     this.returnValue = returnValue;
   }
 
-  analyze(context) { // eslint-disable-line class-methods-use-this
+  analyze(context) {
+    this.returnValue.analyze(context);
     context.assertInFunction('Return statement outside function');
   }
 };
