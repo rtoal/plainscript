@@ -13,5 +13,7 @@ rules:
   no-restricted-syntax:
     - error
     - WithStatement
+  no-use-before-define:
+    - off
 env:
   mocha: true
