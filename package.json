@@ -4,7 +4,7 @@
   "description": "A compiler for a little scripting language",
   "main": "plainscript.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",

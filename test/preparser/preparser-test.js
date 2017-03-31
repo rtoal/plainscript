@@ -9,21 +9,19 @@
 
 const fs = require('fs');
 const assert = require('assert');
-const withIndentsAndDedents = require('../syntax/preparser');
-
-const TEST_DIR = './test/preparser-checks';
+const withIndentsAndDedents = require('../../syntax/preparser');
 
 describe('The pre-parser', () => {
-  // When testing that the preprocessor works as indented, we have a bunch of
-  // files in the preparser-checks directory, including both source code files
-  // and the expected results of pre-parsing. The test script picks up all the
-  // files it finds, based on file names, and processes them and checks them
-  // against the expectation.
-  fs.readdirSync(TEST_DIR).forEach((name) => {
+  // When testing that the preprocessor works as intended, we scan a bunch of
+  // files in this directory, including both source code files (.ps) and the
+  // expected results (.pls.expected). The test script picks up all the files
+  // it finds, based on file names, and processes them and checks them against
+  // their expectations.
+  fs.readdirSync(__dirname).forEach((name) => {
     if (name.endsWith('.pls')) {
       it(`produces the correct indent/dedent markup for ${name}`, (done) => {
-        fs.readFile(`${TEST_DIR}/${name}`, 'utf-8', (err, input) => {
-          fs.readFile(`${TEST_DIR}/${name}.expected`, 'utf-8', (_err, expected) => {
+        fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
+          fs.readFile(`${__dirname}/${name}.expected`, 'utf-8', (_err, expected) => {
             assert.equal(withIndentsAndDedents(input), expected);
             done();
           });
@@ -31,7 +29,7 @@ describe('The pre-parser', () => {
       });
     } else if (name.endsWith('.indent-error')) {
       it(`detects indentation errors in ${name}`, (done) => {
-        fs.readFile(`${TEST_DIR}/${name}`, 'utf-8', (err, input) => {
+        fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
           assert.throws(() => withIndentsAndDedents(input), /Indent Error/);
           done();
         });
