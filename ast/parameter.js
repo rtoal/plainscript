@@ -4,7 +4,7 @@ module.exports = class Parameter {
     this.defaultExpression = defaultExpression;
   }
 
-  isRequired() {
+  get isRequired() {
     return this.defaultExpression === null;
   }
 

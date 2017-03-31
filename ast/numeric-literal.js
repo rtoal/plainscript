@@ -3,8 +3,8 @@ module.exports = class NumericLiteral {
     this.value = value;
   }
 
-  analyze() {
-    this.type = 'number';
+  analyze() { // eslint-disable-line class-methods-use-this
+    // Intentionally empty
   }
 
   optimize() {

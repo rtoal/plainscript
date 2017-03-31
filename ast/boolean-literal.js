@@ -3,8 +3,8 @@ module.exports = class BooleanLiteral {
     this.value = value;
   }
 
-  analyze() {
-    this.type = 'bool';
+  analyze() { // eslint-disable-line class-methods-use-this
+    // Intentionally empty
   }
 
   optimize() {
