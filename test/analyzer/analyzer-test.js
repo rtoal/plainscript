@@ -19,12 +19,15 @@ describe('The semantic analyzer', () => {
         assert.throws(() => program.analyze(), errorPattern);
         done();
       });
+    } else if (name.endsWith('.pls')) {
+      it(`should analyze ${name} without errors`, (done) => {
+        // For now, we are happy to know that these files pass semantic analysis.
+        // We eventually need to check that the ASTs are properly decorated.
+        const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
+        program.analyze();
+        done();
+      });
     }
-    // it(`should analyze ${name} without errors`, (done) => {
-    //   // const program = parse(fs.readFileSync(`${TEST_DIR}/${name}`, 'utf-8'));
-    //   // program.analyze();
-    //   done();
-    // });
   });
 
   // TODO: NEGATIVE CHECKS
