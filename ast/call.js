@@ -7,37 +7,35 @@ module.exports = class Call {
   analyze(context) {
     this.callee.analyze(context);
     context.assertIsFunction(this.callee.referent);
-    this.checkNumberOfArguments(this.callee.referent);
-    this.checkArgumentNamesAndPositionalRules(this.callee.referent);
+    this.checkArgumentMatching(this.callee.referent);
   }
 
-  checkNumberOfArguments(callee) {
-    const numArgs = this.args.length;
-    const numRequiredParams = callee.requiredParameterNames.size;
-    const numParams = callee.allParameterNames.size;
-    if (numArgs < numRequiredParams) {
-      // We have to at least cover all the required parameters
-      throw new Error(`Expected at least ${numRequiredParams} arguments but called with ${numArgs}`);
-    }
-    if (numArgs > numParams) {
-      // We can't pass more arguments than the total number of parameters
-      throw new Error(`Expected at most ${numParams} arguments but called with ${numArgs}`);
-    }
-  }
-
-  checkArgumentNamesAndPositionalRules(callee) {
+  checkArgumentMatching(callee) {
     let keywordArgumentSeen = false;
-    this.args.forEach((arg) => {
+    const matchedParameterNames = new Set([]);
+    this.args.forEach((arg, index) => {
+      if (index >= callee.params.length) {
+        throw new Error('Too many arguments in call');
+      }
       if (arg.id) {
-        // This is a keyword argument, record that fact and check that it's okay
         keywordArgumentSeen = true;
-        if (!callee.allParameterNames.has(arg.id)) {
-          throw new Error(`Function does not have a parameter called ${arg.id}`);
-        }
       } else if (keywordArgumentSeen) {
-        // This is a positional argument, but a prior one was a keyword one
         throw new Error('Positional argument in call after keyword argument');
       }
+      const parameterName = arg.id ? arg.id : callee.params[index].id;
+      if (!callee.allParameterNames.has(parameterName)) {
+        throw new Error(`Function does not have a parameter called ${parameterName}`);
+      }
+      if (matchedParameterNames.has(parameterName)) {
+        throw new Error(`Multiple arguments for parameter ${parameterName}`);
+      }
+      matchedParameterNames.add(parameterName);
     });
+
+    // Look for and report a required parameter that is not matched
+    const miss = [...callee.requiredParameterNames].find(name => !matchedParameterNames.has(name));
+    if (miss) {
+      throw new Error(`Required parameter ${miss} is not matched in call`);
+    }
   }
 };
