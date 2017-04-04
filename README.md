@@ -16,7 +16,7 @@ print(sum_of_digits(n: 8835299))
 
 Yes, it looks a lot like Python, but it’s _not_ a Python subset. There are some differences.
 
-See the file [plainscript.ohm](https://github.com/rtoal/plainscript/blob/master/syntax/plainscript.ohm) for the official syntax. The syntax assumes the source code has been preprocessed and had indents and dedents inserted according the [Python indentation algorithm](https://docs.python.org/3/reference/lexical_analysis.html).
+See the file [plainscript.ohm](https://github.com/rtoal/plainscript/blob/master/syntax/plainscript.ohm) for the official syntax. The syntax assumes the source code has been preprocessed with indents and dedents inserted according the [Python indentation algorithm](https://docs.python.org/3/reference/lexical_analysis.html).
 
 ## Data Types
 
@@ -56,7 +56,7 @@ def f(a, b=a+1, c=5):
 ```
 Each parameter comes into scope immediately after it is declared, so parameters can use earlier parameters in their default expressions. Parameters and local variables live in the same scope. The function name belongs to the outer scope. Conceptually it is comes into existence after the definition line, so (1) you _can_ call a function recursively, but you _cannot_ call the function in the default expressions of its own parameters.
 
-Parameters without default expressions are called _required_ parameters; those with default expressions are called _optional_ parameters. You may not place a required parameter after an optional one.
+Parameters without default expressions are _required_ parameters; those with default expressions are _optional_ parameters. You may not place a required parameter after an optional one.
 
 ## Expressions
 
@@ -74,7 +74,7 @@ A function call has the form:
 ```
 f(5*3, true, c=5, d=10*g(1,2))
 ```
-The arguments are evaluated in arbitrary order (or even in parallel) and passed to the callee. An argument prefixed with a parameter name is called a _keyword_ argument; arguments not prefixed are called _positional_ arguments. As in Python, positional arguments must come before keyword arguments.
+The arguments are evaluated in arbitrary order (or even in parallel) and passed to the callee. An argument prefixed with a parameter name is called a _keyword_ argument; arguments not prefixed are called _positional_ arguments. Positional arguments must come before keyword arguments.
 
 All required parameters of a function must be covered in the call. If keyword arguments are present, the identifier must match one of the parameters. It is an error to match a parameter multiple times.
 
