@@ -1,7 +1,6 @@
 module.exports = class IfStatement {
   constructor(cases, alternate) {
-    this.cases = cases;
-    this.alternate = alternate;
+    Object.assign(this, { cases, alternate });
   }
 
   analyze(context) {

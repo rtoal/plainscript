@@ -1,8 +1,6 @@
 module.exports = class BinaryExpression {
   constructor(op, left, right) {
-    this.op = op;
-    this.left = left;
-    this.right = right;
+    Object.assign(this, { op, left, right });
   }
 
   analyze(context) {
