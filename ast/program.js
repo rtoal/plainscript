@@ -11,5 +11,6 @@ module.exports = class Program {
 
   optimize() {
     this.statements.forEach(s => s.optimize()).filter(s => s !== null);
+    return this;
   }
 };

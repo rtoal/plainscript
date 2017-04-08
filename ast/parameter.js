@@ -16,5 +16,6 @@ module.exports = class Parameter {
 
   optimize() {
     this.defaultExpression = this.defaultExpression.optimize();
+    return this;
   }
 };

@@ -14,7 +14,7 @@ module.exports = class AssignmentStatement {
   optimize() {
     this.sources.forEach(e => e.optimize());
     this.targets.forEach(v => v.optimize());
-    // Suggested optimization: Turn self-assignments without side-effects to null
+    // Suggested: Turn self-assignments without side-effects to null
     return this;
   }
 };

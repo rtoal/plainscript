@@ -14,5 +14,6 @@ module.exports = class ReturnStatement {
     if (this.returnValue) {
       this.returnValue = this.returnValue.optimize();
     }
+    return this;
   }
 };
