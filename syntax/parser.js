@@ -26,7 +26,8 @@ const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const BinaryExpression = require('../ast/binary-expression');
 const UnaryExpression = require('../ast/unary-expression');
-const VariableExpression = require('../ast/variable-expression');
+const IdentifierExpression = require('../ast/identifier-expression');
+const SubscriptedExpression = require('../ast/subscripted-expression');
 const Call = require('../ast/call');
 const Parameter = require('../ast/parameter');
 const Argument = require('../ast/argument');
@@ -70,7 +71,8 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Exp4_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
   Exp5_parens(_1, expression, _2) { return expression.ast(); },
   Call(callee, _1, args, _2) { return new Call(callee.ast(), args.ast()); },
-  VarExp(id) { return new VariableExpression(id.ast()); },
+  VarExp_subscripted(v, _1, e, _2) { return new SubscriptedExpression(v.ast(), e.ast()); },
+  VarExp_simple(id) { return new IdentifierExpression(id.ast()); },
   Param(id, _, exp) { return new Parameter(id.ast(), unpack(exp.ast())); },
   Arg(id, _, exp) { return new Argument(unpack(id.ast()), exp.ast()); },
   NonemptyListOf(first, _, rest) { return [first.ast()].concat(rest.ast()); },

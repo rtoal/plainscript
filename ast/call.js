@@ -7,6 +7,7 @@ module.exports = class Call {
     this.callee.analyze(context);
     context.assertIsFunction(this.callee.referent);
     this.checkArgumentMatching(this.callee.referent);
+    this.args.forEach(arg => arg.analyze(context));
   }
 
   checkArgumentMatching(callee) {

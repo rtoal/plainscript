@@ -21,7 +21,8 @@ const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const BinaryExpression = require('../ast/binary-expression');
 const UnaryExpression = require('../ast/unary-expression');
-const VariableExpression = require('../ast/variable-expression');
+const IdentifierExpression = require('../ast/identifier-expression');
+const SubscriptedExpression = require('../ast/subscripted-expression');
 const Variable = require('../ast/variable');
 const Call = require('../ast/call');
 const Parameter = require('../ast/parameter');
@@ -127,6 +128,10 @@ Object.assign(FunctionDeclaration.prototype, {
   },
 });
 
+Object.assign(IdentifierExpression.prototype, {
+  gen() { return this.referent.gen(); },
+});
+
 Object.assign(IfStatement.prototype, {
   gen() {
     this.cases.forEach((c, index) => {
@@ -177,6 +182,14 @@ Object.assign(StringLiteral.prototype, {
   gen() { return `${this.value}`; },
 });
 
+Object.assign(SubscriptedExpression.prototype, {
+  gen() {
+    const base = this.variable.gen();
+    const subscript = this.subscript.gen();
+    return `${base}[${subscript}]`;
+  },
+});
+
 Object.assign(UnaryExpression.prototype, {
   gen() { return `(${makeOp(this.op)} ${this.operand.gen()})`; },
 });
@@ -187,10 +200,6 @@ Object.assign(VariableDeclaration.prototype, {
     const initializers = this.initializers.map(i => i.gen());
     emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
   },
-});
-
-Object.assign(VariableExpression.prototype, {
-  gen() { return this.referent.gen(); },
 });
 
 Object.assign(Variable.prototype, {

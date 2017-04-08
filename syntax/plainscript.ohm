@@ -35,7 +35,8 @@ PlainScript {
 
   Exps        =  NonemptyListOf<Exp, ",">
   Ids         =  NonemptyListOf<id, ",">
-  VarExp      =  id
+  VarExp      =  VarExp "[" Exp "]"               -- subscripted
+              |  id                               -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  id ("=" Exp)?
   Params      =  ListOf<Param, ",">
