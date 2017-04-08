@@ -8,4 +8,12 @@ module.exports = class Case {
     const bodyContext = context.createChildContextForBlock();
     this.body.forEach(s => s.analyze(bodyContext));
   }
+
+  optimize() {
+    this.test = this.test.optimize();
+    // Suggested: if test is false, remove case. if true, remove following cases and the alt
+    this.body.forEach(s => s.optimize()).filter(s => s !== null);
+    // Suggested: Look for returns/breaks in the middle of the body
+    return this;
+  }
 };

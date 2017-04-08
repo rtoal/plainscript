@@ -6,4 +6,8 @@ module.exports = class VariableExpression {
   analyze(context) {
     this.referent = context.lookup(this.id);
   }
+
+  optimize() {
+    return this;
+  }
 };

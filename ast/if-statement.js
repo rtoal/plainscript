@@ -9,4 +9,10 @@ module.exports = class IfStatement {
       this.alternate.forEach(s => s.analyze(context.createChildContextForBlock()));
     }
   }
+
+  optimize() {
+    this.cases.forEach(s => s.optimize()).filter(s => s !== null);
+    this.alternate = this.alternate.optimize();
+    return this;
+  }
 };

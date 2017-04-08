@@ -8,4 +8,8 @@ module.exports = class Program {
   analyze(context = Context.INITIAL) {
     this.statements.forEach(s => s.analyze(context));
   }
+
+  optimize() {
+    this.statements.forEach(s => s.optimize()).filter(s => s !== null);
+  }
 };

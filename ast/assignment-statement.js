@@ -10,4 +10,11 @@ module.exports = class AssignmentStatement {
     this.sources.forEach(e => e.analyze(context));
     this.targets.forEach(v => v.analyze(context));
   }
+
+  optimize() {
+    this.sources.forEach(e => e.optimize());
+    this.targets.forEach(v => v.optimize());
+    // Suggested optimization: Turn self-assignments without side-effects to null
+    return this;
+  }
 };

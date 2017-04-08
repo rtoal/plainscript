@@ -114,6 +114,7 @@ Object.assign(CallStatement.prototype, {
 Object.assign(Call.prototype, {
   gen() {
     // TODO: NOT FINISHED YET
+    // THIS DOES NOT TAKE INTO ACCOUNT OUT OF ORDER ARGUMENTS
     return `${javaScriptVariable(this.callee.referent)}(${this.args.map(a => a.gen()).join(', ')})`;
   },
 });

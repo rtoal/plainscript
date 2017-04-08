@@ -13,4 +13,8 @@ module.exports = class Parameter {
     }
     context.addVariable(this);
   }
+
+  optimize() {
+    this.defaultExpression = this.defaultExpression.optimize();
+  }
 };

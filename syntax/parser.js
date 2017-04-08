@@ -75,7 +75,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Arg(id, _, exp) { return new Argument(unpack(id.ast()), exp.ast()); },
   NonemptyListOf(first, _, rest) { return [first.ast()].concat(rest.ast()); },
   EmptyListOf() { return []; },
-  boollit(_) { return new BooleanLiteral(this.sourceString); },
+  boollit(_) { return new BooleanLiteral(!!this.sourceString); },
   numlit(_1, _2, _3, _4, _5, _6) { return new NumericLiteral(+this.sourceString); },
   strlit(_1, chars, _6) { return new StringLiteral(this.sourceString); },
   id(_1, _2) { return this.sourceString; },

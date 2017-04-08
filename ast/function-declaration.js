@@ -3,6 +3,13 @@ module.exports = class FunctionDeclaration {
     Object.assign(this, { id, params, body });
   }
 
+  // Functions like print and sqrt which are pre-defined are known as
+  // "external" functions because they are not declared in the current
+  // module and we therefore don't generate code for them.
+  get isExternal() {
+    return !this.body;
+  }
+
   analyze(context) {
     const localContext = context.createChildContextForFunctionBody(this);
 
@@ -39,5 +46,12 @@ module.exports = class FunctionDeclaration {
     if (this.body) {
       this.body.forEach(s => s.analyze(localContext));
     }
+  }
+
+  optimize() {
+    this.parameters.forEach(p => p.optimize());
+    this.body.forEach(s => s.optimize()).filter(s => s !== null);
+    // Suggested: Look for returns in the middle of the body
+    return this;
   }
 };

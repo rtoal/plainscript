@@ -4,7 +4,7 @@ module.exports = class Argument {
   }
 
   get isPositionalArgument() {
-    // keyword arguments have ids, and positional ones don't
+    // positional arguments are the ones without ids
     return !this.id;
   }
 
@@ -15,5 +15,10 @@ module.exports = class Argument {
 
   analyze(context) {
     this.expression.analyze(context);
+  }
+
+  optimize() {
+    this.expression = this.expression.optimize();
+    return this;
   }
 };

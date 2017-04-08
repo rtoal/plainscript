@@ -19,4 +19,8 @@ module.exports = class VariableDeclaration {
     this.variables = this.ids.map(id => new Variable(id));
     this.variables.forEach(variable => context.addVariable(variable));
   }
+
+  optimize() {
+    return this;
+  }
 };

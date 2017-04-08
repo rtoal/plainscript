@@ -37,4 +37,10 @@ module.exports = class Call {
       throw new Error(`Required parameter ${miss} is not matched in call`);
     }
   }
+
+  optimize() {
+    this.callee = this.callee.optimize();
+    this.args.forEach(arg => arg.optimize());
+    return this;
+  }
 };
