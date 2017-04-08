@@ -23,14 +23,17 @@ See the file [plainscript.ohm](https://github.com/rtoal/plainscript/blob/master/
 As of now, PlainScript has only two data types:
   * `number` (IEEE 754 64-bit)
   * `bool` (`true` and `false`).
+  * `string` (sequences of unicode characters).
 
-The language is dynamically and weakly typed. Numbers and booleans are compatible with each other as in JavaScript. Sigh.
+The language is dynamically and weakly typed. Types are compatible with each other as in JavaScript. Sigh.
 
 ## Declarations
 
+There are three types of declarations: variable declarations, function declarations, and parameter declarations.
+
 Variables are declared with `let`:
 ```
-let x, y, z = 0, sqrt(3), 2
+let x, y, z = 0, sqrt(3), "dog"
 ```
 The expressions on the right hand side are evaluated in arbitrary order (or even in parallel) and then assigned to the newly created variables on the left hand side. The variables do not come into scope until _after_ the declaration is complete. So the following script prints `15`:
 ```
@@ -39,12 +42,6 @@ if true:
     let x = x + 5    # Right hand side refers to the outer x
     print(x)
 ```
-It is illegal to have multiple declarations of the same identifier within a scope. Scopes are:
-  * the entire program
-  * the parameters plus the body of a function
-  * bodies of while-statements and if-statement cases.
-
-Inner scopes make holes in outer scopes, and inner declarations always shadow outer ones.
 
 Function declarations look like this:
 ```
@@ -58,21 +55,29 @@ Each parameter comes into scope immediately after it is declared, so parameters 
 
 Parameters without default expressions are _required_ parameters; those with default expressions are _optional_ parameters. You may not place a required parameter after an optional one.
 
+It is illegal to have multiple declarations of the same identifier within a scope. Scopes are:
+  * the entire program
+  * the parameters plus the body of a function
+  * bodies of while-statements and if-statement cases.
+
+Inner scopes make holes in outer scopes, and inner declarations always shadow outer ones.
+
 ## Expressions
 
 A PlainScript expression is one of:
-  * a boolean literal, either `true` and `false`
-  * a numeric literal, e.g., 6.22e+28
-  * a variable reference
-  * an expression prefixed with `-` or `!`
-  * an infix expression with operator `+`, `-`, `*`, `/`, `%`, `<`, `<=`, `==`, `!=`, `>=`, `>`, `and`, or `or`
-  * a function call
+  * A boolean literal, either `true` and `false`
+  * A numeric literal, e.g., 6.22e+28
+  * A string literal, delimited with double quotes, containing any character except a newline, backslash, or double quote, those these can be escaped as `\n`, `\\`, or `\"`, respectively. Arbitrary characters appear with hexidecimal codepoints between `\u{` and `}`, for example `\u{1f451}` (👑).
+  * A variable reference, which is either an identifier or a variable reference with a subscript.
+  * An expression prefixed with `-` or `!`.
+  * An infix expression with operator `+`, `-`, `*`, `/`, `%`, `<`, `<=`, `==`, `!=`, `>=`, `>`, `and`, or `or`.
+  * A function call.
 
 It is an error to reference a variable that has not been declared.
 
 A function call has the form:
 ```
-f(5*3, true, c=5, d=10*g(1,2))
+f(5*3, true, c="hi", d=10*g(1,2))
 ```
 The arguments are evaluated in arbitrary order (or even in parallel) and passed to the callee. An argument prefixed with a parameter name is called a _keyword_ argument; arguments not prefixed are called _positional_ arguments. Positional arguments must come before keyword arguments.
 
@@ -82,14 +87,14 @@ All required parameters of a function must be covered in the call. If keyword ar
 
 The statements are:
 
-  * a variable declaration (defined above).
-  * a function declaration (defined above).
-  * an assignment statement, e.g. `x, y = y, x+y`, in which the right-hand-sides are first evaluated in arbitrary order (or even in parallel) and then assigned to the corresponding variables on the left-hand-sides, which must be previously declared.
-  * a function call (defined above).
-  * a `break` statement, which must appear in a loop.
-  * a `return` statement, which may or may not have an expression to return. It is an error to have a return statement outside of a function body.
-  * an `if` statement
-  * a `while` statement
+  * A variable declaration (defined above).
+  * A function declaration (defined above).
+  * An assignment statement, e.g. `x, y = y, x+y`, in which the right-hand-sides are first evaluated in arbitrary order (or even in parallel) and then assigned to the corresponding variables on the left-hand-sides, which must be previously declared.
+  * A function call (defined above).
+  * A `break` statement, which must appear in a loop.
+  * A `return` statement, which may or may not have an expression to return. It is an error to have a return statement outside of a function body.
+  * An `if` statement
+  * A `while` statement
 
 ## Predefined Environment
 
@@ -107,8 +112,6 @@ def sqrt(_):
 This language as it stands isn’t good for much. You should extend it to make something cool. Here are things you can add:
 
   * Constants
-  * A string type
-  * String literals
   * String interpolation
   * A list type
   * A set type
