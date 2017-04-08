@@ -11,9 +11,7 @@
 
 const Context = require('../semantics/context');
 
-module.exports = (program) => {
-  gen(program);
-};
+module.exports = gen;
 
 const indentPadding = 2;
 let indentLevel = 0;
