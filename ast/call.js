@@ -17,7 +17,7 @@ module.exports = class Call {
       if (index >= callee.params.length) {
         throw new Error('Too many arguments in call');
       }
-      if (arg.id) {
+      if (arg.isKeywordArgument) {
         keywordArgumentSeen = true;
       } else if (keywordArgumentSeen) {
         throw new Error('Positional argument in call after keyword argument');
