@@ -133,6 +133,10 @@ const generator = {
     }
   },
 
+  StringLiteral(literal) {
+    return `${literal.value}`;
+  },
+
   UnaryExpression(e) {
     return `(${makeOp(e.op)} ${gen(e.operand)})`;
   },
