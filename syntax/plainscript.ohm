@@ -1,35 +1,36 @@
 PlainScript {
   Program     =  newline* Stmt+ newline*
-  Stmt        =  SimpleStmt newline              -- simple
-              |  "while" Exp Suite               -- while
+  Stmt        =  SimpleStmt newline               -- simple
+              |  "while" Exp Suite                -- while
               |  "if" Exp Suite
                  ("elif" Exp Suite)*
-                 ("else" Suite)?                 -- if
-              |  "def" id "(" Params ")" Suite   -- def
-  SimpleStmt  =  "let" Ids "=" Exps              -- vardecl
-              |  VarExps "=" Exps                -- assign
-              |  Call                            -- call
-              |  "break"                         -- break
-              |  "return" Exp?                   -- return
-  Suite       =  ":" SimpleStmt newline          -- small
-              |  ":" newline indent Stmt+ dedent -- large
+                 ("else" Suite)?                  -- if
+              |  "def" id "(" Params ")" Suite    -- def
+  SimpleStmt  =  "let" Ids "=" Exps               -- vardecl
+              |  VarExps "=" Exps                 -- assign
+              |  Call                             -- call
+              |  "break"                          -- break
+              |  "return" Exp?                    -- return
+  Suite       =  ":" SimpleStmt newline           -- small
+              |  ":" newline indent Stmt+ dedent  -- large
 
-  Exp         =  Exp "or" Exp1                   -- or
-              |  Exp "and" Exp1                  -- and
+  Exp         =  Exp "or" Exp1                    -- or
+              |  Exp "and" Exp1                   -- and
               |  Exp1
-  Exp1        =  Exp2 relop Exp2                 -- binary
+  Exp1        =  Exp2 relop Exp2                  -- binary
               |  Exp2
-  Exp2        =  Exp2 addop Exp3                 -- binary
+  Exp2        =  Exp2 addop Exp3                  -- binary
               |  Exp3
-  Exp3        =  Exp3 mulop Exp4                 -- binary
+  Exp3        =  Exp3 mulop Exp4                  -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                   -- unary
+  Exp4        =  prefixop Exp5                    -- unary
               |  Exp5
   Exp5        =  boollit
               |  numlit
+              |  strlit
               |  Call
               |  VarExp
-              |  "(" Exp ")"                     -- parens
+              |  "(" Exp ")"                      -- parens
   Call        =  VarExp "(" Args ")"
 
   Exps        =  NonemptyListOf<Exp, ",">
@@ -47,6 +48,9 @@ PlainScript {
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?
   boollit     =  "true" | "false"
+  strlit      = "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""
+  escape      = "\\" ("\\" | "\"" | "n")          -- simple
+              | "\\u{" hexDigit+ "}"              -- codepoint
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
   mulop       =  "*" | "/" | "%"

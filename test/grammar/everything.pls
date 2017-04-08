@@ -18,7 +18,7 @@ def actions(a, b, c):
 
                break    # Comment
         elif false:
-                     print(7, sep: dog)
+                     print("hello", sep: dog)
 
                      def p(e=5):
                        x, y, z = 10, actions(4), e(((1)))
