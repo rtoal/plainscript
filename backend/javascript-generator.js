@@ -2,7 +2,7 @@
  * JavaScript Generator Module
  *
  * This module exports a single function that produces a JavaScript script from
- * an AST.
+ * an AST, and writes it to standard output.
  *
  * const generateJavaScript = require('./backend/javascript-generator');
  *
@@ -10,8 +10,25 @@
  */
 
 const Context = require('../semantics/context');
-
-module.exports = gen;
+const Program = require('../ast/program');
+const VariableDeclaration = require('../ast/variable-declaration');
+const AssignmentStatement = require('../ast/assignment-statement');
+const BreakStatement = require('../ast/break-statement');
+const ReturnStatement = require('../ast/return-statement');
+const IfStatement = require('../ast/if-statement');
+const WhileStatement = require('../ast/while-statement');
+const CallStatement = require('../ast/call-statement');
+const FunctionDeclaration = require('../ast/function-declaration');
+const BinaryExpression = require('../ast/binary-expression');
+const UnaryExpression = require('../ast/unary-expression');
+const VariableExpression = require('../ast/variable-expression');
+const Variable = require('../ast/variable');
+const Call = require('../ast/call');
+const Parameter = require('../ast/parameter');
+const Argument = require('../ast/argument');
+const BooleanLiteral = require('../ast/boolean-literal');
+const NumericLiteral = require('../ast/numeric-literal');
+const StringLiteral = require('../ast/string-literal');
 
 const indentPadding = 2;
 let indentLevel = 0;
@@ -20,9 +37,9 @@ function emit(line) {
   console.log(`${' '.repeat(indentPadding * indentLevel)}${line}`);
 }
 
-function emitStatementList(statements) {
+function genStatementList(statements) {
   indentLevel += 1;
-  statements.forEach(gen);
+  statements.forEach(statement => statement.gen());
   indentLevel -= 1;
 }
 
@@ -45,122 +62,16 @@ const javaScriptVariable = (() => {
   };
 })();
 
+// This is a nice helper for variable declarations and assignment statements.
+// The AST represents both of these with lists of sources and lists of targets,
+// but when writing out JavaScript it seems silly to write `[x] = [y]` when
+// `x = y` suffices.
 function bracketIfNecessary(a) {
   if (a.length === 1) {
     return `${a}`;
   }
   return `[${a.join(', ')}]`;
 }
-
-function gen(e) {
-  return generator[e.constructor.name](e);
-}
-
-const generator = {
-
-  Argument(arg) {
-    return gen(arg.expression);
-  },
-
-  AssignmentStatement(s) {
-    const targets = s.targets.map(gen);
-    const sources = s.sources.map(gen);
-    emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
-  },
-
-  BinaryExpression(e) {
-    return `(${gen(e.left)} ${makeOp(e.op)} ${gen(e.right)})`;
-  },
-
-  BooleanLiteral(literal) {
-    return `${literal.value}`;
-  },
-
-  BreakStatement() {
-    emit('break;');
-  },
-
-  CallStatement(c) {
-    emit(`${gen(c.call)};`);
-  },
-
-  Call(c) {
-    // TODO: THIS ISN'T DONE YET. DO WE NEED TO PROCESS THE ARGS HERE OR PRIOR TO HERE?
-    return `${javaScriptVariable(c.callee.referent)}(${c.args.map(gen).join(', ')})`;
-  },
-
-  FunctionDeclaration(f) {
-    emit(`function ${javaScriptVariable(this)} (${f.params.map(gen).join(', ')}) {`);
-    emitStatementList(f.body);
-    emit('}');
-  },
-
-  IfStatement(s) {
-    s.cases.forEach((c, index) => {
-      const prefix = index === 0 ? 'if' : '} else if';
-      emit(`${prefix} (${gen(c.test)}) {`);
-      emitStatementList(c.body);
-    });
-    if (s.alternate) {
-      emit('} else {');
-      emitStatementList(s.alternate);
-    }
-    emit('}');
-  },
-
-  NumericLiteral(literal) {
-    return `${literal.value}`;
-  },
-
-  Parameter(p) {
-    let translation = javaScriptVariable(p);
-    if (p.defaultExpression) {
-      translation += ` = ${p.defaultExpression}`;
-    }
-    return translation;
-  },
-
-  Program(program) {
-    generateLibraryFunctions();
-    program.statements.forEach(gen);
-  },
-
-  ReturnStatement(s) {
-    if (s.returnValue) {
-      emit(`return ${gen(s.returnValue)};`);
-    } else {
-      emit('return;');
-    }
-  },
-
-  StringLiteral(literal) {
-    return `${literal.value}`;
-  },
-
-  UnaryExpression(e) {
-    return `(${makeOp(e.op)} ${gen(e.operand)})`;
-  },
-
-  VariableDeclaration(v) {
-    const variables = v.variables.map(gen);
-    const initializers = v.initializers.map(gen);
-    emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
-  },
-
-  VariableExpression(v) {
-    return gen(v.referent);
-  },
-
-  Variable(v) {
-    return javaScriptVariable(v);
-  },
-
-  WhileStatement(s) {
-    emit(`while (${gen(s.test)}) {`);
-    emitStatementList(s.body);
-    emit('}');
-  },
-};
 
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
@@ -171,3 +82,124 @@ function generateLibraryFunctions() {
   generateLibraryStub('print', 's', 'console.log(s);');
   generateLibraryStub('sqrt', 'x', 'return Math.sqrt(x);');
 }
+
+Object.assign(Argument.prototype, {
+  gen() { return this.expression.gen(); },
+});
+
+Object.assign(AssignmentStatement.prototype, {
+  gen() {
+    const targets = this.targets.map(t => t.gen());
+    const sources = this.sources.map(s => s.gen());
+    emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
+  },
+});
+
+Object.assign(BinaryExpression.prototype, {
+  gen() { return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`; },
+});
+
+Object.assign(BooleanLiteral.prototype, {
+  gen() { return `${this.value}`; },
+});
+
+Object.assign(BreakStatement.prototype, {
+  gen() { return 'break;'; },
+});
+
+Object.assign(CallStatement.prototype, {
+  gen() { emit(`${this.call.gen()};`); },
+});
+
+Object.assign(Call.prototype, {
+  gen() {
+    // TODO: NOT FINISHED YET
+    return `${javaScriptVariable(this.callee.referent)}(${this.args.map(a => a.gen()).join(', ')})`;
+  },
+});
+
+Object.assign(FunctionDeclaration.prototype, {
+  gen() {
+    emit(`function ${javaScriptVariable(this)} (${this.params.map(p => p.gen()).join(', ')}) {`);
+    genStatementList(this.body);
+    emit('}');
+  },
+});
+
+Object.assign(IfStatement.prototype, {
+  gen() {
+    this.cases.forEach((c, index) => {
+      const prefix = index === 0 ? 'if' : '} else if';
+      emit(`${prefix} (${c.test.gen()}) {`);
+      genStatementList(c.body);
+    });
+    if (this.alternate) {
+      emit('} else {');
+      genStatementList(this.alternate);
+    }
+    emit('}');
+  },
+});
+
+Object.assign(NumericLiteral.prototype, {
+  gen() { return `${this.value}`; },
+});
+
+Object.assign(Parameter.prototype, {
+  gen() {
+    let translation = javaScriptVariable(this);
+    if (this.defaultExpression) {
+      translation += ` = ${this.defaultExpression}`;
+    }
+    return translation;
+  },
+});
+
+Object.assign(Program.prototype, {
+  gen() {
+    generateLibraryFunctions();
+    this.statements.forEach(statement => statement.gen());
+  },
+});
+
+Object.assign(ReturnStatement.prototype, {
+  gen() {
+    if (this.returnValue) {
+      emit(`return ${this.returnValue.gen()};`);
+    } else {
+      emit('return;');
+    }
+  },
+});
+
+Object.assign(StringLiteral.prototype, {
+  gen() { return `${this.value}`; },
+});
+
+Object.assign(UnaryExpression.prototype, {
+  gen() { return `(${makeOp(this.op)} ${this.operand.gen()})`; },
+});
+
+Object.assign(VariableDeclaration.prototype, {
+  gen() {
+    const variables = this.variables.map(v => v.gen());
+    const initializers = this.initializers.map(i => i.gen());
+    emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
+  },
+});
+
+Object.assign(VariableExpression.prototype, {
+  gen() { return this.referent.gen(); },
+});
+
+Object.assign(Variable.prototype, {
+  gen() { return javaScriptVariable(this); },
+});
+
+Object.assign(WhileStatement.prototype, {
+  gen() {
+    emit(`while (${this.test.gen()}) {`);
+    genStatementList(this.body);
+    emit('}');
+  },
+});
