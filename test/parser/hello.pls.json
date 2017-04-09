@@ -1,5 +1,10 @@
-{"statements": [
-  {"call":
-    {"callee":
-      {"id": "print"},
-      "args": [ { "id":null, "expression": {"value": "\"hello\""}} ] } }]}
+{
+  "statements": [
+    {
+      "call": {
+        "callee": {"id": "print"},
+        "args": [ { "id": null, "expression": {"value": "\"hello\""}} ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "statements": [
+    {
+      "id": "fib",
+      "params": [ { "id": "n", "defaultExpression": null } ],
+      "body": [
+        {
+          "ids": [ "a", "b" ],
+          "initializers": [ { "value": 0 }, { "value": 1 } ]
+        },
+        {
+          "test": {"op": "<", "left": { "id": "b" }, "right": { "id": "n" } },
+          "body": [
+            {
+              "targets": [{"id": "a"}, {"id": "b"}],
+              "sources": [
+                { "id": "b" },
+                { "op": "+", "left": { "id": "a" }, "right": { "id": "b" }}
+              ]
+            }
+          ]
+        },
+        { "returnValue": { "id": "a" } }
+      ]
+    },
+    {
+      "call": {
+        "callee": {"id": "print"},
+        "args": [
+          {
+            "id": null,
+            "expression": {"callee": {"id": "fib"}, "args": [{"id": null, "expression": {"value": 5}}]}
+          }
+        ]
+      }
+    },
+    {
+      "call": {
+        "callee": {"id": "print"},
+        "args": [
+          {
+            "id": null,
+            "expression": {"callee": {"id": "fib"}, "args": [{"id": null, "expression": {"value": 10}}]}
+          }
+        ]
+      }
+    }
+  ]
+}
