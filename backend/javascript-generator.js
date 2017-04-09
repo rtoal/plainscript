@@ -1,16 +1,15 @@
 /*
- * JavaScript Generator Module
+ * Translation to JavaScript
  *
  * Requiring this module adds a gen() method to each of the AST classes.
  * Nothing is actually exported from this module.
  *
  * Generally, calling e.gen() where e is an expression node will return the
- * JavaScript translation as a string, while calling s.gen() where s is any
- * other kind of node will write its translation to standard output.
+ * JavaScript translation as a string, while calling s.gen() where s is a
+ * statement-level node will write its translation to standard output.
  *
- * require('./backend/javascript-generator');
- *
- * program.gen();
+ *   require('./backend/javascript-generator');
+ *   program.gen();
  */
 
 const Context = require('../semantics/context');
@@ -52,11 +51,11 @@ function makeOp(op) {
   return { not: '!', and: '&&', or: '||', '==': '===', '!=': '!==' }[op] || op;
 }
 
-// javaScriptVariable(v) takes a PlainScript object with an id property, such
-// as a Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
-// variable, something like '_v1' or '_v503'. It uses a cache so it can return
+// jsName(e) takes any PlainScript object with an id property, such as a
+// Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
+// name, something like '_v1' or '_v503'. It uses a cache so it can return
 // the same exact string each time it is called with a particular entity.
-const javaScriptVariable = (() => {
+const jsName = (() => {
   let lastId = 0;
   const map = new Map();
   return (v) => {
@@ -81,7 +80,7 @@ function bracketIfNecessary(a) {
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
     const entity = Context.INITIAL.variables[name];
-    emit(`function ${javaScriptVariable(entity)} (${params}) {${body}}`);
+    emit(`function ${jsName(entity)} (${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
   generateLibraryStub('print', 's', 'console.log(s);');
@@ -123,13 +122,13 @@ Object.assign(Call.prototype, {
     const args = Array(this.args.length).fill(undefined);
     fun.params.forEach((p, i) => { params[p.id] = i; });
     this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
-    return `${javaScriptVariable(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
+    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
   },
 });
 
 Object.assign(FunctionDeclaration.prototype, {
   gen() {
-    emit(`function ${javaScriptVariable(this)} (${this.params.map(p => p.gen()).join(', ')}) {`);
+    emit(`function ${jsName(this)} (${this.params.map(p => p.gen()).join(', ')}) {`);
     genStatementList(this.body);
     emit('}');
   },
@@ -160,7 +159,7 @@ Object.assign(NumericLiteral.prototype, {
 
 Object.assign(Parameter.prototype, {
   gen() {
-    let translation = javaScriptVariable(this);
+    let translation = jsName(this);
     if (this.defaultExpression) {
       translation += ` = ${this.defaultExpression.gen()}`;
     }
@@ -210,7 +209,7 @@ Object.assign(VariableDeclaration.prototype, {
 });
 
 Object.assign(Variable.prototype, {
-  gen() { return javaScriptVariable(this); },
+  gen() { return jsName(this); },
 });
 
 Object.assign(WhileStatement.prototype, {
