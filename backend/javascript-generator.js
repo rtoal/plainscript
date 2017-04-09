@@ -114,9 +114,12 @@ Object.assign(CallStatement.prototype, {
 
 Object.assign(Call.prototype, {
   gen() {
-    // TODO: NOT FINISHED YET
-    // THIS DOES NOT TAKE INTO ACCOUNT OUT OF ORDER ARGUMENTS
-    return `${javaScriptVariable(this.callee.referent)}(${this.args.map(a => a.gen()).join(', ')})`;
+    const fun = this.callee.referent;
+    const params = {};
+    const args = Array(this.args.length).fill(undefined);
+    fun.params.forEach((p, i) => { params[p.id] = i; });
+    this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
+    return `${javaScriptVariable(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
   },
 });
 
@@ -155,7 +158,7 @@ Object.assign(Parameter.prototype, {
   gen() {
     let translation = javaScriptVariable(this);
     if (this.defaultExpression) {
-      translation += ` = ${this.defaultExpression}`;
+      translation += ` = ${this.defaultExpression.gen()}`;
     }
     return translation;
   },
