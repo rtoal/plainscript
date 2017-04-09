@@ -77,7 +77,7 @@ It is an error to reference a variable that has not been declared.
 
 A function call has the form:
 ```
-f(5*3, true, c="hi", d=10*g(1,2))
+f(5*3, true, c: "hi", d: 10*g(1,2))
 ```
 The arguments are evaluated in arbitrary order (or even in parallel) and passed to the callee. An argument prefixed with a parameter name is called a _keyword_ argument; arguments not prefixed are called _positional_ arguments. Positional arguments must come before keyword arguments.
 
