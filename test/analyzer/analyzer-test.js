@@ -29,6 +29,4 @@ describe('The semantic analyzer', () => {
       });
     }
   });
-
-  // TODO: NEGATIVE CHECKS
 });

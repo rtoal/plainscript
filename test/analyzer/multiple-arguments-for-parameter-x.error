@@ -1,0 +1,4 @@
+def f(x, y=5):
+    return
+
+f(9, x: 1)
