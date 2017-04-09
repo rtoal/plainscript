@@ -10,7 +10,7 @@ module.exports = class ReturnStatement {
     context.assertInFunction('Return statement outside function');
   }
 
-  optimzize() {
+  optimize() {
     if (this.returnValue) {
       this.returnValue = this.returnValue.optimize();
     }

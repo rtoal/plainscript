@@ -8,7 +8,7 @@ module.exports = class BinaryExpression {
     this.right.analyze(context);
   }
 
-  optimze() {
+  optimize() {
     this.left = this.left.optimize();
     this.right = this.right.optimize();
     // Suggested: Constant folding and strength reductions. There are many.
