@@ -13,10 +13,7 @@ const Parameter = require('../ast/parameter');
 
 class Context {
   constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
-    this.parent = parent;
-    this.variables = Object.create(null);
-    this.currentFunction = currentFunction;
-    this.inLoop = inLoop;
+    Object.assign(this, { parent, currentFunction, inLoop, variables: Object.create(null) });
   }
 
   createChildContextForFunctionBody(currentFunction) {
@@ -30,7 +27,8 @@ class Context {
   }
 
   createChildContextForBlock() {
-    // Retain function and loop setting
+    // For a simple block (i.e., in an if-statement), we have to retain both
+    // the function and loop settings.
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
@@ -38,13 +36,21 @@ class Context {
     });
   }
 
-  addVariable(entity) {
+  // Call this to add a new entity (which could be a variable, a function,
+  // or a parameter) to this context. It will check to see if the entity's
+  // identifier has already been declared in this context. It does not need
+  // to check enclosing contexts because in this language, shadowing is always
+  // allowed. Note that if we allowed overloading, this method would have to
+  // be a bit more sophisticated.
+  add(entity) {
     if (entity.id in this.variables) {
       throw new Error(`Identitier ${entity.id} already declared in this scope`);
     }
     this.variables[entity.id] = entity;
   }
 
+  // Returns the entity bound to the given identifier, starting from this
+  // context and searching "outward" through enclosing contexts if necessary.
   lookup(id) {
     if (id in this.variables) {
       return this.variables[id];
