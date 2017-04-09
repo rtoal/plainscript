@@ -1,12 +1,16 @@
 /*
  * JavaScript Generator Module
  *
- * This module exports a single function that produces a JavaScript script from
- * an AST, and writes it to standard output.
+ * Requiring this module adds a gen() method to each of the AST classes.
+ * Nothing is actually exported from this module.
  *
- * const generateJavaScript = require('./backend/javascript-generator');
+ * Generally, calling e.gen() where e is an expression node will return the
+ * JavaScript translation as a string, while calling s.gen() where s is any
+ * other kind of node will write its translation to standard output.
  *
- * generateJavaScript(program);
+ * require('./backend/javascript-generator');
+ *
+ * program.gen();
  */
 
 const Context = require('../semantics/context');
