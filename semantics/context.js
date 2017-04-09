@@ -1,11 +1,11 @@
 /*
  * Semantic Analysis Context
  *
- * const Context = require('./semantics/context');
- *
  * A context object holds state for the semantic analysis phase, such as the
  * enclosing function (if any), whether or not we are in a loop, a map of
  * variables defined in this scope, and the parent context.
+ *
+ *   const Context = require('./semantics/context');
  */
 
 const FunctionDeclaration = require('../ast/function-declaration');

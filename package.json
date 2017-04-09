@@ -4,7 +4,8 @@
   "description": "A compiler for a little scripting language",
   "main": "plainscript.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "lint": "node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
