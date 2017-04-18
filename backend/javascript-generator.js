@@ -62,7 +62,7 @@ const jsName = (() => {
     if (!(map.has(v))) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    return `_v${map.get(v)}`;
+    return `${v.id}_${map.get(v)}`;
   };
 })();
 
