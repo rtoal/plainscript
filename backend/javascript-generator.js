@@ -53,8 +53,9 @@ function makeOp(op) {
 
 // jsName(e) takes any PlainScript object with an id property, such as a
 // Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
-// name, something like '_v1' or '_v503'. It uses a cache so it can return
-// the same exact string each time it is called with a particular entity.
+// name by appending a unique indentifying suffix, such as '_1' or '_503'.
+// It uses a cache so it can return the same exact string each time it is
+// called with a particular entity.
 const jsName = (() => {
   let lastId = 0;
   const map = new Map();
