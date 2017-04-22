@@ -21,7 +21,7 @@ See the file [plainscript.ohm](https://github.com/rtoal/plainscript/blob/master/
 As of now, PlainScript has only three data types:
   * `number` (IEEE 754 64-bit)
   * `bool` (`true` and `false`).
-  * `string` (sequences of unicode characters).
+  * `string` (a sequence of zero or more unicode characters).
 
 The language is dynamically and weakly typed. Types are compatible with each other as in JavaScript. This makes translation to JavaScript easier, right?
 
@@ -30,11 +30,11 @@ The language is dynamically and weakly typed. Types are compatible with each oth
 There are three types of declarations: variable declarations, function declarations, and parameter declarations.
 
 Variables are declared with `let`:
-```
+```python
 let x, y, z = 0, sqrt(3), "dog"
 ```
 The expressions on the right hand side are evaluated in arbitrary order (or even in parallel) and then assigned to the newly created variables on the left hand side. The variables do not come into scope until _after_ the declaration is complete. So the following script prints `15`:
-```
+```python
 let x = 10
 if true:
     let x = x + 5    # Right hand side refers to the outer x
