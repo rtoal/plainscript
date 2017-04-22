@@ -1,5 +1,3 @@
-# PlainScript
-
 PlainScript is a primitive scripting language whose only purpose is to serve as a starting point for student language design and implementation projects.
 
 ```python
@@ -20,12 +18,12 @@ See the file [plainscript.ohm](https://github.com/rtoal/plainscript/blob/master/
 
 ## Data Types
 
-As of now, PlainScript has only two data types:
+As of now, PlainScript has only three data types:
   * `number` (IEEE 754 64-bit)
   * `bool` (`true` and `false`).
   * `string` (sequences of unicode characters).
 
-The language is dynamically and weakly typed. Types are compatible with each other as in JavaScript. Sigh.
+The language is dynamically and weakly typed. Types are compatible with each other as in JavaScript. This makes translation to JavaScript easier, right?
 
 ## Declarations
 
@@ -44,7 +42,7 @@ if true:
 ```
 
 Function declarations look like this:
-```
+```python
 def f(a, b=a+1, c=5):
     let d = 8
     if b < 0:
@@ -99,12 +97,12 @@ The statements are:
 ## Predefined Environment
 
 The top-level scope of a PlainScript program extends a global environment defining:
-```
+```python
 def print(_):
-    ...
+    # ...
 
 def sqrt(_):
-    ...
+    # ...
 ```
 
 ## Future Plans
