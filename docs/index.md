@@ -2,7 +2,7 @@
 
 PlainScript is a primitive scripting language whose only purpose is to serve as a starting point for student language design and implementation projects.
 
-```
+```python
 def sum_of_digits(n):
     if n < 0:
         return sum_of_digits(-n)
