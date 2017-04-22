@@ -17,7 +17,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/rtoal/plainscript">View on GitHub</a>
 
-          <h1 id="project_title"><img src="plainscript-logo.png" width=80 height=80> Plainscript</h1>
+          <h1 id="project_title"><img src="plainscript-logo.png" width=80 height=80 border=0><br>Plainscript</h1>
           <h2 id="project_tagline">A small, plain scripting language</h2>
 
 
@@ -27,18 +27,17 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
 
-<p>PlainScript is a small, plain, scripting language. Its only real purpose is to serve as a starting point for student language design and implementation projects. Here’s an example program in PlainScript:</p>
+<p>PlainScript is a primitive scripting language whose only purpose is to serve as a starting point for student language design and implementation projects. Here’s an example program in PlainScript:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>def sum_of_digits(n):
-    if n &lt; 0:
-        return sum_of_digits(-n)
-    elif n &lt; 10:
-        return n
-    else:
-        return sum_of_digits(n / 10) + (n % 10)
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sum_of_digits</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sum_of_digits</span><span class="p">(</span><span class="o">-</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sum_of_digits</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">10</span><span class="p">)</span>
 
-print(sum_of_digits(n: 8835299))
-</code></pre>
+<span class="k">print</span><span class="p">(</span><span class="n">sum_of_digits</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="mi">8835299</span><span class="p">))</span></code></pre>
 </div>
 
 <p>Yes, it looks a lot like Python, but it’s <em>not</em> a Python subset. There are some differences.</p>
