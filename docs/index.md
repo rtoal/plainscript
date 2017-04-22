@@ -11,7 +11,7 @@ def sum_of_digits(n):
     else:
         return sum_of_digits(n / 10) + (n % 10)
 
-print(sum_of_digits(n: 8835299))
+print(sum_of_digits(8835299))
 ```
 
 It looks a lot like Python, but it’s _not_ a Python subset. There are some differences.
