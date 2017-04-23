@@ -16,7 +16,7 @@ module.exports = class WhileStatement {
     if (this.test instanceof BooleanLiteral && this.condition.value === false) {
       return null;
     }
-    this.body.forEach(s => s.optimize()).filter(s => s !== null);
+    this.body.map(s => s.optimize()).filter(s => s !== null);
     // Suggested: Look for returns/breaks in the middle of the body
     return this;
   }

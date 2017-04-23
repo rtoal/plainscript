@@ -11,8 +11,8 @@ module.exports = class IfStatement {
   }
 
   optimize() {
-    this.cases.forEach(s => s.optimize()).filter(s => s !== null);
-    this.alternate = this.alternate.optimize();
+    this.cases.map(s => s.optimize()).filter(s => s !== null);
+    this.alternate = this.alternate ? this.alternate.optimize() : null;
     return this;
   }
 };

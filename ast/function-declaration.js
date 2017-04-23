@@ -50,7 +50,7 @@ module.exports = class FunctionDeclaration {
 
   optimize() {
     this.parameters.forEach(p => p.optimize());
-    this.body.forEach(s => s.optimize()).filter(s => s !== null);
+    this.body.map(s => s.optimize()).filter(s => s !== null);
     // Suggested: Look for returns in the middle of the body
     return this;
   }

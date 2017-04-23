@@ -12,7 +12,7 @@ module.exports = class Case {
   optimize() {
     this.test = this.test.optimize();
     // Suggested: if test is false, remove case. if true, remove following cases and the alt
-    this.body.forEach(s => s.optimize()).filter(s => s !== null);
+    this.body.map(s => s.optimize()).filter(s => s !== null);
     // Suggested: Look for returns/breaks in the middle of the body
     return this;
   }
