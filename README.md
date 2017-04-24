@@ -60,18 +60,74 @@ Program {
                          expression: UnaryExpression { op: '-', operand: IdentifierExpression { id: 'x' } } } ] } } ] } ],
        alternate: null } ] }
 ```
-The <tt>-i</tt> flag does semantic analysis, and writes out the decorated abstract syntax tree.
+The <tt>-i</tt> flag does semantic analysis, and writes out the decorated abstract syntax tree. So
 
-TODO
+```
+$ ./plainscript.js example.pls -i
+```
+
+produces
+
+```
+Program {
+  statements:
+   [ VariableDeclaration {
+       ids: [ 'x' ],
+       initializers:
+        [ BinaryExpression {
+            op: '+',
+            left: NumericLiteral { value: 5 },
+            right: NumericLiteral { value: 8 } } ],
+       variables: [ Variable { id: 'x' } ] },
+     IfStatement {
+       cases:
+        [ Case {
+            test: BooleanLiteral { value: true },
+            body:
+             [ CallStatement {
+                 call:
+                  Call {
+                    callee:
+                     IdentifierExpression {
+                       id: 'print',
+                       referent:
+                        FunctionObject {
+                          id: 'print',
+                          params: [ Parameter { id: '_', defaultExpression: null } ],
+                          body: null,
+                          requiredParameterNames: Set { '_' },
+                          allParameterNames: Set { '_' } } },
+                    args:
+                     [ Argument {
+                         id: null,
+                         expression:
+                          UnaryExpression {
+                            op: '-',
+                            operand: IdentifierExpression { id: 'x', referent: Variable { id: 'x' } } } } ] } } ] } ],
+       alternate: null } ] }
+```
 
 Finally, here’s an example performing a full translation to JavaScript:
 
 ```
 $ ./plainscript.js example.pls
-function print_1 (s) {console.log(s);}
-function sqrt_2 (x) {return Math.sqrt(x);}
+function print_1(_) {console.log(_);}
+function sqrt_2(_) {return Math.sqrt(_);}
 let x_3 = (5 + 8);
 if (true) {
   print_1((- x_3));
 }
 ```
+
+You can use the optimization flag <code>-o</code> with our without the <code>-i</code> flag. In our little example, the optimizer will detect a constant folding opportunity and a conditional case that is always executed. The resulting JavaScript will be:
+
+
+```
+$ ./plainscript.js example.pls
+function print_1(_) {console.log(_);}
+function sqrt_2(_) {return Math.sqrt(_);}
+let x_3 = 13;
+print_1((- x_3));
+```
+
+The compiler does not (yet?) perform copy propagation and dead code elimination. That would be nice.
