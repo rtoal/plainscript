@@ -30,11 +30,11 @@ The language is dynamically and weakly typed. Types are compatible with each oth
 There are three types of declarations: variable declarations, function declarations, and parameter declarations.
 
 Variables are declared with `let`:
-```python
+```javascript
 let x, y, z = 0, sqrt(3), "dog"
 ```
 The expressions on the right hand side are evaluated in arbitrary order (or even in parallel) and then assigned to the newly created variables on the left hand side. The variables do not come into scope until _after_ the declaration is complete. So the following script prints `15`:
-```python
+```javascript
 let x = 10
 if true:
     let x = x + 5    # Right hand side refers to the outer x
@@ -49,7 +49,7 @@ def f(a, b=a+1, c=5):
         return a * b + c
     f(1, b - 10)
 ```
-Each parameter comes into scope immediately after it is declared, so parameters can use earlier parameters in their default expressions. Parameters and local variables live in the same scope. The function name belongs to the outer scope. Conceptually it is comes into existence after the definition line, so (1) you _can_ call a function recursively, but you _cannot_ call the function in the default expressions of its own parameters.
+Each parameter comes into scope immediately after it is declared, so parameters can use earlier parameters in their default expressions. Parameters and local variables live in the same scope. The function name belongs to the outer scope, and comes into scope immediately, so you can call a function recursively (in its own body), as well as use it in the default expressions of its own parameters! This is like JavaScript and unlike Python.
 
 Parameters without default expressions are _required_ parameters; those with default expressions are _optional_ parameters. You may not place a required parameter after an optional one.
 
