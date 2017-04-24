@@ -1,4 +1,5 @@
 <img src="https://raw.githubusercontent.com/rtoal/plainscript/master/docs/plainscript-logo.png" width=100 height=100>
+
 # PlainScript
 
 PlainScript is a very plain scripting language. Its only purpose is to serve as a starting point for student language design and implementation projects.
