@@ -82,7 +82,7 @@ function bracketIfNecessary(a) {
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
     const entity = Context.INITIAL.declarations[name];
-    emit(`function ${jsName(entity)} (${params}) {${body}}`);
+    emit(`function ${jsName(entity)}(${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
   generateLibraryStub('print', 's', 'console.log(s);');
@@ -134,7 +134,7 @@ Object.assign(FunctionDeclaration.prototype, {
 
 Object.assign(FunctionObject.prototype, {
   gen() {
-    emit(`function ${jsName(this)} (${this.params.map(p => p.gen()).join(', ')}) {`);
+    emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
     genStatementList(this.body);
     emit('}');
   },
