@@ -22,6 +22,7 @@ const IfStatement = require('../ast/if-statement');
 const WhileStatement = require('../ast/while-statement');
 const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
+const FunctionObject = require('../ast/function-object');
 const BinaryExpression = require('../ast/binary-expression');
 const UnaryExpression = require('../ast/unary-expression');
 const IdentifierExpression = require('../ast/identifier-expression');
@@ -80,7 +81,7 @@ function bracketIfNecessary(a) {
 
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
-    const entity = Context.INITIAL.variables[name];
+    const entity = Context.INITIAL.declarations[name];
     emit(`function ${jsName(entity)} (${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
@@ -128,6 +129,10 @@ Object.assign(Call.prototype, {
 });
 
 Object.assign(FunctionDeclaration.prototype, {
+  gen() { return this.function.gen(); },
+});
+
+Object.assign(FunctionObject.prototype, {
   gen() {
     emit(`function ${jsName(this)} (${this.params.map(p => p.gen()).join(', ')}) {`);
     genStatementList(this.body);
