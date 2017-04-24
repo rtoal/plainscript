@@ -4,7 +4,7 @@
 
 PlainScript is a very plain scripting language. Its only purpose is to serve as a starting point for student language design and implementation projects.
 
-```
+```python
 def sum_of_digits(n):
     if n < 0:
         return sum_of_digits(-n)
@@ -24,7 +24,7 @@ The language is described in some detail at the <a href="https://rtoal.github.io
 
 This project hosts a simple compiler that reads a PlainScript program from a file, translates it to JavaScript, and outputs the JavaScript code to standard output. It supports three options, <tt>-a</tt> (to display the abstract syntax tree then stop), <tt>-i</tt> (to display the analyzed semantic graph then stop), and <tt>-o</tt> (to turn optimizations on). Given the PlainScript program:
 
-```python
+```javascript
 let x = 5 + 8
 if true:
   print(-x)
