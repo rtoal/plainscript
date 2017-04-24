@@ -85,8 +85,8 @@ function generateLibraryFunctions() {
     emit(`function ${jsName(entity)}(${params}) {${body}}`);
   }
   // This is sloppy. There should be a better way to do this.
-  generateLibraryStub('print', 's', 'console.log(s);');
-  generateLibraryStub('sqrt', 'x', 'return Math.sqrt(x);');
+  generateLibraryStub('print', '_', 'console.log(_);');
+  generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
 }
 
 Object.assign(Argument.prototype, {
