@@ -48,8 +48,8 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Stmt_simple(statement, _) { return statement.ast(); },
   Stmt_while(_, test, suite) { return new WhileStatement(test.ast(), suite.ast()); },
   Stmt_if(_1, firstTest, firstSuite, _2, moreTests, moreSuites, _3, lastSuite) {
-    const tests = [firstTest.ast()].concat(moreTests.ast());
-    const bodies = [firstSuite.ast()].concat(moreSuites.ast());
+    const tests = [firstTest.ast(), ...moreTests.ast()];
+    const bodies = [firstSuite.ast(), ...moreSuites.ast()];
     const cases = tests.map((test, index) => new Case(test, bodies[index]));
     return new IfStatement(cases, unpack(lastSuite.ast()));
   },
@@ -75,7 +75,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   VarExp_simple(id) { return new IdentifierExpression(id.ast()); },
   Param(id, _, exp) { return new Parameter(id.ast(), unpack(exp.ast())); },
   Arg(id, _, exp) { return new Argument(unpack(id.ast()), exp.ast()); },
-  NonemptyListOf(first, _, rest) { return [first.ast()].concat(rest.ast()); },
+  NonemptyListOf(first, _, rest) { return [first.ast(), ...rest.ast()]; },
   EmptyListOf() { return []; },
   boollit(_) { return new BooleanLiteral(!!this.sourceString); },
   numlit(_1, _2, _3, _4, _5, _6) { return new NumericLiteral(+this.sourceString); },
