@@ -23,14 +23,13 @@
  * built into Node.js.
  */
 
-const argv = require('yargs')
+const { argv } = require('yargs')
   .usage('$0 [-a] [-o] [-i] filename')
   .boolean(['a', 'o', 'i'])
   .describe('a', 'show abstract syntax tree after parsing then stop')
   .describe('o', 'do optimizations')
   .describe('i', 'generate and show the decorated abstract syntax tree then stop')
-  .demand(1)
-  .argv;
+  .demand(1);
 
 const fs = require('fs');
 const util = require('util');

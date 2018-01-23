@@ -1,29 +1,25 @@
 {
   "name": "plainscript",
   "version": "1.0.0",
-  "description": "A compiler for a little scripting language",
+  "description": "A compiler for a very small scripting language",
   "main": "plainscript.js",
-  "scripts": {
-    "test": "mocha --recursive",
-    "lint": "node_modules/.bin/eslint ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rtoal/plainscript.git"
-  },
-  "author": "",
+  "repository": "git@github.com:rtoal/plainscript.git",
+  "author": "Ray Toal <rtoal@lmu.edu>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rtoal/plainscript/issues"
+  "scripts": {
+    "test": "jest test/**/*test.js"
   },
-  "homepage": "https://github.com/rtoal/plainscript#readme",
-  "devDependencies": {
-    "eslint": "^3.17.1",
-    "eslint-config-airbnb-base": "^11.1.1",
-    "eslint-plugin-import": "^2.2.0",
-    "ohm-js": "^0.13.1"
+  "jest": {
+    "transform": {}
   },
   "dependencies": {
-    "yargs": "^7.0.2"
+    "yargs": "^10.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jest": "^22.1.4",
+    "ohm-js": "^0.14.0"
   }
 }

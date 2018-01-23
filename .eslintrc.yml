@@ -15,5 +15,7 @@ rules:
     - WithStatement
   no-use-before-define:
     - off
+  object-curly-newline:
+    - off
 env:
-  mocha: true
+  jest: true
