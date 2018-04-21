@@ -24,6 +24,7 @@ const Case = require('../ast/case');
 const WhileStatement = require('../ast/while-statement');
 const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
+const ListExpression = require('../ast/list-expression');
 const BinaryExpression = require('../ast/binary-expression');
 const UnaryExpression = require('../ast/unary-expression');
 const IdentifierExpression = require('../ast/identifier-expression');
@@ -69,6 +70,7 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   Exp2_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp3_binary(left, op, right) { return new BinaryExpression(op.ast(), left.ast(), right.ast()); },
   Exp4_unary(op, operand) { return new UnaryExpression(op.ast(), operand.ast()); },
+  Exp5_list(_1, expressions, _2) { return new ListExpression(expressions.ast()); },
   Exp5_parens(_1, expression, _2) { return expression.ast(); },
   Call(callee, _1, args, _2) { return new Call(callee.ast(), args.ast()); },
   VarExp_subscripted(v, _1, e, _2) { return new SubscriptedExpression(v.ast(), e.ast()); },

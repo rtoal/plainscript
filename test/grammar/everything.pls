@@ -13,7 +13,7 @@ def actions(a, b, c):
         let x, y = 9, true
         if x < 3 and 9 / 2 == b or 7*(false%2):
           while true:
-               if x: print(x)
+               if x: print([x, y, z])
 
 
                break    # Comment

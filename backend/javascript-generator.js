@@ -23,6 +23,7 @@ const WhileStatement = require('../ast/while-statement');
 const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const FunctionObject = require('../ast/function-object');
+const ListExpression = require('../ast/list-expression');
 const BinaryExpression = require('../ast/binary-expression');
 const UnaryExpression = require('../ast/unary-expression');
 const IdentifierExpression = require('../ast/identifier-expression');
@@ -156,6 +157,13 @@ Object.assign(IfStatement.prototype, {
       genStatementList(this.alternate);
     }
     emit('}');
+  },
+});
+
+Object.assign(ListExpression.prototype, {
+  gen() {
+    const jsMembers = this.members.map(member => member.gen());
+    return `[${jsMembers.join(', ')}]`;
   },
 });
 

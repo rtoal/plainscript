@@ -28,6 +28,7 @@ PlainScript {
   Exp5        =  boollit
               |  numlit
               |  strlit
+              |  "[" ListOf<Exp, ","> "]"         -- list
               |  Call
               |  VarExp
               |  "(" Exp ")"                      -- parens
