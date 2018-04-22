@@ -526,6 +526,14 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
+complexion-js@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/complexion-js/-/complexion-js-0.2.0.tgz#eb2f81ed7bac7bf151947a48c184af959d4dda4e"
+
+complexion@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/complexion/-/complexion-0.2.0.tgz#36ae9d8a60db126f940876ef1f963e33ddbaf851"
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -2236,6 +2244,10 @@ optimist@^0.6.1:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
 
+option-parser@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/option-parser/-/option-parser-1.0.0.tgz#9d470f969b7cb0cd2bb5b75e998be9961ba57206"
+
 optionator@^0.8.1, optionator@^0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/optionator/-/optionator-0.8.2.tgz#364c5e409d3f4d6301d6c0b4c05bba50180aeb64"
@@ -2406,9 +2418,22 @@ pretty-format@^22.1.0:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
 
+pretty-js@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/pretty-js/-/pretty-js-0.2.0.tgz#a30a868acab8bbfe7f8ca28d4c46cf5fe96c95d7"
+  dependencies:
+    complexion "^0.2.0"
+    complexion-js "^0.2.0"
+    option-parser "^1.0.0"
+    process-files "^1.0.0"
+
 private@^0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
+
+process-files@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/process-files/-/process-files-1.0.0.tgz#2d1ab8487675221841aa2bfdf22085614d588f23"
 
 process-nextick-args@~1.0.6:
   version "1.0.7"

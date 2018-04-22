@@ -20,6 +20,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "jest": "^22.1.4",
-    "ohm-js": "^0.14.0"
+    "ohm-js": "^0.14.0",
+    "pretty-js": "^0.2.0"
   }
 }

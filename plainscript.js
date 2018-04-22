@@ -4,7 +4,7 @@
  * A PlainScript Compiler
  *
  * This is a command line application that compiles a PlainScript program from
- * a file. There are three options:
+ * a file. Synopsis:
  *
  * ./plainscript.js -a <filename>
  *     writes out the AST and stops
@@ -54,5 +54,5 @@ fs.readFile(argv._[0], 'utf-8', (err, text) => {
     console.log(util.inspect(program, { depth: null }));
     return;
   }
-  program.gen();
+  console.log(program.gen());
 });

@@ -12,6 +12,8 @@
  *   program.gen();
  */
 
+const prettyJs = require('pretty-js');
+
 const Context = require('../semantics/context');
 const Program = require('../ast/program');
 const VariableDeclaration = require('../ast/variable-declaration');
@@ -36,17 +38,10 @@ const BooleanLiteral = require('../ast/boolean-literal');
 const NumericLiteral = require('../ast/numeric-literal');
 const StringLiteral = require('../ast/string-literal');
 
-const indentPadding = 2;
-let indentLevel = 0;
+let targetProgram = '';
 
 function emit(line) {
-  console.log(`${' '.repeat(indentPadding * indentLevel)}${line}`);
-}
-
-function genStatementList(statements) {
-  indentLevel += 1;
-  statements.forEach(statement => statement.gen());
-  indentLevel -= 1;
+  targetProgram += line;
 }
 
 function makeOp(op) {
@@ -136,7 +131,7 @@ Object.assign(FunctionDeclaration.prototype, {
 Object.assign(FunctionObject.prototype, {
   gen() {
     emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
-    genStatementList(this.body);
+    this.body.forEach(statement => statement.gen());
     emit('}');
   },
 });
@@ -150,11 +145,11 @@ Object.assign(IfStatement.prototype, {
     this.cases.forEach((c, index) => {
       const prefix = index === 0 ? 'if' : '} else if';
       emit(`${prefix} (${c.test.gen()}) {`);
-      genStatementList(c.body);
+      c.body.forEach(statement => statement.gen());
     });
     if (this.alternate) {
       emit('} else {');
-      genStatementList(this.alternate);
+      this.alternate.forEach(statement => statement.gen());
     }
     emit('}');
   },
@@ -185,6 +180,7 @@ Object.assign(Program.prototype, {
   gen() {
     generateLibraryFunctions();
     this.statements.forEach(statement => statement.gen());
+    return prettyJs(targetProgram, { indent: '  ' });
   },
 });
 
@@ -229,7 +225,7 @@ Object.assign(Variable.prototype, {
 Object.assign(WhileStatement.prototype, {
   gen() {
     emit(`while (${this.test.gen()}) {`);
-    genStatementList(this.body);
+    this.body.forEach(statement => statement.gen());
     emit('}');
   },
 });
