@@ -4,9 +4,8 @@
  * Requiring this module adds a gen() method to each of the AST classes.
  * Nothing is actually exported from this module.
  *
- * Generally, calling e.gen() where e is an expression node will return the
- * JavaScript translation as a string, while calling s.gen() where s is a
- * statement-level node will write its translation to standard output.
+ * Each gen() method returns a fragment of JavaScript. The gen() method on
+ * the program class pretty-prints the complete JavaScript code.
  *
  *   require('./backend/javascript-generator');
  *   program.gen();
@@ -38,12 +37,6 @@ const BooleanLiteral = require('../ast/boolean-literal');
 const NumericLiteral = require('../ast/numeric-literal');
 const StringLiteral = require('../ast/string-literal');
 
-let targetProgram = '';
-
-function emit(line) {
-  targetProgram += line;
-}
-
 function makeOp(op) {
   return { not: '!', and: '&&', or: '||', '==': '===', '!=': '!==' }[op] || op;
 }
@@ -69,20 +62,18 @@ const jsName = (() => {
 // but when writing out JavaScript it seems silly to write `[x] = [y]` when
 // `x = y` suffices.
 function bracketIfNecessary(a) {
-  if (a.length === 1) {
-    return `${a}`;
-  }
-  return `[${a.join(', ')}]`;
+  return (a.length === 1) ? `${a}` : `[${a.join(', ')}]`;
 }
 
 function generateLibraryFunctions() {
   function generateLibraryStub(name, params, body) {
     const entity = Context.INITIAL.declarations[name];
-    emit(`function ${jsName(entity)}(${params}) {${body}}`);
+    return `function ${jsName(entity)}(${params}) {${body}}`;
   }
-  // This is sloppy. There should be a better way to do this.
-  generateLibraryStub('print', '_', 'console.log(_);');
-  generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);');
+  return [
+    generateLibraryStub('print', '_', 'console.log(_);'),
+    generateLibraryStub('sqrt', '_', 'return Math.sqrt(_);'),
+  ].join('');
 }
 
 Object.assign(Argument.prototype, {
@@ -93,7 +84,7 @@ Object.assign(AssignmentStatement.prototype, {
   gen() {
     const targets = this.targets.map(t => t.gen());
     const sources = this.sources.map(s => s.gen());
-    emit(`${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`);
+    return `${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`;
   },
 });
 
@@ -110,7 +101,7 @@ Object.assign(BreakStatement.prototype, {
 });
 
 Object.assign(CallStatement.prototype, {
-  gen() { emit(`${this.call.gen()};`); },
+  gen() { return `${this.call.gen()};`; },
 });
 
 Object.assign(Call.prototype, {
@@ -130,9 +121,9 @@ Object.assign(FunctionDeclaration.prototype, {
 
 Object.assign(FunctionObject.prototype, {
   gen() {
-    emit(`function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {`);
-    this.body.forEach(statement => statement.gen());
-    emit('}');
+    return `function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {
+      ${this.body.map(s => s.gen()).join('')}
+    }`;
   },
 });
 
@@ -142,16 +133,12 @@ Object.assign(IdentifierExpression.prototype, {
 
 Object.assign(IfStatement.prototype, {
   gen() {
-    this.cases.forEach((c, index) => {
+    const cases = this.cases.map((c, index) => {
       const prefix = index === 0 ? 'if' : '} else if';
-      emit(`${prefix} (${c.test.gen()}) {`);
-      c.body.forEach(statement => statement.gen());
+      return `${prefix} (${c.test.gen()}) {${c.body.map(s => s.gen()).join('')}`;
     });
-    if (this.alternate) {
-      emit('} else {');
-      this.alternate.forEach(statement => statement.gen());
-    }
-    emit('}');
+    const alternate = this.alternate ? `}else{${this.alternate.map(s => s.gen()).join('')}` : '';
+    return `${cases.join('')}${alternate}}`;
   },
 });
 
@@ -178,19 +165,16 @@ Object.assign(Parameter.prototype, {
 
 Object.assign(Program.prototype, {
   gen() {
-    generateLibraryFunctions();
-    this.statements.forEach(statement => statement.gen());
-    return prettyJs(targetProgram, { indent: '  ' });
+    const libraryFunctions = generateLibraryFunctions();
+    const programStatements = this.statements.map(s => s.gen());
+    const target = `${libraryFunctions}${programStatements.join('')}`;
+    return prettyJs(target, { indent: '  ' });
   },
 });
 
 Object.assign(ReturnStatement.prototype, {
   gen() {
-    if (this.returnValue) {
-      emit(`return ${this.returnValue.gen()};`);
-    } else {
-      emit('return;');
-    }
+    return `return ${this.returnValue ? this.returnValue.gen() : ''};`;
   },
 });
 
@@ -214,7 +198,7 @@ Object.assign(VariableDeclaration.prototype, {
   gen() {
     const variables = this.variables.map(v => v.gen());
     const initializers = this.initializers.map(i => i.gen());
-    emit(`let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`);
+    return `let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`;
   },
 });
 
@@ -224,8 +208,6 @@ Object.assign(Variable.prototype, {
 
 Object.assign(WhileStatement.prototype, {
   gen() {
-    emit(`while (${this.test.gen()}) {`);
-    this.body.forEach(statement => statement.gen());
-    emit('}');
+    return `while (${this.test.gen()}) { ${this.body.map(s => s.gen()).join('')} }`;
   },
 });
