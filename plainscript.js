@@ -23,36 +23,46 @@
  * built into Node.js.
  */
 
-const { argv } = require('yargs')
-  .usage('$0 [-a] [-o] [-i] filename')
-  .boolean(['a', 'o', 'i'])
-  .describe('a', 'show abstract syntax tree after parsing then stop')
-  .describe('o', 'do optimizations')
-  .describe('i', 'generate and show the decorated abstract syntax tree then stop')
-  .demand(1);
-
 const fs = require('fs');
 const util = require('util');
+const yargs = require('yargs');
 const parse = require('./syntax/parser');
 require('./backend/javascript-generator');
 
-fs.readFile(argv._[0], 'utf-8', (err, text) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  let program = parse(text);
-  if (argv.a) {
-    console.log(util.inspect(program, { depth: null }));
-    return;
+// If compiling from a string, return the AST, IR, or compiled code as a string.
+function compile(sourceCode, { astOnly, frontEndOnly, shouldOptimize }) {
+  let program = parse(sourceCode);
+  if (astOnly) {
+    return util.inspect(program, { depth: null });
   }
   program.analyze();
-  if (argv.o) {
+  if (shouldOptimize) {
     program = program.optimize();
   }
-  if (argv.i) {
-    console.log(util.inspect(program, { depth: null }));
-    return;
+  if (frontEndOnly) {
+    return util.inspect(program, { depth: null });
   }
-  console.log(program.gen());
-});
+  return program.gen();
+}
+
+// If compiling from a file, write to standard output.
+function compileFile(filename, options) {
+  fs.readFile(filename, 'utf-8', (error, sourceCode) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+    console.log(compile(sourceCode, options));
+  });
+}
+
+// If running as a script, input is a file name on the command line.
+if (require.main === module) {
+  const { argv } = yargs.usage('$0 [-a] [-o] [-i] filename')
+    .boolean(['a', 'o', 'i'])
+    .describe('a', 'show abstract syntax tree after parsing then stop')
+    .describe('o', 'do optimizations')
+    .describe('i', 'generate and show the decorated abstract syntax tree then stop')
+    .demand(1);
+  compileFile(argv._[0], { astOnly: argv.a, frontEndOnly: argv.i, shouldOptimize: argv.o });
+}
