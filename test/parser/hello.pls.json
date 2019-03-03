@@ -1,8 +1,0 @@
-{
-  "statements": [
-    {
-      "callee": {"id": "print"},
-      "args": [ { "id": null, "expression": {"value": "\"hello\""}} ]
-    }
-  ]
-}

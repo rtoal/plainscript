@@ -5,6 +5,7 @@
  * variety of programs.
  */
 
+const util = require('util');
 const fs = require('fs');
 const parse = require('../../syntax/parser');
 
@@ -14,8 +15,9 @@ describe('The parser', () => {
       test(`produces the correct AST for ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
           const ast = parse(input);
-          fs.readFile(`${__dirname}/${name}.json`, 'utf-8', (_err, expected) => {
-            expect(ast).toEqual(JSON.parse(expected));
+          const astText = util.inspect(ast, { depth: null });
+          fs.readFile(`${__dirname}/${name.slice(0, -3)}ast`, 'utf-8', (_err, expected) => {
+            expect(astText).toEqual(expected.trim());
             done();
           });
         });

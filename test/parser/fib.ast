@@ -1,0 +1,50 @@
+Program {
+  statements:
+   [ FunctionDeclaration {
+       id: 'fib',
+       function:
+        FunctionObject {
+          id: 'fib',
+          params: [ Parameter { id: 'n', defaultExpression: null } ],
+          body:
+           [ VariableDeclaration {
+               ids: [ 'a', 'b' ],
+               initializers: [ NumericLiteral { value: 0 }, NumericLiteral { value: 1 } ] },
+             WhileStatement {
+               test:
+                BinaryExpression {
+                  op: '<',
+                  left: IdentifierExpression { id: 'b' },
+                  right: IdentifierExpression { id: 'n' } },
+               body:
+                [ AssignmentStatement {
+                    targets:
+                     [ IdentifierExpression { id: 'a' },
+                       IdentifierExpression { id: 'b' } ],
+                    sources:
+                     [ IdentifierExpression { id: 'b' },
+                       BinaryExpression {
+                         op: '+',
+                         left: IdentifierExpression { id: 'a' },
+                         right: IdentifierExpression { id: 'b' } } ] } ] },
+             ReturnStatement { returnValue: IdentifierExpression { id: 'a' } } ] } },
+     Call {
+       callee: IdentifierExpression { id: 'print' },
+       args:
+        [ Argument {
+            id: null,
+            expression:
+             Call {
+               callee: IdentifierExpression { id: 'fib' },
+               args:
+                [ Argument { id: null, expression: NumericLiteral { value: 5 } } ] } } ] },
+     Call {
+       callee: IdentifierExpression { id: 'print' },
+       args:
+        [ Argument {
+            id: null,
+            expression:
+             Call {
+               callee: IdentifierExpression { id: 'fib' },
+               args:
+                [ Argument { id: null, expression: NumericLiteral { value: 10 } } ] } } ] } ] }

@@ -1,0 +1,6 @@
+Program {
+  statements:
+   [ Call {
+       callee: IdentifierExpression { id: 'print' },
+       args:
+        [ Argument { id: null, expression: NumericLiteral { value: 42 } } ] } ] }
