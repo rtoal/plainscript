@@ -21,7 +21,6 @@ const BreakStatement = require('../ast/break-statement');
 const ReturnStatement = require('../ast/return-statement');
 const IfStatement = require('../ast/if-statement');
 const WhileStatement = require('../ast/while-statement');
-const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const FunctionObject = require('../ast/function-object');
 const ListExpression = require('../ast/list-expression');
@@ -43,7 +42,7 @@ function makeOp(op) {
 
 // jsName(e) takes any PlainScript object with an id property, such as a
 // Variable, Parameter, or FunctionDeclaration, and produces a JavaScript
-// name by appending a unique indentifying suffix, such as '_1' or '_503'.
+// name by appending a unique identifying suffix, such as '_1' or '_503'.
 // It uses a cache so it can return the same exact string each time it is
 // called with a particular entity.
 const jsName = (() => {
@@ -76,6 +75,10 @@ function generateLibraryFunctions() {
   ].join('');
 }
 
+function generateBlock(block) {
+  return block.map(s => `${s.gen()};`).join('');
+}
+
 Object.assign(Argument.prototype, {
   gen() { return this.expression.gen(); },
 });
@@ -84,7 +87,7 @@ Object.assign(AssignmentStatement.prototype, {
   gen() {
     const targets = this.targets.map(t => t.gen());
     const sources = this.sources.map(s => s.gen());
-    return `${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)};`;
+    return `${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)}`;
   },
 });
 
@@ -97,11 +100,7 @@ Object.assign(BooleanLiteral.prototype, {
 });
 
 Object.assign(BreakStatement.prototype, {
-  gen() { return 'break;'; },
-});
-
-Object.assign(CallStatement.prototype, {
-  gen() { return `${this.call.gen()};`; },
+  gen() { return 'break'; },
 });
 
 Object.assign(Call.prototype, {
@@ -122,7 +121,7 @@ Object.assign(FunctionDeclaration.prototype, {
 Object.assign(FunctionObject.prototype, {
   gen() {
     return `function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {
-      ${this.body.map(s => s.gen()).join('')}
+      ${generateBlock(this.body)}
     }`;
   },
 });
@@ -135,9 +134,9 @@ Object.assign(IfStatement.prototype, {
   gen() {
     const cases = this.tests.map((test, index) => {
       const prefix = index === 0 ? 'if' : '} else if';
-      return `${prefix} (${test.gen()}) {${this.consequents[index].map(s => s.gen()).join('')}`;
+      return `${prefix} (${test.gen()}) {${generateBlock(this.consequents[index])}`;
     });
-    const alternate = this.alternate ? `}else{${this.alternate.map(s => s.gen()).join('')}` : '';
+    const alternate = this.alternate ? `}else{${generateBlock(this.alternate)}` : '';
     return `${cases.join('')}${alternate}}`;
   },
 });
@@ -166,15 +165,15 @@ Object.assign(Parameter.prototype, {
 Object.assign(Program.prototype, {
   gen() {
     const libraryFunctions = generateLibraryFunctions();
-    const programStatements = this.statements.map(s => s.gen());
-    const target = `${libraryFunctions}${programStatements.join('')}`;
+    const programStatements = generateBlock(this.statements);
+    const target = `${libraryFunctions}${programStatements}`;
     return prettyJs(target, { indent: '  ' });
   },
 });
 
 Object.assign(ReturnStatement.prototype, {
   gen() {
-    return `return ${this.returnValue ? this.returnValue.gen() : ''};`;
+    return `return ${this.returnValue ? this.returnValue.gen() : ''}`;
   },
 });
 
@@ -198,7 +197,7 @@ Object.assign(VariableDeclaration.prototype, {
   gen() {
     const variables = this.variables.map(v => v.gen());
     const initializers = this.initializers.map(i => i.gen());
-    return `let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)};`;
+    return `let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)}`;
   },
 });
 
@@ -208,6 +207,6 @@ Object.assign(Variable.prototype, {
 
 Object.assign(WhileStatement.prototype, {
   gen() {
-    return `while (${this.test.gen()}) { ${this.body.map(s => s.gen()).join('')} }`;
+    return `while (${this.test.gen()}) { ${generateBlock(this.body)} }`;
   },
 });

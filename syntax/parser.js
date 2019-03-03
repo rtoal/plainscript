@@ -21,7 +21,6 @@ const BreakStatement = require('../ast/break-statement');
 const ReturnStatement = require('../ast/return-statement');
 const IfStatement = require('../ast/if-statement');
 const WhileStatement = require('../ast/while-statement');
-const CallStatement = require('../ast/call-statement');
 const FunctionDeclaration = require('../ast/function-declaration');
 const ListExpression = require('../ast/list-expression');
 const BinaryExpression = require('../ast/binary-expression');
@@ -73,9 +72,6 @@ const astGenerator = grammar.createSemantics().addOperation('ast', {
   },
   SimpleStmt_return(_, e) {
     return new ReturnStatement(arrayToNullable(e.ast()));
-  },
-  SimpleStmt_call(c) {
-    return new CallStatement(c.ast());
   },
   Suite_small(_1, statement, _2) {
     return [statement.ast()];

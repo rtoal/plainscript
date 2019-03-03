@@ -27,26 +27,22 @@
       }
     },
     {
-      "call": {
-        "callee": {"id": "print"},
-        "args": [
-          {
-            "id": null,
-            "expression": {"callee": {"id": "fib"}, "args": [{"id": null, "expression": {"value": 5}}]}
-          }
-        ]
-      }
+      "callee": {"id": "print"},
+      "args": [
+        {
+          "id": null,
+          "expression": {"callee": {"id": "fib"}, "args": [{"id": null, "expression": {"value": 5}}]}
+        }
+      ]
     },
     {
-      "call": {
-        "callee": {"id": "print"},
-        "args": [
-          {
-            "id": null,
-            "expression": {"callee": {"id": "fib"}, "args": [{"id": null, "expression": {"value": 10}}]}
-          }
-        ]
-      }
+      "callee": {"id": "print"},
+      "args": [
+        {
+          "id": null,
+          "expression": {"callee": {"id": "fib"}, "args": [{"id": null, "expression": {"value": 10}}]}
+        }
+      ]
     }
   ]
 }

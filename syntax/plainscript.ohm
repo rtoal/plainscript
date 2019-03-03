@@ -51,8 +51,8 @@ PlainScript {
   numlit      =  digit+ ("." digit+)? (("E" | "e") ("+" | "-")? digit+)?
   boollit     =  "true" | "false"
   strlit      = "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""
-  escape      = "\\" ("\\" | "\"" | "n")          -- simple
-              | "\\u{" hexDigit+ "}"              -- codepoint
+  escape      = "\\" ("\\" | "\"" | "n" | codepoint)
+  codepoint   = "u{" hexDigit+ "}"
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!=" | ">=" | ">"
   mulop       =  "*" | "/" | "%"
