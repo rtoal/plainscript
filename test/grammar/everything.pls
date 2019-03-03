@@ -1,6 +1,6 @@
 # The purpose of this example program is to just throw every syntactic
 # construct of the language in one file. One can write a test that checks
-# that this file can be matched agains the grammar, but as it is a kitchen
+# that this file can be matched against the grammar, but as it is a kitchen
 # sink of features, we probably don't need to use this file as a source of
 # AST generation tests.
 
@@ -32,3 +32,5 @@ if false:
 elif p:
   dog()
 elif z/zz/z/z/z: print(dog())
+
+_y = [8.03e-22, "\n\"\\\u{1f4a9}"]
