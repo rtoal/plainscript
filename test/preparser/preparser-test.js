@@ -8,7 +8,6 @@
  */
 
 const fs = require('fs');
-const assert = require('assert');
 const withIndentsAndDedents = require('../../syntax/preparser');
 
 describe('The pre-parser', () => {
@@ -19,18 +18,18 @@ describe('The pre-parser', () => {
   // their expectations.
   fs.readdirSync(__dirname).forEach((name) => {
     if (name.endsWith('.pls')) {
-      it(`produces the correct indent/dedent markup for ${name}`, (done) => {
+      test(`produces the correct indent/dedent markup for ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
           fs.readFile(`${__dirname}/${name}.expected`, 'utf-8', (_err, expected) => {
-            assert.equal(withIndentsAndDedents(input), expected);
+            expect(withIndentsAndDedents(input)).toEqual(expected);
             done();
           });
         });
       });
     } else if (name.endsWith('.indent-error')) {
-      it(`detects indentation errors in ${name}`, (done) => {
+      test(`detects indentation errors in ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
-          assert.throws(() => withIndentsAndDedents(input), /Indent Error/);
+          expect(() => withIndentsAndDedents(input)).toThrow(/Indent Error/);
           done();
         });
       });
@@ -40,28 +39,28 @@ describe('The pre-parser', () => {
   // Here's a test to make sure we can tolerate files that don't end with
   // newline characters. These aren't kept in files because some text editor
   // configurations automatically add the newlines.
-  it('handles files that do not end with newlines', (done) => {
+  test('handles files that do not end with newlines', (done) => {
     const input = 'def f():\n  return 0';
-    assert.equal(withIndentsAndDedents(input), 'def f():\n⇨return 0\n⇦\n');
+    expect(withIndentsAndDedents(input)).toEqual('def f():\n⇨return 0\n⇦\n');
     done();
   });
 
   // To check whitespace errors, we are NOT going to read files. This is because
   // some text editor configurations (e.g., the ones I use) will turn tabs into
   // spaces on save. We're just going to embed the test program here.
-  it('detects leading tab characters and says they are bad', (done) => {
+  test('detects leading tab characters and says they are bad', (done) => {
     const input = 'def f():\n\treturn 0\n';
-    assert.throws(() => withIndentsAndDedents(input), /Illegal whitespace.*?\{9\}/);
+    expect(() => withIndentsAndDedents(input)).toThrow(/Illegal whitespace.*?\{9\}/);
     done();
   });
-  it('detects tab characters after spaces and says they are bad', (done) => {
+  test('detects tab characters after spaces and says they are bad', (done) => {
     const input = 'def f():\n   \treturn 0\n';
-    assert.throws(() => withIndentsAndDedents(input), /Illegal whitespace.*?\{9\}/);
+    expect(() => withIndentsAndDedents(input)).toThrow(/Illegal whitespace.*?\{9\}/);
     done();
   });
-  it('detects non-breaking spaces and says they are bad', (done) => {
+  test('detects non-breaking spaces and says they are bad', (done) => {
     const input = 'def f():\n\xA0return 0';
-    assert.throws(() => withIndentsAndDedents(input), /Illegal whitespace.*?\{a0\}/);
+    expect(() => withIndentsAndDedents(input)).toThrow(/Illegal whitespace.*?\{a0\}/);
     done();
   });
 });
