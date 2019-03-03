@@ -10,14 +10,14 @@
     "test": "jest test/**/*test.js"
   },
   "dependencies": {
-    "yargs": "^10.1.1"
+    "yargs": "^10.1.1",
+    "ohm-js": "^0.14.0"
   },
   "devDependencies": {
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "jest": "^22.1.4",
-    "ohm-js": "^0.14.0",
     "pretty-js": "^0.2.0"
   }
 }
