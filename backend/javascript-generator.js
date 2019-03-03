@@ -133,9 +133,9 @@ Object.assign(IdentifierExpression.prototype, {
 
 Object.assign(IfStatement.prototype, {
   gen() {
-    const cases = this.cases.map((c, index) => {
+    const cases = this.tests.map((test, index) => {
       const prefix = index === 0 ? 'if' : '} else if';
-      return `${prefix} (${c.test.gen()}) {${c.body.map(s => s.gen()).join('')}`;
+      return `${prefix} (${test.gen()}) {${this.consequents[index].map(s => s.gen()).join('')}`;
     });
     const alternate = this.alternate ? `}else{${this.alternate.map(s => s.gen()).join('')}` : '';
     return `${cases.join('')}${alternate}}`;
