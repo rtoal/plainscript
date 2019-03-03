@@ -1,0 +1,24 @@
+Program {
+  statements:
+   [ FunctionDeclaration {
+       id: 'grade',
+       function:
+        FunctionObject {
+          id: 'grade',
+          params: [ Parameter { id: 'score', defaultExpression: null } ],
+          body:
+           [ IfStatement {
+               tests:
+                [ BinaryExpression {
+                    op: '>=',
+                    left: IdentifierExpression { id: 'score' },
+                    right: NumericLiteral { value: 90 } },
+                  BinaryExpression {
+                    op: '>=',
+                    left: IdentifierExpression { id: 'score' },
+                    right: NumericLiteral { value: 80 } } ],
+               consequents:
+                [ [ ReturnStatement { returnValue: StringLiteral { value: '"A"' } } ],
+                  [ ReturnStatement { returnValue: StringLiteral { value: '"B"' } } ] ],
+               alternate:
+                [ ReturnStatement { returnValue: StringLiteral { value: '"C"' } } ] } ] } } ] }
