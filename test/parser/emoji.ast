@@ -1,0 +1,5 @@
+Program {
+  statements:
+   [ AssignmentStatement {
+       targets: [ IdentifierExpression { id: 's' } ],
+       sources: [ StringLiteral { value: '"😎😰🏈🇨🙆🏼‍♀️🇦"' } ] } ] }
