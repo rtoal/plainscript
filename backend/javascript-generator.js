@@ -61,7 +61,7 @@ const jsName = (() => {
 // but when writing out JavaScript it seems silly to write `[x] = [y]` when
 // `x = y` suffices.
 function bracketIfNecessary(a) {
-  return (a.length === 1) ? `${a}` : `[${a.join(', ')}]`;
+  return (a.length === 1) ? `${a}` : `[${a.join(',')}]`;
 }
 
 function generateLibraryFunctions() {
@@ -110,7 +110,7 @@ Object.assign(Call.prototype, {
     const args = Array(this.args.length).fill(undefined);
     fun.params.forEach((p, i) => { params[p.id] = i; });
     this.args.forEach((a, i) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
-    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(', ')})`;
+    return `${jsName(fun)}(${args.map(a => (a ? a.gen() : 'undefined')).join(',')})`;
   },
 });
 
@@ -120,7 +120,7 @@ Object.assign(FunctionDeclaration.prototype, {
 
 Object.assign(FunctionObject.prototype, {
   gen() {
-    return `function ${jsName(this)}(${this.params.map(p => p.gen()).join(', ')}) {
+    return `function ${jsName(this)}(${this.params.map(p => p.gen()).join(',')}) {
       ${generateBlock(this.body)}
     }`;
   },
@@ -144,7 +144,7 @@ Object.assign(IfStatement.prototype, {
 Object.assign(ListExpression.prototype, {
   gen() {
     const jsMembers = this.members.map(member => member.gen());
-    return `[${jsMembers.join(', ')}]`;
+    return `[${jsMembers.join(',')}]`;
   },
 });
 
