@@ -9,9 +9,6 @@
   "scripts": {
     "test": "jest test/**/*test.js"
   },
-  "jest": {
-    "transform": {}
-  },
   "dependencies": {
     "yargs": "^10.1.1"
   },
