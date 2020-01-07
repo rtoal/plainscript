@@ -7,7 +7,7 @@
   "author": "Ray Toal <rtoal@lmu.edu>",
   "license": "MIT",
   "scripts": {
-    "test": "jest test/**/*test.js"
+    "test": "jest"
   },
   "dependencies": {
     "yargs": "^10.1.1",
