@@ -1,22 +1,27 @@
-const BooleanLiteral = require('./boolean-literal');
-const NumericLiteral = require('./numeric-literal');
 
-module.exports = class UnaryExpression {
-  constructor(op, operand) {
-    Object.assign(this, { op, operand });
-  }
+import Context from '../semantics/context';
+import { Expression, IAstNode, Literal } from '../type-definitions/ast';
+import BooleanLiteral from './boolean-literal';
+import NumericLiteral from './numeric-literal';
 
-  analyze(context) {
+export default class UnaryExpression implements IAstNode<UnaryExpression> {
+  constructor(public op: string, public operand: Expression) { }
+
+  public analyze(context: Context): void {
     this.operand.analyze(context);
   }
 
-  optimize() {
+  public optimize(): Literal | UnaryExpression {
     this.operand = this.operand.optimize();
     if (this.op === 'not' && this.operand instanceof BooleanLiteral) {
-      return BooleanLiteral(!this.operand.value);
+      return new BooleanLiteral(!this.operand.value);
     } else if (this.op === '-' && this.operand instanceof NumericLiteral) {
       return new NumericLiteral(-this.operand.value);
     }
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

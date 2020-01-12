@@ -1,14 +1,19 @@
-module.exports = class ListExpression {
-  constructor(members) {
-    this.members = members;
+import Context from '../semantics/context';
+import { Entity, IAstNode } from '../type-definitions/ast';
+
+export default class ListExpression implements IAstNode<ListExpression> {
+  constructor(public members: Entity[]) { }
+
+  public analyze(context: Context): void {
+    this.members.forEach((member: Entity) => member.analyze(context));
   }
 
-  analyze(context) {
-    this.members.forEach(member => member.analyze(context));
-  }
-
-  optimize() {
-    this.members = this.members.map(member => member.optimize());
+  public optimize(): ListExpression {
+    this.members = this.members.map((member) => member.optimize());
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

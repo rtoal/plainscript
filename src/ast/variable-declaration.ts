@@ -1,31 +1,32 @@
-const Variable = require('./variable');
+import Context from '../semantics/context';
+import { Expression, IAstNode } from '../type-definitions/ast';
+import Variable from './variable';
 
-// A VariableDeclaration declares one or more variables. The variable objects
-// will be created during semantic analysis.
-module.exports = class VariableDeclaration {
-  // During syntax analysis (parsing), all we do is collect the variable names.
-  // We will make the variable objects later, because we have to add them to a
-  // semantic analysis context.
-  constructor(ids, initializers) {
-    Object.assign(this, { ids, initializers });
-  }
+export default class VariableDeclaration implements IAstNode<VariableDeclaration> {
+  // Gets assigned in the analyze method
+  // so we put a bang here to calm the
+  // compiler down.
+  public variables!: Variable[];
+  constructor(public ids: string[], public initializers: Expression[]) { }
 
-  analyze(context) {
+  public analyze(context: Context): void {
     if (this.ids.length !== this.initializers.length) {
       throw new Error('Number of variables does not equal number of initializers');
     }
-
     // We don't want the declared variables to come into scope until after the
     // declaration line, so we will analyze all the initializing expressions
     // first.
-    this.initializers.forEach(e => e.analyze(context));
-
+    this.initializers.forEach((e: Expression) => e.analyze(context));
     // Now we can create actual variable objects and add to the current context.
-    this.variables = this.ids.map(id => new Variable(id));
-    this.variables.forEach(variable => context.add(variable));
+    this.variables = this.ids.map((id: string) => new Variable(id));
+    this.variables.forEach((variable: Variable) => context.add(variable));
   }
 
-  optimize() {
+  public optimize(): VariableDeclaration {
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

@@ -1,16 +1,22 @@
-module.exports = class SubscriptedExpression {
-  constructor(variable, subscript) {
-    Object.assign(this, { variable, subscript });
-  }
+import Context from '../semantics/context';
+import { Expression, IAstNode } from '../type-definitions/ast';
+import Variable from './variable';
 
-  analyze(context) {
+export default class SubscriptedExpression implements IAstNode<SubscriptedExpression> {
+  constructor(public variable: Variable, public subscript: Expression) { }
+
+  public analyze(context: Context): void {
     this.variable.analyze(context);
     this.subscript.analyze(context);
   }
 
-  optimize() {
+  public optimize(): SubscriptedExpression {
     this.variable = this.variable.optimize();
     this.subscript = this.subscript.optimize();
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

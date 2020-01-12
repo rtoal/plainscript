@@ -1,17 +1,21 @@
-const Context = require('../semantics/context');
+import Context from '../semantics/context';
+import { IAstNode, Statement } from '../type-definitions/ast';
 
-module.exports = class Program {
-  constructor(statements) {
-    this.statements = statements;
-  }
+export default class Program implements IAstNode<Program> {
+  constructor(public statements: Statement[]) { }
 
-  analyze() {
+  public analyze(): void {
     const context = new Context({ parent: Context.INITIAL });
-    this.statements.forEach(s => s.analyze(context));
+    this.statements.forEach((s: Statement) => s.analyze(context));
   }
 
-  optimize() {
-    this.statements.map(s => s.optimize()).filter(s => s !== null);
+  public optimize(): Program {
+    this.statements.map((s: Statement) => s.optimize())
+      .filter((s) => s !== null);
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}
