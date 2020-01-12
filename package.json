@@ -21,7 +21,11 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "jest": "^24.9.0",
+    "ts-jest": "^24.3.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.4"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }
