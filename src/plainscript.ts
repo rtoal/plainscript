@@ -23,32 +23,38 @@
  * built into Node.js.
  */
 
-const fs = require('fs');
-const util = require('util');
-const yargs = require('yargs');
-const parse = require('./syntax/parser');
-require('./backend/javascript-generator');
+import * as fs from 'fs';
+import * as util from 'util';
+import * as yargs from 'yargs';
+import './backend/javascript-generator';
+import parse from './syntax/parser';
 
+interface ICompileOptions {
+  astOnly?: boolean;
+  frontEndOnly?: boolean;
+  shouldOptimize?: boolean;
+}
 // If compiling from a string, return the AST, IR, or compiled code as a string.
-function compile(sourceCode, { astOnly, frontEndOnly, shouldOptimize }) {
-  let program = parse(sourceCode);
+export function compile(sourceCode: string, { astOnly, frontEndOnly, shouldOptimize }: ICompileOptions) {
+  const program = parse(sourceCode);
   if (astOnly) {
     return util.inspect(program, { depth: null });
   }
   program.analyze();
-  if (shouldOptimize) {
-    program = program.optimize();
-  }
   if (frontEndOnly) {
     return util.inspect(program, { depth: null });
+  }
+  if (shouldOptimize) {
+    return program.optimize().gen();
   }
   return program.gen();
 }
 
 // If compiling from a file, write to standard output.
-function compileFile(filename, options) {
+export function compileFile(filename: string, options: ICompileOptions) {
   fs.readFile(filename, 'utf-8', (error, sourceCode) => {
     if (error) {
+      // tslint:disable-next-line: no-console
       console.error(error);
       return;
     }
