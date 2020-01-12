@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const { spawn } = require('child_process');
-const { compile } = require('../../plainscript');
+const { compile } = require('../../src/plainscript');
 
 describe('The code generator', () => {
   fs.readdirSync(__dirname).forEach((name) => {

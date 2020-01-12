@@ -34,7 +34,7 @@ const BooleanLiteral = require('../ast/boolean-literal');
 const NumericLiteral = require('../ast/numeric-literal');
 const StringLiteral = require('../ast/string-literal');
 
-const grammar = ohm.grammar(fs.readFileSync('./syntax/plainscript.ohm'));
+const grammar = ohm.grammar(fs.readFileSync('src/syntax/plainscript.ohm'));
 
 // Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function arrayToNullable(a) {
