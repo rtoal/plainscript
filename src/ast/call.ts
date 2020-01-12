@@ -1,27 +1,37 @@
-module.exports = class Call {
-  constructor(callee, args) {
-    Object.assign(this, { callee, args });
-  }
+import Context from '../semantics/context';
+import { Entity, IAstNode } from '../type-definitions/ast';
+import Argument from './argument';
 
-  analyze(context) {
+export default class Call implements IAstNode<Call> {
+  constructor(public callee: Entity, public args: Argument[]) { }
+
+  public analyze(context: Context): void {
     this.callee.analyze(context);
     context.assertIsFunction(this.callee.referent);
     this.checkArgumentMatching(this.callee.referent);
-    this.args.forEach(arg => arg.analyze(context));
+    this.args.forEach((arg: any) => arg.analyze(context));
   }
 
-  checkArgumentMatching(callee) {
+  public optimize(): Call {
+    this.callee = this.callee.optimize();
+    this.args.forEach((arg: any) => arg.optimize());
+    return this;
+  }
+
+  public checkArgumentMatching(callee: any) {
+    const matchedParameterNames: Set<string> = new Set([]);
     let keywordArgumentSeen = false;
-    const matchedParameterNames = new Set([]);
-    this.args.forEach((arg, index) => {
+    this.args.forEach((arg: any, index: number) => {
       if (index >= callee.params.length) {
         throw new Error('Too many arguments in call');
       }
+
       if (arg.isKeywordArgument) {
         keywordArgumentSeen = true;
       } else if (keywordArgumentSeen) {
         throw new Error('Positional argument in call after keyword argument');
       }
+
       const parameterName = arg.id ? arg.id : callee.params[index].id;
       if (!callee.allParameterNames.has(parameterName)) {
         throw new Error(`Function does not have a parameter called ${parameterName}`);
@@ -31,17 +41,15 @@ module.exports = class Call {
       }
       matchedParameterNames.add(parameterName);
     });
-
-    // Look for and report a required parameter that is not matched
-    const miss = [...callee.requiredParameterNames].find(name => !matchedParameterNames.has(name));
+    // Look for and report a required parameter that is not matched.
+    const miss: boolean = callee.requiredParameterNames.slice()
+      .find((name: string) => !matchedParameterNames.has(name));
     if (miss) {
-      throw new Error(`Required parameter ${miss} is not matched in call`);
+      throw new Error(`Required parameter ${miss}  is not matched in call`);
     }
   }
 
-  optimize() {
-    this.callee = this.callee.optimize();
-    this.args.forEach(arg => arg.optimize());
-    return this;
-  }
-};
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

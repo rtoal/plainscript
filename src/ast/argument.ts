@@ -1,24 +1,39 @@
-module.exports = class Argument {
-  constructor(id, expression) {
-    Object.assign(this, { id, expression });
-  }
+import Context from '../semantics/context';
+import { Expression, IAstNode } from '../type-definitions/ast';
 
-  get isPositionalArgument() {
-    // positional arguments are the ones without ids
+export default class Argument implements IAstNode<Argument> {
+  constructor(public id: string, public expression: Expression) { }
+
+  public get isPositionalArgument() {
     return !this.id;
   }
 
-  get isKeywordArgument() {
-    // keyword arguments have ids
+  public get isKeywordArgument() {
+    // The !! coerces all values into corresponding
+    // truthy or falesy, even some null-like
+    // values.
+    //
+    // Ex:
+    // !!null => false
+    // !!undefined => false
+    //
+    // Whereas a single ! would only
+    // inverse the property,
+    // !null => true
+    // etc.
     return !!this.id;
   }
 
-  analyze(context) {
+  public analyze(context: Context) {
     this.expression.analyze(context);
   }
 
-  optimize() {
+  public optimize() {
     this.expression = this.expression.optimize();
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

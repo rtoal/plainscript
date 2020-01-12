@@ -1,17 +1,22 @@
-module.exports = class BinaryExpression {
-  constructor(op, left, right) {
-    Object.assign(this, { op, left, right });
-  }
+import Context from '../semantics/context';
+import { IAstNode } from '../type-definitions/ast';
 
-  analyze(context) {
+export default class BinaryExpression implements IAstNode<BinaryExpression> {
+  constructor(public left: any, public op: any, public right: any) { }
+
+  public analyze(context: Context): void {
     this.left.analyze(context);
     this.right.analyze(context);
   }
 
-  optimize() {
+  public optimize(): BinaryExpression {
     this.left = this.left.optimize();
     this.right = this.right.optimize();
     // Suggested: Constant folding and strength reductions. There are many.
     return this;
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}

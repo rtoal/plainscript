@@ -1,16 +1,24 @@
-const FunctionObject = require('./function-object');
-
+import Context from '../semantics/context';
+import { Body, IAstNode, Parameter } from '../type-definitions/ast';
+import FunctionObject from './function-object';
 // A function declaration binds a function object to a name.
-module.exports = class FunctionDeclaration {
-  constructor(id, params, body) {
-    this.id = id;
-    this.function = new FunctionObject(id, params, body);
+export default class FunctionDeclaration implements IAstNode<FunctionDeclaration> {
+  public declaredFunction: FunctionObject;
+
+  constructor(
+    public id: string,
+    public params: Parameter,
+    public body: Body,
+  ) {
+    this.declaredFunction = new FunctionObject(id, params, body);
   }
 
-  analyze(context) {
-    // First put the function in the current context, then analyze it in
-    // a new child context.
-    context.add(this.function);
-    this.function.analyze(context.createChildContextForFunctionBody(this));
+  public analyze(context: Context) {
+    context.add(this.declaredFunction);
+    this.declaredFunction.analyze(context.createChildContextForFunctionBody(this));
   }
-};
+
+  // Depends on the target language, thus gets filled in
+  // by the necessary generator at runtime.
+  public gen() { }
+}
