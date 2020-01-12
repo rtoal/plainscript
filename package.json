@@ -15,9 +15,11 @@
     "pretty-js": "^0.2.0"
   },
   "devDependencies": {
+    "@types/node": "^13.1.6",
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "typescript": "^3.7.4"
   }
 }
