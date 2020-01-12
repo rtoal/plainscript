@@ -5,9 +5,9 @@
  * variety of programs.
  */
 
-const util = require('util');
-const fs = require('fs');
-const parse = require('../../src/syntax/parser');
+import fs from 'fs';
+import util from 'util';
+import parse from '../../src/syntax/parser';
 
 describe('The parser', () => {
   fs.readdirSync(__dirname).forEach((name) => {

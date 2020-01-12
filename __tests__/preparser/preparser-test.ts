@@ -7,8 +7,8 @@
  * character (\u{20}).
  */
 
-const fs = require('fs');
-const withIndentsAndDedents = require('../../src/syntax/preparser');
+import fs from 'fs';
+import withIndentsAndDedents from '../../src/syntax/preparser';
 
 describe('The pre-parser', () => {
   // When testing that the preprocessor works as intended, we scan a bunch of
@@ -20,7 +20,7 @@ describe('The pre-parser', () => {
     if (name.endsWith('.pls')) {
       test(`produces the correct indent/dedent markup for ${name}`, (done) => {
         fs.readFile(`${__dirname}/${name}`, 'utf-8', (err, input) => {
-          fs.readFile(`${__dirname}/${name}.expected`, 'utf-8', (_err, expected) => {
+          fs.readFile(`${__dirname}/${name}.expected`, 'utf-8', (_, expected) => {
             expect(withIndentsAndDedents(input)).toEqual(expected);
             done();
           });

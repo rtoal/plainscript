@@ -4,9 +4,9 @@
  * Tests that the generated target code, when run, produces the expected output.
  */
 
-const fs = require('fs');
-const { spawn } = require('child_process');
-const { compile } = require('../../src/plainscript');
+import { spawn } from 'child_process';
+import fs from 'fs';
+import { compile } from '../../src/plainscript';
 
 describe('The code generator', () => {
   fs.readdirSync(__dirname).forEach((name) => {
@@ -18,7 +18,7 @@ describe('The code generator', () => {
           let output = '';
           child.stdout.on('data', (data) => { output += data; });
           child.on('close', () => {
-            fs.readFile(`${__dirname}/${name}.expected`, 'utf-8', (_err, expected) => {
+            fs.readFile(`${__dirname}/${name}.expected`, 'utf-8', (_, expected) => {
               expect(output).toEqual(expected);
               done();
             });

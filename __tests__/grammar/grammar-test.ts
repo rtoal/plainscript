@@ -6,8 +6,8 @@
  * those that we expect not to cause an error to be thrown.
  */
 
-const fs = require('fs');
-const parse = require('../../src/syntax/parser');
+import fs from 'fs';
+import parse from '../../src/syntax/parser';
 
 describe('The grammar', () => {
   fs.readdirSync(__dirname).forEach((name) => {
