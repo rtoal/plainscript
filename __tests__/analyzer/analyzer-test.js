@@ -7,7 +7,7 @@
  */
 
 const fs = require('fs');
-const parse = require('../../syntax/parser');
+const parse = require('../../src/syntax/parser');
 
 describe('The semantic analyzer', () => {
   fs.readdirSync(__dirname).forEach((name) => {
