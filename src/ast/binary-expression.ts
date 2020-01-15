@@ -2,7 +2,7 @@ import Context from '../semantics/context';
 import { IAstNode } from '../type-definitions/ast';
 
 export default class BinaryExpression implements IAstNode<BinaryExpression> {
-  constructor(public left: any, public op: any, public right: any) { }
+  constructor(public op: any, public left: any, public right: any) { }
 
   public analyze(context: Context): void {
     this.left.analyze(context);
