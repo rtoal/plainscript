@@ -11,7 +11,7 @@
  *   program.gen();
  */
 
-import prettyJs from 'pretty-js';
+import { prettyJs } from 'pretty-js';
 
 import Argument from '../ast/argument';
 import AssignmentStatement from '../ast/assignment-statement';
