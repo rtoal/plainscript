@@ -42,8 +42,7 @@ export default class Call implements IAstNode<Call> {
       matchedParameterNames.add(parameterName);
     });
     // Look for and report a required parameter that is not matched.
-    const miss: boolean = callee.requiredParameterNames.slice()
-      .find((name: string) => !matchedParameterNames.has(name));
+    const miss = [...callee.requiredParameterNames].find((name) => !matchedParameterNames.has(name));
     if (miss) {
       throw new Error(`Required parameter ${miss}  is not matched in call`);
     }
