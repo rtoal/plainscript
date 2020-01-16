@@ -20,6 +20,18 @@ print(sum_of_digits(n: 8835299))
 
 The language is described in some detail at the <a href="https://rtoal.github.io/plainscript/">language home page</a>.</p>
 
+## Using PlainScript
+
+Being written in <a href="https://rtoal.https://www.typescriptlang.org/.io/plainscript/">TypeScript</a> gives PlainScript a lot of neat type-safety features. But it also means running PlainScript requires building the source code to before being able to run PlainScript. Run one of the following commands depending on your preferred package manager:
+
+# Yarn
+`yarn && tsc`
+
+# npm
+`npm i && tsc`
+
+The compiled JavaScript is output to the `built` folder. You can now run `PlainScript.js` in this folder to run the compiler!
+
 ## A PlainScript Compiler
 
 This project hosts a simple compiler that reads a PlainScript program from a file, translates it to JavaScript, and outputs the JavaScript code to standard output. It supports three options, <tt>-a</tt> (to display the abstract syntax tree then stop), <tt>-i</tt> (to display the analyzed semantic graph then stop), and <tt>-o</tt> (to turn optimizations on). Given the PlainScript program:
@@ -32,7 +44,7 @@ if true:
 
 invoking the compiler with the <tt>-a</tt> option outputs the abstract syntax tree for the program to standard output:
 ```
-$ ./plainscript.js -a example.pls
+$ ./built/plainscript.js -a example.pls
 ```
 produces
 ```
@@ -63,7 +75,7 @@ Program {
 The <tt>-i</tt> flag does semantic analysis, and writes out the decorated abstract syntax tree. So
 
 ```
-$ ./plainscript.js example.pls -i
+$ ./built/plainscript.js example.pls -i
 ```
 
 produces
@@ -110,7 +122,7 @@ Program {
 Finally, here’s an example performing a full translation to JavaScript:
 
 ```
-$ ./plainscript.js example.pls
+$ ./built/plainscript.js example.pls
 function print_1(_) {console.log(_);}
 function sqrt_2(_) {return Math.sqrt(_);}
 let x_3 = (5 + 8);
