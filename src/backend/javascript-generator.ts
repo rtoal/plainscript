@@ -11,7 +11,7 @@
  *   program.gen();
  */
 
-import { prettyJs } from 'pretty-js';
+import jsBeautify = require('js-beautify');
 
 import Argument from '../ast/argument';
 import AssignmentStatement from '../ast/assignment-statement';
@@ -36,6 +36,8 @@ import VariableDeclaration from '../ast/variable-declaration';
 import WhileStatement from '../ast/while-statement';
 import Context from '../semantics/context';
 import { Entity, Statement } from '../type-definitions/ast';
+
+const indentLevel = 2;
 
 const opConversionDictionary: { [key: string]: string } = {
   '!=': '!==',
@@ -163,7 +165,7 @@ Program.prototype.gen = function(): string {
   const libraryFunctions = generateLibraryFunctions();
   const programStatements = generateBlock(this.statements);
   const target = `${libraryFunctions}${programStatements}`;
-  return prettyJs(target, { indent: '  ' });
+  return jsBeautify(target, { indent_size: indentLevel });
 };
 
 ReturnStatement.prototype.gen = function(): string {
