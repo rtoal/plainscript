@@ -122,7 +122,7 @@ Call.prototype.gen = function(): string {
 };
 
 FunctionDeclaration.prototype.gen = function(): string {
-  return this.declaredFunction.gen();
+  return this.function.gen();
 };
 
 FunctionObject.prototype.gen = function(): string {

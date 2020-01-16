@@ -3,19 +3,16 @@ import { Body, IAstNode, Parameter } from '../type-definitions/ast';
 import FunctionObject from './function-object';
 // A function declaration binds a function object to a name.
 export default class FunctionDeclaration implements IAstNode<FunctionDeclaration> {
-  public declaredFunction: FunctionObject;
+  public function: FunctionObject;
 
-  constructor(
-    public id: string,
-    public params: Parameter,
-    public body: Body,
-  ) {
-    this.declaredFunction = new FunctionObject(id, params, body);
+  constructor(public id: string, params: Parameter, body: Body) {
+    this.id = id;
+    this.function = new FunctionObject(this.id, params, body);
   }
 
   public analyze(context: Context) {
-    context.add(this.declaredFunction);
-    this.declaredFunction.analyze(context.createChildContextForFunctionBody(this));
+    context.add(this.function);
+    this.function.analyze(context.createChildContextForFunctionBody(this));
   }
 
   // Depends on the target language, thus gets filled in
