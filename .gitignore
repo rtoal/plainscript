@@ -43,3 +43,6 @@ jspm_packages
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+# Built source code
+./built
