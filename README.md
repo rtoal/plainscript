@@ -22,7 +22,7 @@ The language is described in some detail at the <a href="https://rtoal.github.io
 
 ## Using PlainScript
 
-Being written in <a href="https://rtoal.https://www.typescriptlang.org/.io/plainscript/">TypeScript</a> gives PlainScript a lot of neat type-safety features. But it also means running PlainScript requires building the source code to before being able to run PlainScript. Run one of the following commands depending on your preferred package manager:
+The PlainScript compiler is now written in <a href="https://rtoal.https://www.typescriptlang.org/.io/plainscript/">TypeScript</a>! This means running PlainScript requires building the source code before being able to run PlainScript. Clone the repository, and in its root directory run one of the following commands depending on your preferred package manager:
 
 # Yarn
 `yarn && tsc`
@@ -30,7 +30,7 @@ Being written in <a href="https://rtoal.https://www.typescriptlang.org/.io/plain
 # npm
 `npm i && tsc`
 
-The compiled JavaScript is output to the `built` folder. You can now run `PlainScript.js` in this folder to run the compiler!
+The compiled JavaScript is output to the `built` folder. You can now run `built/PlainScript.js` or `node built/PlainScript.js` run the compiler!
 
 ## A PlainScript Compiler
 
