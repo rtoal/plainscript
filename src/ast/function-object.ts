@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { Body, IAstNode, Parameter, Statement } from '../type-definitions/ast';
+import { Body, IAstNode, Parameter, Statement } from '../type-definitions/plainscript';
 
 export default class FunctionObject implements IAstNode<FunctionObject> {
   // we use the ! here to tell TypeScript it's

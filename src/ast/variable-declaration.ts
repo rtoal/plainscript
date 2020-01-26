@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { Expression, IAstNode } from '../type-definitions/ast';
+import { Expression, IAstNode } from '../type-definitions/plainscript';
 import Variable from './variable';
 
 export default class VariableDeclaration implements IAstNode<VariableDeclaration> {

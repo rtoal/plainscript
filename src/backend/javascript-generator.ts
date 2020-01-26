@@ -35,7 +35,7 @@ import Variable from '../ast/variable';
 import VariableDeclaration from '../ast/variable-declaration';
 import WhileStatement from '../ast/while-statement';
 import Context from '../semantics/context';
-import { Entity, Statement } from '../type-definitions/ast';
+import { Entity, Statement } from '../type-definitions/plainscript';
 
 const indentLevel = 2;
 
@@ -108,6 +108,7 @@ BooleanLiteral.prototype.gen = function(): string {
   return `${this.value}`;
 };
 
+// tslint:disable-next-line: only-arrow-functions
 BreakStatement.prototype.gen = function(): string {
   return 'break';
 };

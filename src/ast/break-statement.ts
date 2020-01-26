@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/ast';
+import { IAstNode } from '../type-definitions/plainscript';
 
 export default class BreakStatement implements IAstNode<BreakStatement> {
   // no constructor on purpose.

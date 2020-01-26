@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/ast';
+import { IAstNode } from '../type-definitions/plainscript';
 
 export default class ReturnStatement implements IAstNode<ReturnStatement> {
   constructor(public returnValue: any) { }

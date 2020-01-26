@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode, Statement } from '../type-definitions/ast';
+import { IAstNode, Statement } from '../type-definitions/plainscript';
 
 export default class Program implements IAstNode<Program> {
   constructor(public statements: Statement[]) { }

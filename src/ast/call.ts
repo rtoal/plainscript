@@ -1,9 +1,10 @@
 import Context from '../semantics/context';
-import { Entity, IAstNode } from '../type-definitions/ast';
+import { IAstNode } from '../type-definitions/plainscript';
 import Argument from './argument';
+import IdentifierExpression from './identifier-expression';
 
 export default class Call implements IAstNode<Call> {
-  constructor(public callee: Entity, public args: Argument[]) { }
+  constructor(public callee: IdentifierExpression, public args: Argument[]) { }
 
   public analyze(context: Context): void {
     this.callee.analyze(context);
