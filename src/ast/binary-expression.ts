@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { AstNode } from '../type-definitions/plainscript-types';
+import { AstNode, Expression } from '../type-definitions/plainscript-types';
 
 export default class BinaryExpression extends AstNode<BinaryExpression> {
-  constructor(public op: any, public left: any, public right: any) { super(); }
+  constructor(public op: string, public left: Expression, public right: Expression) { super(); }
 
   public analyze(context: Context): void {
     this.left.analyze(context);

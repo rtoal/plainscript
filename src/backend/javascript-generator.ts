@@ -95,8 +95,8 @@ Argument.prototype.gen = function(): string | void {
 };
 
 AssignmentStatement.prototype.gen = function(): string {
-  const targets = this.targets.map((t: any) => t.gen());
-  const sources = this.sources.map((s: any) => s.gen());
+  const targets = this.targets.map((t) => t.gen());
+  const sources = this.sources.map((s) => s.gen());
   return `${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)}`;
 };
 

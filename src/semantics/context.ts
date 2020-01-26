@@ -15,13 +15,13 @@ import { Referent } from '../type-definitions/plainscript-types';
 
 interface IContextSchema {
     parent?: Context | null;
-    currentFunction?: any;
+    currentFunction?: FunctionObject | null;
     inLoop?: boolean;
 }
 
 export default class Context {
     public static INITIAL = new Context();
-    public declarations: any = {};
+    public declarations: {[key: string]: Referent} = {};
     public inLoop: boolean;
 
     private parent: Context | null;
@@ -36,7 +36,7 @@ export default class Context {
         this.inLoop = inLoop;
     }
 
-    public createChildContextForFunctionBody(currentFunction: any): Context {
+    public createChildContextForFunctionBody(currentFunction: FunctionObject | null): Context {
         // When entering a new function, we're not in a loop anymore
         return new Context({ parent: this, currentFunction, inLoop: false });
     }
