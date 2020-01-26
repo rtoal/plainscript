@@ -36,13 +36,13 @@ export default class FunctionObject extends AstNode<FunctionObject> {
     // variable with the same name as the function inside the function, you'll
     // shadow it, which would probably be not a good idea.
     if (this.body) {
-      this.body.forEach((s: Statement) => s.analyze(context));
+      this.body.forEach((s) => s.analyze(context));
     }
   }
 
   public optimize(): FunctionObject {
-    this.params.forEach((p: Parameter) => p.optimize());
-    this.body.forEach((s: Statement) => s.optimize());
+    this.params.forEach((p) => p.optimize());
+    this.body.forEach((s) => s.optimize());
     this.body = this.body.filter((s: Statement) => s !== null);
     // Suggested: Look for returns in the middle of the body
     return this;

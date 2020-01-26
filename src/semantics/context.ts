@@ -15,7 +15,7 @@ import { Referent } from '../type-definitions/plainscript-types';
 
 interface IContextSchema {
     parent?: Context | null;
-    currentFunction?: FunctionObject | null;
+    currentFunction?: FunctionDeclaration | null;
     inLoop?: boolean;
 }
 
@@ -25,7 +25,7 @@ export default class Context {
     public inLoop: boolean;
 
     private parent: Context | null;
-    private currentFunction: FunctionObject | null;
+    private currentFunction: FunctionDeclaration | null;
 
     // An interface is needed here to preserve the ability to destructure parameters passed into
     // the constructor. Alternatively, we *could* have tried named parameters, but TS does not
@@ -36,7 +36,7 @@ export default class Context {
         this.inLoop = inLoop;
     }
 
-    public createChildContextForFunctionBody(currentFunction: FunctionObject | null): Context {
+    public createChildContextForFunctionBody(currentFunction: FunctionDeclaration | null): Context {
         // When entering a new function, we're not in a loop anymore
         return new Context({ parent: this, currentFunction, inLoop: false });
     }
