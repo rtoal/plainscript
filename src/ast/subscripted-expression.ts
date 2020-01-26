@@ -1,9 +1,9 @@
 import Context from '../semantics/context';
-import { Expression, IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode, Expression } from '../type-definitions/plainscript-types';
 import Variable from './variable';
 
-export default class SubscriptedExpression implements IAstNode<SubscriptedExpression> {
-  constructor(public variable: Variable, public subscript: Expression) { }
+export default class SubscriptedExpression extends AstNode<SubscriptedExpression> {
+  constructor(public variable: Variable, public subscript: Expression) { super(); }
 
   public analyze(context: Context): void {
     this.variable.analyze(context);
@@ -15,8 +15,4 @@ export default class SubscriptedExpression implements IAstNode<SubscriptedExpres
     this.subscript = this.subscript.optimize();
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

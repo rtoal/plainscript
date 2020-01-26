@@ -1,13 +1,13 @@
 import Context from '../semantics/context';
-import { Expression, IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode, Expression } from '../type-definitions/plainscript-types';
 import Variable from './variable';
 
-export default class VariableDeclaration implements IAstNode<VariableDeclaration> {
+export default class VariableDeclaration extends AstNode<VariableDeclaration> {
   // Gets assigned in the analyze method
   // so we put a bang here to calm the
   // compiler down.
   public variables!: Variable[];
-  constructor(public ids: string[], public initializers: Expression[]) { }
+  constructor(public ids: string[], public initializers: Expression[]) { super(); }
 
   public analyze(context: Context): void {
     if (this.ids.length !== this.initializers.length) {
@@ -25,8 +25,4 @@ export default class VariableDeclaration implements IAstNode<VariableDeclaration
   public optimize(): VariableDeclaration {
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

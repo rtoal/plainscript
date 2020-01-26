@@ -1,8 +1,8 @@
 import Parameter from '../ast/parameter';
 import Context from '../semantics/context';
-import { Body, IAstNode, Statement } from '../type-definitions/plainscript-types';
+import { AstNode, Body, Statement } from '../type-definitions/plainscript-types';
 
-export default class FunctionObject implements IAstNode<FunctionObject> {
+export default class FunctionObject extends AstNode<FunctionObject> {
   // we use the ! here to tell TypeScript it's
   // ok that these are not initialized in the
   // constructor, as they get initialized in
@@ -10,11 +10,7 @@ export default class FunctionObject implements IAstNode<FunctionObject> {
   public requiredParameterNames!: Set<string>;
   public allParameterNames!: Set<string>;
 
-  constructor(
-    public id: string,
-    public params: Parameter[],
-    public body: Body,
-  ) { }
+  constructor( public id: string, public params: Parameter[], public body: Body) { super(); }
 
   public analyze(context: Context): void {
     // Each parameter will be declared in the function's scope, mixed in
@@ -51,8 +47,4 @@ export default class FunctionObject implements IAstNode<FunctionObject> {
     // Suggested: Look for returns in the middle of the body
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen(): any { }
 }

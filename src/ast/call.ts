@@ -1,10 +1,12 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 import Argument from './argument';
 import IdentifierExpression from './identifier-expression';
 
-export default class Call implements IAstNode<Call> {
-  constructor(public callee: IdentifierExpression, public args: Argument[]) { }
+export default class Call extends AstNode<Call> {
+  constructor(public callee: IdentifierExpression, public args: Argument[]) {
+    super();
+  }
 
   public analyze(context: Context): void {
     this.callee.analyze(context);
@@ -48,8 +50,4 @@ export default class Call implements IAstNode<Call> {
       throw new Error(`Required parameter ${miss}  is not matched in call`);
     }
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

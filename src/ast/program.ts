@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { IAstNode, Statement } from '../type-definitions/plainscript-types';
+import { AstNode, Statement } from '../type-definitions/plainscript-types';
 
-export default class Program implements IAstNode<Program> {
-  constructor(public statements: Statement[]) { }
+export default class Program extends AstNode<Program> {
+  constructor(public statements: Statement[]) { super(); }
 
   public analyze(): void {
     const context = new Context({ parent: Context.INITIAL });
@@ -14,8 +14,4 @@ export default class Program implements IAstNode<Program> {
       .filter((s) => s !== null);
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

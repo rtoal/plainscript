@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class ReturnStatement implements IAstNode<ReturnStatement> {
-  constructor(public returnValue: any) { }
+export default class ReturnStatement extends AstNode<ReturnStatement> {
+  constructor(public returnValue: any) { super(); }
 
   public analyze(context: Context): void {
     if (this.returnValue) {
@@ -17,8 +17,4 @@ export default class ReturnStatement implements IAstNode<ReturnStatement> {
     }
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

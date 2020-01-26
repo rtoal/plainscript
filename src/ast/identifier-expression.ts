@@ -1,11 +1,11 @@
 'use strict';
 
 import Context from '../semantics/context';
-import { IAstNode, Referent } from '../type-definitions/plainscript-types';
+import { AstNode, Referent } from '../type-definitions/plainscript-types';
 
-export default class IdentifierExpression implements IAstNode<IdentifierExpression> {
+export default class IdentifierExpression extends AstNode<IdentifierExpression> {
   public referent!: Referent;
-  constructor(public id: string) { }
+  constructor(public id: string) { super(); }
 
   // Whenever an expression is a simple identifer, it must refer to something
   // previously declared. Identifier expressions aren't the same things as

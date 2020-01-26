@@ -1,7 +1,7 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class BreakStatement implements IAstNode<BreakStatement> {
+export default class BreakStatement extends AstNode<BreakStatement> {
   // no constructor on purpose.
 
   public analyze(context: Context): void {
@@ -13,8 +13,4 @@ export default class BreakStatement implements IAstNode<BreakStatement> {
   public optimize(): BreakStatement {
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

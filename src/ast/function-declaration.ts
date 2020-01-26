@@ -1,13 +1,14 @@
 import Parameter from '../ast/parameter';
 import Context from '../semantics/context';
-import { Body, IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode, Body } from '../type-definitions/plainscript-types';
 import FunctionObject from './function-object';
 
 // A function declaration binds a function object to a name.
-export default class FunctionDeclaration implements IAstNode<FunctionDeclaration> {
+export default class FunctionDeclaration extends AstNode<FunctionDeclaration> {
   public function: FunctionObject;
 
   constructor(public id: string, params: Parameter[], body: Body) {
+    super();
     this.id = id;
     this.function = new FunctionObject(this.id, params, body);
   }
@@ -16,8 +17,4 @@ export default class FunctionDeclaration implements IAstNode<FunctionDeclaration
     context.add(this.function);
     this.function.analyze(context.createChildContextForFunctionBody(this));
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class Variable implements IAstNode<Variable> {
-  constructor(public id: string) { }
+export default class Variable extends AstNode<Variable> {
+  constructor(public id: string) { super(); }
 
   // Left empty on purpose
   public analyze(_: Context) {
@@ -12,8 +12,4 @@ export default class Variable implements IAstNode<Variable> {
   public optimize(): Variable {
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

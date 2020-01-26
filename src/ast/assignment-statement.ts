@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class AssignmentStatement implements IAstNode<AssignmentStatement> {
-  constructor(public targets: any[], public sources: any[]) { }
+export default class AssignmentStatement extends AstNode<AssignmentStatement> {
+  constructor(public targets: any[], public sources: any[]) { super(); }
 
   public analyze(context: Context): void {
     if (this.targets.length !== this.sources.length) {
@@ -15,8 +15,4 @@ export default class AssignmentStatement implements IAstNode<AssignmentStatement
   public optimize(): AssignmentStatement {
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

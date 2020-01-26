@@ -1,11 +1,11 @@
 
 import Context from '../semantics/context';
-import { Expression, IAstNode, Literal } from '../type-definitions/plainscript-types';
+import { AstNode, Expression, Literal } from '../type-definitions/plainscript-types';
 import BooleanLiteral from './boolean-literal';
 import NumericLiteral from './numeric-literal';
 
-export default class UnaryExpression implements IAstNode<UnaryExpression> {
-  constructor(public op: string, public operand: Expression) { }
+export default class UnaryExpression extends AstNode<UnaryExpression> {
+  constructor(public op: string, public operand: Expression) { super(); }
 
   public analyze(context: Context): void {
     this.operand.analyze(context);
@@ -20,8 +20,4 @@ export default class UnaryExpression implements IAstNode<UnaryExpression> {
     }
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

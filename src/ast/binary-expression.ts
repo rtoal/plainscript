@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class BinaryExpression implements IAstNode<BinaryExpression> {
-  constructor(public op: any, public left: any, public right: any) { }
+export default class BinaryExpression extends AstNode<BinaryExpression> {
+  constructor(public op: any, public left: any, public right: any) { super(); }
 
   public analyze(context: Context): void {
     this.left.analyze(context);
@@ -15,8 +15,4 @@ export default class BinaryExpression implements IAstNode<BinaryExpression> {
     // Suggested: Constant folding and strength reductions. There are many.
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

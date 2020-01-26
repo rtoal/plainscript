@@ -1,9 +1,9 @@
 import Context from '../semantics/context';
-import { IAstNode, Statement } from '../type-definitions/plainscript-types';
+import { AstNode, Statement } from '../type-definitions/plainscript-types';
 import BooleanLiteral from './boolean-literal';
 
-export default class WhileStatement implements IAstNode<WhileStatement> {
-  constructor(public test: BooleanLiteral, public body: Statement[]) { }
+export default class WhileStatement extends AstNode<WhileStatement> {
+  constructor(public test: BooleanLiteral, public body: Statement[]) { super(); }
 
   public analyze(context: Context) {
     this.test.analyze(context);
@@ -20,8 +20,4 @@ export default class WhileStatement implements IAstNode<WhileStatement> {
     // Suggested: Look for returns/breaks in the middle of the body
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

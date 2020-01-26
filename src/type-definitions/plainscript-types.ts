@@ -33,8 +33,14 @@ export type Statement = AssignmentStatement | BreakStatement | ReturnStatement |
 
 export type Body = Statement[];
 
+export class AstNode<T> {
+    public analyze?(context?: Context): void;
+    public optimize(): T | Literal | void | null;
+    public optimize(): any {
+        return this;
+    }
 
-export interface IAstNode<T> {
-    analyze(context?: Context): void;
-    optimize?(): T | Literal | void | null;
+    // Depends on the target language, thus gets filled in
+    // by the necessary generator at runtime.
+    public gen(): any {}
 }

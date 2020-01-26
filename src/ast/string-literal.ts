@@ -1,14 +1,10 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class StringLiteral implements IAstNode<StringLiteral> {
-  constructor(public value: string) { }
+export default class StringLiteral extends AstNode<StringLiteral> {
+  constructor(public value: string) { super(); }
   // Intentionally empty.
   // tslint:disable-next-line:no-empty
   public analyze(_: Context) { }
   public optimize(): StringLiteral { return this; }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

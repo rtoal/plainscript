@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
 
-export default class BooleanLiteral implements IAstNode<BooleanLiteral> {
-  constructor(public value: boolean) { }
+export default class BooleanLiteral extends AstNode<BooleanLiteral> {
+  constructor(public value: boolean) { super(); }
 
   public analyze(_: Context): void {
     // Intentionally empty
@@ -11,8 +11,4 @@ export default class BooleanLiteral implements IAstNode<BooleanLiteral> {
   public optimize(): BooleanLiteral {
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }

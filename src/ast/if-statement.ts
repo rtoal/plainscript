@@ -1,11 +1,11 @@
 import Context from '../semantics/context';
-import { IAstNode, Statement } from '../type-definitions/plainscript-types';
+import { AstNode, Statement } from '../type-definitions/plainscript-types';
 import BinaryExpression from './binary-expression';
 
-export default class IfStatement implements IAstNode<IfStatement> {
+export default class IfStatement extends AstNode<IfStatement> {
   constructor(public tests: BinaryExpression[],
-    public consequents: Statement[][],
-    public alternate: Statement[] | null) { }
+              public consequents: Statement[][],
+              public alternate: Statement[] | null) { super(); }
 
   public analyze(context: Context): void {
     this.tests.forEach((test) => test.analyze(context));
@@ -29,8 +29,4 @@ export default class IfStatement implements IAstNode<IfStatement> {
     this.alternate = this.alternate ? this.alternate.map((s: Statement) => s.optimize()) : null;
     return this;
   }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }
