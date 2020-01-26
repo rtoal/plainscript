@@ -25,8 +25,10 @@ import Context from '../semantics/context';
 export type Literal = NumericLiteral | StringLiteral | BooleanLiteral;
 export type Referent = FunctionObject | Parameter | Variable;
 
+export type VariableExpression = IdentifierExpression | SubscriptedExpression;
+
 export type Expression = BinaryExpression | UnaryExpression | Literal | ListExpression
-    | Call | SubscriptedExpression | IdentifierExpression;
+    | Call | VariableExpression;
 
 export type Statement = AssignmentStatement | BreakStatement | ReturnStatement | Call
     | BreakStatement | VariableDeclaration;
