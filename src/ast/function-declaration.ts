@@ -1,11 +1,13 @@
+import Parameter from '../ast/parameter';
 import Context from '../semantics/context';
 import { Body, IAstNode } from '../type-definitions/plainscript';
 import FunctionObject from './function-object';
+
 // A function declaration binds a function object to a name.
 export default class FunctionDeclaration implements IAstNode<FunctionDeclaration> {
   public function: FunctionObject;
 
-  constructor(public id: string, params: Entity, body: Body) {
+  constructor(public id: string, params: Parameter[], body: Body) {
     this.id = id;
     this.function = new FunctionObject(this.id, params, body);
   }

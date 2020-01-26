@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { Entity, IAstNode } from '../type-definitions/plainscript';
+import { IAstNode } from '../type-definitions/plainscript';
 
 export default class ListExpression implements IAstNode<ListExpression> {
   constructor(public members: Entity[]) { }

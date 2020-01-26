@@ -35,7 +35,7 @@ import Variable from '../ast/variable';
 import VariableDeclaration from '../ast/variable-declaration';
 import WhileStatement from '../ast/while-statement';
 import Context from '../semantics/context';
-import { Entity, Statement } from '../type-definitions/plainscript';
+import { Statement } from '../type-definitions/plainscript';
 
 const indentLevel = 2;
 
@@ -59,7 +59,7 @@ function makeOp(op: string): string {
 const jsName = (() => {
   let lastId = 0;
   const map = new Map();
-  return (v: Entity) => {
+  return (v: Variable | FunctionDeclaration | Parameter) => {
     if (!(map.has(v))) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
@@ -71,7 +71,7 @@ const jsName = (() => {
 // The AST represents both of these with lists of sources and lists of targets,
 // but when writing out JavaScript it seems silly to write `[x] = [y]` when
 // `x = y` suffices.
-function bracketIfNecessary(a: Entity) {
+function bracketIfNecessary(a: string[]) {
   return (a.length === 1) ? `${a}` : `[${a.join(',')}]`;
 }
 
@@ -114,7 +114,7 @@ BreakStatement.prototype.gen = function(): string {
 };
 
 Call.prototype.gen = function(): string {
-  const fun = this.callee.referent;
+  const fun = this.callee.referent as FunctionObject;
   const params: {[key: string]: any} = {};
   const args = Array(this.args.length).fill(undefined);
   fun.params.forEach((p: any, i: number) => { params[p.id] = i; });
