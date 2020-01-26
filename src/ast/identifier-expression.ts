@@ -1,10 +1,10 @@
 'use strict';
 
 import Context from '../semantics/context';
-import { Entity, IAstNode } from '../type-definitions/ast';
+import { IAstNode, Referent } from '../type-definitions/plainscript';
 
 export default class IdentifierExpression implements IAstNode<IdentifierExpression> {
-  public referent: Entity;
+  public referent!: Referent;
   constructor(public id: string) { }
 
   // Whenever an expression is a simple identifer, it must refer to something

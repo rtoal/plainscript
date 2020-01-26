@@ -11,8 +11,7 @@
 import FunctionDeclaration from '../ast/function-declaration';
 import FunctionObject from '../ast/function-object';
 import Parameter from '../ast/parameter';
-
-type Entity = any;
+import { Referent } from '../type-definitions/plainscript';
 
 interface IContextSchema {
     parent?: Context | null;
@@ -22,11 +21,11 @@ interface IContextSchema {
 
 export default class Context {
     public static INITIAL = new Context();
+    public declarations: any = {};
     public inLoop: boolean;
 
     private parent: Context | null;
     private currentFunction: FunctionObject | null;
-    public declarations: any = {};
 
     // An interface is needed here to preserve the ability to destructure parameters passed into
     // the constructor. Alternatively, we *could* have tried named parameters, but TS does not
@@ -59,7 +58,7 @@ export default class Context {
     // to check enclosing contexts because in this language, shadowing is always
     // allowed. Note that if we allowed overloading, this method would have to
     // be a bit more sophisticated.
-    public add(entity: Entity) {
+    public add(entity: Referent) {
         if (entity.id in this.declarations) {
             throw new Error(`Identifier ${entity.id} already declared in this scope`);
         }
@@ -68,7 +67,7 @@ export default class Context {
 
     // Returns the entity bound to the given identifier, starting from this
     // context and searching "outward" through enclosing contexts if necessary.
-    public lookup(id: string): Entity {
+    public lookup(id: string): Referent {
         if (id in this.declarations) {
             return this.declarations[id];
         } else if (this.parent === null) {
@@ -84,8 +83,8 @@ export default class Context {
         }
     }
 
-    public assertIsFunction(entity: Entity) {
-        if (entity.constructor !== FunctionObject) {
+    public assertIsFunction(entity: any) {
+        if (!(entity instanceof FunctionObject)) {
             throw new Error(`${entity.id} is not a function`);
         }
     }
