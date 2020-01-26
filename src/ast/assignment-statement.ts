@@ -11,8 +11,4 @@ export default class AssignmentStatement extends AstNode<AssignmentStatement> {
     this.sources.forEach((e) => e.analyze(context));
     this.targets.forEach((v) => v.analyze(context));
   }
-
-  public optimize(): AssignmentStatement {
-    return this;
-  }
 }

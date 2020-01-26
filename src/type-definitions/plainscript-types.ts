@@ -34,8 +34,8 @@ export type Statement = AssignmentStatement | BreakStatement | ReturnStatement |
 export type Body = Statement[];
 
 export class AstNode<T> {
-    public analyze?(context?: Context): void;
-    public optimize(): T | Literal | void | null;
+    public analyze(_: Context): void {}
+
     public optimize(): any {
         return this;
     }

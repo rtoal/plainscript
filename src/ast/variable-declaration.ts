@@ -21,8 +21,4 @@ export default class VariableDeclaration extends AstNode<VariableDeclaration> {
     this.variables = this.ids.map((id: string) => new Variable(id));
     this.variables.forEach((variable: Variable) => context.add(variable));
   }
-
-  public optimize(): VariableDeclaration {
-    return this;
-  }
 }

@@ -9,8 +9,4 @@ export default class BreakStatement extends AstNode<BreakStatement> {
       throw new Error('Break statement outside loop');
     }
   }
-
-  public optimize(): BreakStatement {
-    return this;
-  }
 }

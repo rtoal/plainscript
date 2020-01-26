@@ -16,12 +16,4 @@ export default class IdentifierExpression extends AstNode<IdentifierExpression> 
   public analyze(context: Context): void {
     this.referent = context.lookup(this.id);
   }
-
-  public optimize(): IdentifierExpression {
-    return this;
-  }
-
-  // Depends on the target language, thus gets filled in
-  // by the necessary generator at runtime.
-  public gen() { }
 }
