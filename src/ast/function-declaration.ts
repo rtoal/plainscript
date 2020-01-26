@@ -1,6 +1,6 @@
 import Parameter from '../ast/parameter';
 import Context from '../semantics/context';
-import { Body, IAstNode } from '../type-definitions/plainscript';
+import { Body, IAstNode } from '../type-definitions/plainscript-types';
 import FunctionObject from './function-object';
 
 // A function declaration binds a function object to a name.

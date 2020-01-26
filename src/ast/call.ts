@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript';
+import { IAstNode } from '../type-definitions/plainscript-types';
 import Argument from './argument';
 import IdentifierExpression from './identifier-expression';
 

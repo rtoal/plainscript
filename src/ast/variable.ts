@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript';
+import { IAstNode } from '../type-definitions/plainscript-types';
 
 export default class Variable implements IAstNode<Variable> {
   constructor(public id: string) { }

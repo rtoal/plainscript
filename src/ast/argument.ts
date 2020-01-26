@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { Expression, IAstNode } from '../type-definitions/plainscript';
+import { Expression, IAstNode } from '../type-definitions/plainscript-types';
 
 export default class Argument implements IAstNode<Argument> {
   constructor(public id: string, public expression: Expression) { }

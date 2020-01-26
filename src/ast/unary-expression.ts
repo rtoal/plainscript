@@ -1,6 +1,6 @@
 
 import Context from '../semantics/context';
-import { Expression, IAstNode, Literal } from '../type-definitions/plainscript';
+import { Expression, IAstNode, Literal } from '../type-definitions/plainscript-types';
 import BooleanLiteral from './boolean-literal';
 import NumericLiteral from './numeric-literal';
 

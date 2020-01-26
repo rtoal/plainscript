@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { Expression, IAstNode } from '../type-definitions/plainscript';
+import { Expression, IAstNode } from '../type-definitions/plainscript-types';
 import Variable from './variable';
 
 export default class SubscriptedExpression implements IAstNode<SubscriptedExpression> {

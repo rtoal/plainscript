@@ -35,7 +35,7 @@ import Variable from '../ast/variable';
 import VariableDeclaration from '../ast/variable-declaration';
 import WhileStatement from '../ast/while-statement';
 import Context from '../semantics/context';
-import { Statement } from '../type-definitions/plainscript';
+import { Statement } from '../type-definitions/plainscript-types';
 
 const indentLevel = 2;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 import Context from '../semantics/context';
-import { IAstNode, Referent } from '../type-definitions/plainscript';
+import { IAstNode, Referent } from '../type-definitions/plainscript-types';
 
 export default class IdentifierExpression implements IAstNode<IdentifierExpression> {
   public referent!: Referent;

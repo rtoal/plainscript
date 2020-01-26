@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript';
+import { IAstNode } from '../type-definitions/plainscript-types';
 
 export default class BinaryExpression implements IAstNode<BinaryExpression> {
   constructor(public op: any, public left: any, public right: any) { }

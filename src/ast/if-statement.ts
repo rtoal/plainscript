@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode, Statement } from '../type-definitions/plainscript';
+import { IAstNode, Statement } from '../type-definitions/plainscript-types';
 import BinaryExpression from './binary-expression';
 
 export default class IfStatement implements IAstNode<IfStatement> {

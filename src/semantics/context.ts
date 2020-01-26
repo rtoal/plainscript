@@ -11,7 +11,7 @@
 import FunctionDeclaration from '../ast/function-declaration';
 import FunctionObject from '../ast/function-object';
 import Parameter from '../ast/parameter';
-import { Referent } from '../type-definitions/plainscript';
+import { Referent } from '../type-definitions/plainscript-types';
 
 interface IContextSchema {
     parent?: Context | null;
@@ -91,5 +91,5 @@ export default class Context {
 }
 
 // Initialize built-in functions to the initial context.
-new FunctionDeclaration('print', [new Parameter('_', null)], null).analyze(Context.INITIAL);
-new FunctionDeclaration('sqrt', [new Parameter('_', null)], null).analyze(Context.INITIAL);
+new FunctionDeclaration('print', [new Parameter('_', null)], []).analyze(Context.INITIAL);
+new FunctionDeclaration('sqrt', [new Parameter('_', null)], []).analyze(Context.INITIAL);

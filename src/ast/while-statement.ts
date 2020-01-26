@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import { IAstNode, Statement } from '../type-definitions/plainscript';
+import { IAstNode, Statement } from '../type-definitions/plainscript-types';
 import BooleanLiteral from './boolean-literal';
 
 export default class WhileStatement implements IAstNode<WhileStatement> {
