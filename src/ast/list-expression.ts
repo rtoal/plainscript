@@ -1,11 +1,11 @@
 import Context from '../semantics/context';
-import { IAstNode } from '../type-definitions/plainscript';
+import { Expression, IAstNode } from '../type-definitions/plainscript';
 
 export default class ListExpression implements IAstNode<ListExpression> {
-  constructor(public members: Entity[]) { }
+  constructor(public members: Expression[]) { }
 
   public analyze(context: Context): void {
-    this.members.forEach((member: Entity) => member.analyze(context));
+    this.members.forEach((member: Expression) => member.analyze(context));
   }
 
   public optimize(): ListExpression {
