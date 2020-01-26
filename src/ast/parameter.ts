@@ -2,17 +2,19 @@ import Context from '../semantics/context';
 import { Expression, IAstNode } from '../type-definitions/plainscript-types';
 
 export default class Parameter implements IAstNode<Parameter> {
-  constructor(public id: string, public defaultExpression: Expression) { }
+  constructor(public id: string, public defaultExpression: Expression | null) { }
 
   public analyze(context: Context) {
-    if (this.defaultExpression) {
-      this.defaultExpression.analyze();
+    if (this.defaultExpression != null) {
+      this.defaultExpression.analyze(context);
     }
     context.add(this);
   }
 
   public optimize(): Parameter {
-    this.defaultExpression = this.defaultExpression.optimize();
+    if (this.defaultExpression != null) {
+      this.defaultExpression = this.defaultExpression.optimize();
+    }
     return this;
   }
 

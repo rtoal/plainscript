@@ -90,7 +90,7 @@ function generateBlock(block: Statement[]) {
   return block.map((s: Statement) => `${s.gen()};`).join('');
 }
 
-Argument.prototype.gen = function(): string {
+Argument.prototype.gen = function(): string | void {
   return this.expression.gen();
 };
 
