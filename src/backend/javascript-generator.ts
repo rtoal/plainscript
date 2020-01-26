@@ -177,14 +177,14 @@ StringLiteral.prototype.gen = function(): string {
   return `${this.value}`;
 };
 
-SubscriptedExpression.prototype.gen = function () {
+SubscriptedExpression.prototype.gen = function() {
   const base = this.variable.gen();
   const subscript = this.subscript.gen();
   return `${base}[${subscript}]`;
 };
 
-UnaryExpression.prototype.gen = function(): string { 
-  return `(${makeOp(this.op)} ${this.operand.gen()})`; 
+UnaryExpression.prototype.gen = function(): string {
+  return `(${makeOp(this.op)} ${this.operand.gen()})`;
 };
 
 VariableDeclaration.prototype.gen = function(): string {
