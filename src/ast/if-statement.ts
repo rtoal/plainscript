@@ -26,7 +26,7 @@ export default class IfStatement extends AstNode<IfStatement> {
         .filter((s: Statement) => s != null);
       // Suggested: Look for breaks/returns in the middle of the body
     });
-    this.alternate = this.alternate ? this.alternate.map((s: Statement) => s.optimize()) : null;
+    this.alternate = this.alternate ? this.alternate.map((s) => s.optimize()) : null;
     return this;
   }
 }

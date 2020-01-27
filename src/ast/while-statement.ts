@@ -8,7 +8,7 @@ export default class WhileStatement extends AstNode<WhileStatement> {
   public analyze(context: Context) {
     this.test.analyze(context);
     const bodyContext: Context = context.createChildContextForLoop();
-    this.body.forEach((s: Statement) => s.analyze(bodyContext));
+    this.body.forEach((s) => s.analyze(bodyContext));
   }
 
   public optimize(): WhileStatement | null {

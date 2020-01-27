@@ -5,7 +5,7 @@ export default class ListExpression extends AstNode<ListExpression> {
   constructor(public members: Expression[]) { super(); }
 
   public analyze(context: Context): void {
-    this.members.forEach((member: Expression) => member.analyze(context));
+    this.members.forEach((member) => member.analyze(context));
   }
 
   public optimize(): ListExpression {

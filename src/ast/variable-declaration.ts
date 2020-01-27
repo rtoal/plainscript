@@ -16,9 +16,9 @@ export default class VariableDeclaration extends AstNode<VariableDeclaration> {
     // We don't want the declared variables to come into scope until after the
     // declaration line, so we will analyze all the initializing expressions
     // first.
-    this.initializers.forEach((e: Expression) => e.analyze(context));
+    this.initializers.forEach((e) => e.analyze(context));
     // Now we can create actual variable objects and add to the current context.
-    this.variables = this.ids.map((id: string) => new Variable(id));
-    this.variables.forEach((variable: Variable) => context.add(variable));
+    this.variables = this.ids.map((id) => new Variable(id));
+    this.variables.forEach((variable) => context.add(variable));
   }
 }

@@ -6,7 +6,7 @@ export default class Program extends AstNode<Program> {
 
   public analyze(): void {
     const context = new Context({ parent: Context.INITIAL });
-    this.statements.forEach((s: Statement) => s.analyze(context));
+    this.statements.forEach((s) => s.analyze(context));
   }
 
   public optimize(): Program {
