@@ -12,19 +12,19 @@ export default class Call extends AstNode<Call> {
     this.callee.analyze(context);
     context.assertIsFunction(this.callee.referent);
     this.checkArgumentMatching(this.callee.referent);
-    this.args.forEach((arg: any) => arg.analyze(context));
+    this.args.forEach((arg) => arg.analyze(context));
   }
 
   public optimize(): Call {
     this.callee = this.callee.optimize();
-    this.args.forEach((arg: any) => arg.optimize());
+    this.args.forEach((arg) => arg.optimize());
     return this;
   }
 
   public checkArgumentMatching(callee: any) {
     const matchedParameterNames: Set<string> = new Set([]);
     let keywordArgumentSeen = false;
-    this.args.forEach((arg: any, index: number) => {
+    this.args.forEach((arg, index: number) => {
       if (index >= callee.params.length) {
         throw new Error('Too many arguments in call');
       }
