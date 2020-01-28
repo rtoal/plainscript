@@ -1,7 +1,7 @@
 import Context from '../semantics/context';
 import { AstNode, Expression } from '../type-definitions/plainscript-types';
 
-export default class Argument extends AstNode<Argument> {
+export default class Argument extends AstNode {
   constructor(public id: string, public expression: Expression) { super(); }
 
   public get isPositionalArgument() {

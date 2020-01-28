@@ -3,7 +3,7 @@
 import Context from '../semantics/context';
 import { AstNode, Referent } from '../type-definitions/plainscript-types';
 
-export default class IdentifierExpression extends AstNode<IdentifierExpression> {
+export default class IdentifierExpression extends AstNode {
   public referent!: Referent;
   constructor(public id: string) { super(); }
 

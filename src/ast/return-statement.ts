@@ -1,7 +1,8 @@
 import Context from '../semantics/context';
-import { AstNode, Expression } from '../type-definitions/plainscript-types';
+import { Expression } from '../type-definitions/plainscript-types';
+import Statement from './statement';
 
-export default class ReturnStatement extends AstNode<ReturnStatement> {
+export default class ReturnStatement extends Statement {
   constructor(public returnValue: Expression | null) { super(); }
 
   public analyze(context: Context): void {

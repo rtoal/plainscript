@@ -1,7 +1,7 @@
 import Context from '../semantics/context';
 import { AstNode, Expression } from '../type-definitions/plainscript-types';
 
-export default class BinaryExpression extends AstNode<BinaryExpression> {
+export default class BinaryExpression extends AstNode {
   constructor(public op: string, public left: Expression, public right: Expression) { super(); }
 
   public analyze(context: Context): void {

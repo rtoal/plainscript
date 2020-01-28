@@ -1,8 +1,8 @@
 import Context from '../semantics/context';
-import { AstNode, Statement } from '../type-definitions/plainscript-types';
 import BinaryExpression from './binary-expression';
+import Statement from './statement';
 
-export default class IfStatement extends AstNode<IfStatement> {
+export default class IfStatement extends Statement {
   constructor(public tests: BinaryExpression[],
               public consequents: Statement[][],
               public alternate: Statement[] | null) { super(); }

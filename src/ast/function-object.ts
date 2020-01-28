@@ -1,8 +1,9 @@
 import Parameter from '../ast/parameter';
+import Statement from '../ast/statement';
 import Context from '../semantics/context';
-import { AstNode, Body, Statement } from '../type-definitions/plainscript-types';
+import { AstNode, Body } from '../type-definitions/plainscript-types';
 
-export default class FunctionObject extends AstNode<FunctionObject> {
+export default class FunctionObject extends AstNode {
   // we use the ! here to tell TypeScript it's
   // ok that these are not initialized in the
   // constructor, as they get initialized in

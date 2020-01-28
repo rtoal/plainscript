@@ -1,7 +1,7 @@
 import Context from '../semantics/context';
-import { AstNode } from '../type-definitions/plainscript-types';
+import Statement from './statement';
 
-export default class BreakStatement extends AstNode<BreakStatement> {
+export default class BreakStatement extends Statement {
   // no constructor on purpose.
 
   public analyze(context: Context): void {

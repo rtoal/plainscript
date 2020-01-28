@@ -4,7 +4,7 @@ import { AstNode, Expression, Literal } from '../type-definitions/plainscript-ty
 import BooleanLiteral from './boolean-literal';
 import NumericLiteral from './numeric-literal';
 
-export default class UnaryExpression extends AstNode<UnaryExpression> {
+export default class UnaryExpression extends AstNode {
   constructor(public op: string, public operand: Expression) { super(); }
 
   public analyze(context: Context): void {

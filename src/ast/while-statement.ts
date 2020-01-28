@@ -1,9 +1,9 @@
 import Context from '../semantics/context';
-import { AstNode, Statement } from '../type-definitions/plainscript-types';
 import BooleanLiteral from './boolean-literal';
+import Statement from './statement';
 
-export default class WhileStatement extends AstNode<WhileStatement> {
-  constructor(public test: BooleanLiteral, public body: Statement[]) { super(); }
+export default class WhileStatement extends Statement {
+  constructor(public test: BooleanLiteral, public body: any[]) { super(); }
 
   public analyze(context: Context) {
     this.test.analyze(context);

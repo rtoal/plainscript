@@ -3,7 +3,7 @@ import { AstNode } from '../type-definitions/plainscript-types';
 import Argument from './argument';
 import IdentifierExpression from './identifier-expression';
 
-export default class Call extends AstNode<Call> {
+export default class Call extends AstNode {
   constructor(public callee: IdentifierExpression, public args: Argument[]) {
     super();
   }

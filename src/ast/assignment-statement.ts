@@ -1,7 +1,8 @@
 import Context from '../semantics/context';
-import { AstNode, Expression, VariableExpression } from '../type-definitions/plainscript-types';
+import { Expression, VariableExpression } from '../type-definitions/plainscript-types';
+import Statement from './statement';
 
-export default class AssignmentStatement extends AstNode<AssignmentStatement> {
+export default class AssignmentStatement extends Statement {
   constructor(public targets: VariableExpression[], public sources: Expression[]) { super(); }
 
   public analyze(context: Context): void {

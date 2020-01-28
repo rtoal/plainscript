@@ -2,7 +2,7 @@ import Context from '../semantics/context';
 import { AstNode, Expression } from '../type-definitions/plainscript-types';
 import Variable from './variable';
 
-export default class VariableDeclaration extends AstNode<VariableDeclaration> {
+export default class VariableDeclaration extends AstNode {
   // Gets assigned in the analyze method
   // so we put a bang here to calm the
   // compiler down.
