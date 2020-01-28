@@ -8,10 +8,10 @@
  *   import Context from './semantics/context';
  */
 
+import Referent from '../ast/abstract/Referent';
 import FunctionDeclaration from '../ast/function-declaration';
 import FunctionObject from '../ast/function-object';
 import Parameter from '../ast/parameter';
-import { Referent } from '../type-definitions/plainscript-types';
 
 interface IContextSchema {
     parent?: Context | null;

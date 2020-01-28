@@ -1,5 +1,6 @@
 import Context from '../semantics/context';
-import { AstNode, Expression } from '../type-definitions/plainscript-types';
+import { AstNode } from '../type-definitions/plainscript-types';
+import Expression from './abstract/expression';
 
 export default class Argument extends AstNode {
   constructor(public id: string, public expression: Expression) { super(); }

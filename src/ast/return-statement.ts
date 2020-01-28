@@ -1,6 +1,6 @@
 import Context from '../semantics/context';
-import { Expression } from '../type-definitions/plainscript-types';
-import Statement from './statement';
+import Expression from './abstract/expression';
+import Statement from './abstract/statement';
 
 export default class ReturnStatement extends Statement {
   constructor(public returnValue: Expression | null) { super(); }

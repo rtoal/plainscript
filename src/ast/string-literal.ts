@@ -1,5 +1,5 @@
-import { AstNode } from '../type-definitions/plainscript-types';
+import Literal from './abstract/literal';
 
-export default class StringLiteral extends AstNode {
-  constructor(public value: string) { super(); }
+export default class StringLiteral extends Literal<string> {
+  constructor(value: string) { super(value); }
 }

@@ -1,9 +1,10 @@
 import Parameter from '../ast/parameter';
-import Statement from '../ast/statement';
 import Context from '../semantics/context';
-import { AstNode, Body } from '../type-definitions/plainscript-types';
+import { Body } from '../type-definitions/plainscript-types';
+import Referent from './abstract/referent';
+import Statement from './abstract/statement';
 
-export default class FunctionObject extends AstNode {
+export default class FunctionObject extends Referent {
   // we use the ! here to tell TypeScript it's
   // ok that these are not initialized in the
   // constructor, as they get initialized in
@@ -11,7 +12,7 @@ export default class FunctionObject extends AstNode {
   public requiredParameterNames!: Set<string>;
   public allParameterNames!: Set<string>;
 
-  constructor( public id: string, public params: Parameter[], public body: Body) { super(); }
+  constructor(id: string, public params: Parameter[], public body: Body) { super(id); }
 
   public analyze(context: Context): void {
     // Each parameter will be declared in the function's scope, mixed in

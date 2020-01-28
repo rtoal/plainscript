@@ -1,9 +1,10 @@
 'use strict';
 
 import Context from '../semantics/context';
-import { AstNode, Referent } from '../type-definitions/plainscript-types';
+import Referent from './abstract/referent';
+import VariableExpression from './abstract/variable-expression';
 
-export default class IdentifierExpression extends AstNode {
+export default class IdentifierExpression extends VariableExpression {
   public referent!: Referent;
   constructor(public id: string) { super(); }
 

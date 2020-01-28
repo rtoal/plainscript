@@ -1,9 +1,9 @@
 import Context from '../semantics/context';
-import { AstNode } from '../type-definitions/plainscript-types';
+import Expression from './abstract/expression';
 import Argument from './argument';
 import IdentifierExpression from './identifier-expression';
 
-export default class Call extends AstNode {
+export default class Call extends Expression {
   constructor(public callee: IdentifierExpression, public args: Argument[]) {
     super();
   }

@@ -1,6 +1,6 @@
 import Context from '../semantics/context';
 import { AstNode } from '../type-definitions/plainscript-types';
-import Statement from './statement';
+import Statement from './abstract/statement';
 
 export default class Program extends AstNode {
   constructor(public statements: Statement[]) { super(); }

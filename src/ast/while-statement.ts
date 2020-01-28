@@ -1,6 +1,6 @@
 import Context from '../semantics/context';
+import Statement from './abstract/statement';
 import BooleanLiteral from './boolean-literal';
-import Statement from './statement';
 
 export default class WhileStatement extends Statement {
   constructor(public test: BooleanLiteral, public body: any[]) { super(); }

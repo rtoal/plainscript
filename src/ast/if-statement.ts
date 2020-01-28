@@ -1,6 +1,6 @@
 import Context from '../semantics/context';
+import Statement from './abstract/statement';
 import BinaryExpression from './binary-expression';
-import Statement from './statement';
 
 export default class IfStatement extends Statement {
   constructor(public tests: BinaryExpression[],

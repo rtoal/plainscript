@@ -1,5 +1,5 @@
-import { AstNode } from '../type-definitions/plainscript-types';
+import Referent from './abstract/referent';
 
-export default class Variable extends AstNode {
-  constructor(public id: string) { super(); }
+export default class Variable extends Referent {
+  constructor(id: string) { super(id); }
 }

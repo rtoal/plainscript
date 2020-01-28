@@ -1,6 +1,7 @@
 import Context from '../semantics/context';
-import { Expression, VariableExpression } from '../type-definitions/plainscript-types';
-import Statement from './statement';
+import Expression from './abstract/expression';
+import Statement from './abstract/statement';
+import VariableExpression from './abstract/variable-expression';
 
 export default class AssignmentStatement extends Statement {
   constructor(public targets: VariableExpression[], public sources: Expression[]) { super(); }

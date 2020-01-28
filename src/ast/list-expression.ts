@@ -1,7 +1,7 @@
 import Context from '../semantics/context';
-import { AstNode, Expression } from '../type-definitions/plainscript-types';
+import Expression from './abstract/expression';
 
-export default class ListExpression extends AstNode {
+export default class ListExpression extends Expression {
   constructor(public members: Expression[]) { super(); }
 
   public analyze(context: Context): void {

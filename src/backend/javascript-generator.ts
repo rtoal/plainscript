@@ -28,7 +28,7 @@ import NumericLiteral from '../ast/numeric-literal';
 import Parameter from '../ast/parameter';
 import Program from '../ast/program';
 import ReturnStatement from '../ast/return-statement';
-import Statement from '../ast/statement';
+import Statement from '../ast/abstract/statement';
 import StringLiteral from '../ast/string-literal';
 import SubscriptedExpression from '../ast/subscripted-expression';
 import UnaryExpression from '../ast/unary-expression';

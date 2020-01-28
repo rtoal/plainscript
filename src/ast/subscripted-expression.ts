@@ -1,8 +1,9 @@
 import Context from '../semantics/context';
-import { AstNode, Expression } from '../type-definitions/plainscript-types';
+import Expression from './abstract/expression';
+import VariableExpression from './abstract/variable-expression';
 import Variable from './variable';
 
-export default class SubscriptedExpression extends AstNode {
+export default class SubscriptedExpression extends VariableExpression {
   constructor(public variable: Variable, public subscript: Expression) { super(); }
 
   public analyze(context: Context): void {

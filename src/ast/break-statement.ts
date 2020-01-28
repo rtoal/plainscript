@@ -1,5 +1,5 @@
 import Context from '../semantics/context';
-import Statement from './statement';
+import Statement from './abstract/statement';
 
 export default class BreakStatement extends Statement {
   // no constructor on purpose.

@@ -1,5 +1,5 @@
-import { AstNode } from '../type-definitions/plainscript-types';
+import Literal from './abstract/literal';
 
-export default class NumericLiteral extends AstNode {
-  constructor(public value: number) { super(); }
+export default class NumericLiteral extends Literal<number> {
+  constructor(value: number) { super(value); }
 }
