@@ -12,14 +12,14 @@ import parse from '../../src/syntax/parser';
 describe('The semantic analyzer', () => {
   fs.readdirSync(__dirname).forEach((name: any) => {
     if (name.endsWith('.error')) {
-      test(`detects a ${name.replace(/[^a-z]/g, ' ')}`, (done) => {
+      test(`detects a ${name.replace(/[^a-z]/g, ' ')}`, done => {
         const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8').toString());
         const errorPattern = RegExp(name.replace('.error', '').replace(/-/g, ' '), 'i');
         expect(() => program.analyze()).toThrow(errorPattern);
         done();
       });
     } else if (name.endsWith('.pls')) {
-      test(`should analyze ${name} without errors`, (done) => {
+      test(`should analyze ${name} without errors`, done => {
         // For now, we are happy to know that these files pass semantic analysis.
         // We eventually need to check that the ASTs are properly decorated.
         const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
