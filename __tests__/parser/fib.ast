@@ -18,9 +18,7 @@ Program {
                   right: IdentifierExpression { id: 'n' } },
                body:
                 [ AssignmentStatement {
-                    targets:
-                     [ IdentifierExpression { id: 'a' },
-                       IdentifierExpression { id: 'b' } ],
+                    targets: [ IdentifierExpression { id: 'a' }, IdentifierExpression { id: 'b' } ],
                     sources:
                      [ IdentifierExpression { id: 'b' },
                        BinaryExpression {
@@ -36,8 +34,7 @@ Program {
             expression:
              Call {
                callee: IdentifierExpression { id: 'fib' },
-               args:
-                [ Argument { id: null, expression: NumericLiteral { value: 5 } } ] } } ] },
+               args: [ Argument { id: null, expression: NumericLiteral { value: 5 } } ] } } ] },
      Call {
        callee: IdentifierExpression { id: 'print' },
        args:
@@ -46,5 +43,4 @@ Program {
             expression:
              Call {
                callee: IdentifierExpression { id: 'fib' },
-               args:
-                [ Argument { id: null, expression: NumericLiteral { value: 10 } } ] } } ] } ] }
+               args: [ Argument { id: null, expression: NumericLiteral { value: 10 } } ] } } ] } ] }

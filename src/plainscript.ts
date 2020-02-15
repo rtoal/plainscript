@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
  * A PlainScript Compiler
  *
@@ -34,8 +32,12 @@ interface ICompileOptions {
   frontEndOnly?: boolean;
   shouldOptimize?: boolean;
 }
+
 // If compiling from a string, return the AST, IR, or compiled code as a string.
-export function compile(sourceCode: string, { astOnly, frontEndOnly, shouldOptimize }: ICompileOptions) {
+export function compile(
+  sourceCode: string,
+  { astOnly, frontEndOnly, shouldOptimize }: ICompileOptions
+) {
   const program = parse(sourceCode);
   if (astOnly) {
     return util.inspect(program, { depth: null });
@@ -62,12 +64,11 @@ export function compileFile(filename: string, options: ICompileOptions) {
   });
 }
 
-module.exports = { compile, compileFile };
-
 // If running as a script, we have a lot of command line processing to do. The source
 // program will come from the file who name is given as the command line argument.
 if (require.main === module) {
-  const { argv } = yargs.usage('$0 [-a] [-o] [-i] filename')
+  const { argv } = yargs
+    .usage('$0 [-a] [-o] [-i] filename')
     .boolean(['a', 'o', 'i'])
     .describe('a', 'show abstract syntax tree after parsing then stop')
     .describe('o', 'do optimizations')

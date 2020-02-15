@@ -20,5 +20,4 @@ Program {
                consequents:
                 [ [ ReturnStatement { returnValue: StringLiteral { value: '"A"' } } ],
                   [ ReturnStatement { returnValue: StringLiteral { value: '"B"' } } ] ],
-               alternate:
-                [ ReturnStatement { returnValue: StringLiteral { value: '"C"' } } ] } ] } } ] }
+               alternate: [ ReturnStatement { returnValue: StringLiteral { value: '"C"' } } ] } ] } } ] }
