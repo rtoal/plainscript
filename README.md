@@ -22,19 +22,21 @@ The language is described in some detail at the <a href="https://rtoal.github.io
 
 ## Using PlainScript
 
-The PlainScript compiler is now written in <a href="https://rtoal.https://www.typescriptlang.org/.io/plainscript/">TypeScript</a>! This means running PlainScript requires building the source code before being able to run PlainScript. Clone the repository, and in its root directory run one of the following commands depending on your preferred package manager:
+The PlainScript compiler is now written in <a href="https://rtoal.https://www.typescriptlang.org/.io/plainscript/">TypeScript</a>! This means running PlainScript requires building the source code before being able to run the compiler. Clone the repository, and in its root directory run one of the following commands depending on your preferred package manager:
 
 # Yarn
+
 `yarn && tsc`
 
 # npm
+
 `npm i && tsc`
 
-The compiled JavaScript is output to the `built` folder. You can now run `built/PlainScript.js` or `node built/PlainScript.js` run the compiler!
+The compiled JavaScript is output to the `built` folder. You can now run `node built/PlainScript.js` to run the compiler!
 
 ## A PlainScript Compiler
 
-This project hosts a simple compiler that reads a PlainScript program from a file, translates it to JavaScript, and outputs the JavaScript code to standard output. It supports three options, <tt>-a</tt> (to display the abstract syntax tree then stop), <tt>-i</tt> (to display the analyzed semantic graph then stop), and <tt>-o</tt> (to turn optimizations on). Given the PlainScript program:
+This project hosts a simple compiler that reads a PlainScript program from a file, translates it to JavaScript, and outputs the JavaScript code to standard output. It supports three options, <code>-a</code> (to display the abstract syntax tree then stop), <code>-i</code> (to display the analyzed semantic graph then stop), and <code>-o</code> (to turn optimizations on). Given the PlainScript program:
 
 ```javascript
 let x = 5 + 8
@@ -42,11 +44,14 @@ if true:
   print(-x)
 ```
 
-invoking the compiler with the <tt>-a</tt> option outputs the abstract syntax tree for the program to standard output:
+invoking the compiler with the <code>-a</code> option outputs the abstract syntax tree for the program to standard output:
+
 ```
-$ ./built/plainscript.js -a example.pls
+$ node built/plainscript.js -a example.pls
 ```
-produces
+
+produces:
+
 ```
 Program {
   statements:
@@ -72,13 +77,14 @@ Program {
                          expression: UnaryExpression { op: '-', operand: IdentifierExpression { id: 'x' } } } ] } } ] } ],
        alternate: null } ] }
 ```
-The <tt>-i</tt> flag does semantic analysis, and writes out the decorated abstract syntax tree. So
+
+The <code>-i</code> flag does semantic analysis, and writes out the decorated abstract syntax tree. So:
 
 ```
-$ ./built/plainscript.js example.pls -i
+$ node built/plainscript.js example.pls -i
 ```
 
-produces
+produces:
 
 ```
 Program {
@@ -122,7 +128,7 @@ Program {
 Finally, here’s an example performing a full translation to JavaScript:
 
 ```
-$ ./built/plainscript.js example.pls
+$ node built/plainscript.js example.pls
 function print_1(_) {console.log(_);}
 function sqrt_2(_) {return Math.sqrt(_);}
 let x_3 = (5 + 8);
@@ -133,13 +139,12 @@ if (true) {
 
 You can use the optimization flag <code>-o</code> with our without the <code>-i</code> flag. In our little example, the optimizer will detect a constant folding opportunity and a conditional case that is always executed. The resulting JavaScript will be:
 
-
 ```
-$ ./plainscript.js example.pls
+$ node built/plainscript.js example.pls
 function print_1(_) {console.log(_);}
 function sqrt_2(_) {return Math.sqrt(_);}
 let x_3 = 13;
 print_1((- x_3));
 ```
 
-The compiler does not (yet?) perform copy propagation and dead code elimination. That would be nice.
+The compiler does not (yet) perform copy propagation and dead code elimination. That would be nice.
