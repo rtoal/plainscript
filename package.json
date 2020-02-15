@@ -7,17 +7,28 @@
   "author": "Ray Toal <rtoal@lmu.edu>",
   "license": "MIT",
   "scripts": {
-    "test": "jest test/**/*test.js"
+    "test": "jest"
   },
   "dependencies": {
-    "yargs": "^10.1.1",
+    "@types/js-beautify": "^1.8.1",
+    "@types/node": "^13.1.6",
+    "@types/yargs": "^15.0.0",
+    "js-beautify": "^1.10.3",
     "ohm-js": "^0.14.0",
-    "pretty-js": "^0.2.0"
+    "pretty-js": "^0.2.0",
+    "typescript": "^3.7.4",
+    "yargs": "^10.1.1"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.25",
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "jest": "^22.1.4"
+    "jest": "^24.9.0",
+    "ts-jest": "^24.3.0",
+    "tslint": "^5.20.1"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }
