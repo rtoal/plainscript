@@ -3,7 +3,9 @@ import { AstNode } from '../type-definitions/plainscript-types';
 import Expression from './abstract/expression';
 
 export default class Argument extends AstNode {
-  constructor(public id: string, public expression: Expression) { super(); }
+  constructor(public id: string, public expression: Expression) {
+    super();
+  }
 
   public get isPositionalArgument() {
     return !this.id;

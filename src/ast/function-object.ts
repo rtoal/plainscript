@@ -12,7 +12,9 @@ export default class FunctionObject extends Referent {
   public requiredParameterNames!: Set<string>;
   public allParameterNames!: Set<string>;
 
-  constructor(id: string, public params: Parameter[], public body: Body) { super(id); }
+  constructor(id: string, public params: Parameter[], public body: Body) {
+    super(id);
+  }
 
   public analyze(context: Context): void {
     // Each parameter will be declared in the function's scope, mixed in
@@ -22,7 +24,7 @@ export default class FunctionObject extends Referent {
     // gather the names up into sets for quick lookup.
     this.requiredParameterNames = new Set();
     this.allParameterNames = new Set();
-    this.params.forEach((p) => {
+    this.params.forEach(p => {
       this.allParameterNames.add(p.id);
       if (p.isRequired) {
         this.requiredParameterNames.add(p.id);
@@ -38,13 +40,13 @@ export default class FunctionObject extends Referent {
     // variable with the same name as the function inside the function, you'll
     // shadow it, which would probably be not a good idea.
     if (this.body) {
-      this.body.forEach((s) => s.analyze(context));
+      this.body.forEach(s => s.analyze(context));
     }
   }
 
   public optimize(): FunctionObject {
-    this.params.forEach((p) => p.optimize());
-    this.body.forEach((s) => s.optimize());
+    this.params.forEach(p => p.optimize());
+    this.body.forEach(s => s.optimize());
     this.body = this.body.filter((s: Statement) => s !== null);
     // Suggested: Look for returns in the middle of the body
     return this;

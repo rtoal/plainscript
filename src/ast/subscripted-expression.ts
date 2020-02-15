@@ -4,7 +4,9 @@ import VariableExpression from './abstract/variable-expression';
 import Variable from './variable';
 
 export default class SubscriptedExpression extends VariableExpression {
-  constructor(public variable: Variable, public subscript: Expression) { super(); }
+  constructor(public variable: Variable, public subscript: Expression) {
+    super();
+  }
 
   public analyze(context: Context): void {
     this.variable.analyze(context);

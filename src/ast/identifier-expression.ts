@@ -6,7 +6,9 @@ import VariableExpression from './abstract/variable-expression';
 
 export default class IdentifierExpression extends VariableExpression {
   public referent!: Referent;
-  constructor(public id: string) { super(); }
+  constructor(public id: string) {
+    super();
+  }
 
   // Whenever an expression is a simple identifer, it must refer to something
   // previously declared. Identifier expressions aren't the same things as

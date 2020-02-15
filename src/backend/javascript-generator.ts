@@ -42,9 +42,9 @@ const indentLevel = 2;
 const opConversionDictionary: { [key: string]: string } = {
   '!=': '!==',
   '==': '===',
-  'and': '&&',
-  'not': '!',
-  'or': '||',
+  and: '&&',
+  not: '!',
+  or: '||',
 };
 
 function makeOp(op: string): string {
@@ -60,7 +60,7 @@ const jsName = (() => {
   let lastId = 0;
   const map = new Map();
   return (v: Variable | FunctionDeclaration | Parameter) => {
-    if (!(map.has(v))) {
+    if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
     return `${v.id}_${map.get(v)}`;
@@ -72,7 +72,7 @@ const jsName = (() => {
 // but when writing out JavaScript it seems silly to write `[x] = [y]` when
 // `x = y` suffices.
 function bracketIfNecessary(a: string[]) {
-  return (a.length === 1) ? `${a}` : `[${a.join(',')}]`;
+  return a.length === 1 ? `${a}` : `[${a.join(',')}]`;
 }
 
 function generateLibraryFunctions() {
@@ -95,8 +95,8 @@ Argument.prototype.gen = function(): string | void {
 };
 
 AssignmentStatement.prototype.gen = function(): string {
-  const targets = this.targets.map((t) => t.gen());
-  const sources = this.sources.map((s) => s.gen());
+  const targets = this.targets.map(t => t.gen());
+  const sources = this.sources.map(s => s.gen());
   return `${bracketIfNecessary(targets)} = ${bracketIfNecessary(sources)}`;
 };
 
@@ -115,10 +115,14 @@ BreakStatement.prototype.gen = function(): string {
 
 Call.prototype.gen = function(): string {
   const fun = this.callee.referent as FunctionObject;
-  const params: {[key: string]: any} = {};
+  const params: { [key: string]: any } = {};
   const args = Array(this.args.length).fill(undefined);
-  fun.params.forEach((p: any, i: number) => { params[p.id] = i; });
-  this.args.forEach((a: any, i: number) => { args[a.isPositionalArgument ? i : params[a.id]] = a; });
+  fun.params.forEach((p: any, i: number) => {
+    params[p.id] = i;
+  });
+  this.args.forEach((a: any, i: number) => {
+    args[a.isPositionalArgument ? i : params[a.id]] = a;
+  });
   return `${jsName(fun)}(${args.map((a: any) => (a ? a.gen() : 'undefined')).join(',')})`;
 };
 
@@ -188,9 +192,9 @@ UnaryExpression.prototype.gen = function(): string {
 };
 
 VariableDeclaration.prototype.gen = function(): string {
-    const variables = this.variables.map((v: any) => v.gen());
-    const initializers = this.initializers.map((i: any) => i.gen());
-    return `let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)}`;
+  const variables = this.variables.map((v: any) => v.gen());
+  const initializers = this.initializers.map((i: any) => i.gen());
+  return `let ${bracketIfNecessary(variables)} = ${bracketIfNecessary(initializers)}`;
 };
 
 Variable.prototype.gen = function(): string {

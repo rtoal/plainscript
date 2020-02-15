@@ -12,12 +12,12 @@ export default class Call extends Expression {
     this.callee.analyze(context);
     context.assertIsFunction(this.callee.referent);
     this.checkArgumentMatching(this.callee.referent);
-    this.args.forEach((arg) => arg.analyze(context));
+    this.args.forEach(arg => arg.analyze(context));
   }
 
   public optimize(): Call {
     this.callee = this.callee.optimize();
-    this.args.forEach((arg) => arg.optimize());
+    this.args.forEach(arg => arg.optimize());
     return this;
   }
 
@@ -45,7 +45,7 @@ export default class Call extends Expression {
       matchedParameterNames.add(parameterName);
     });
     // Look for and report a required parameter that is not matched.
-    const miss = [...callee.requiredParameterNames].find((name) => !matchedParameterNames.has(name));
+    const miss = [...callee.requiredParameterNames].find(name => !matchedParameterNames.has(name));
     if (miss) {
       throw new Error(`Required parameter ${miss}  is not matched in call`);
     }

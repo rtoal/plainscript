@@ -1,4 +1,3 @@
-
 import Context from '../semantics/context';
 import Expression from './abstract/expression';
 import Literal from './abstract/literal';
@@ -6,7 +5,9 @@ import BooleanLiteral from './boolean-literal';
 import NumericLiteral from './numeric-literal';
 
 export default class UnaryExpression extends Expression {
-  constructor(public op: string, public operand: Expression) { super(); }
+  constructor(public op: string, public operand: Expression) {
+    super();
+  }
 
   public analyze(context: Context): void {
     this.operand.analyze(context);

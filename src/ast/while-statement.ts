@@ -3,12 +3,14 @@ import Statement from './abstract/statement';
 import BooleanLiteral from './boolean-literal';
 
 export default class WhileStatement extends Statement {
-  constructor(public test: BooleanLiteral, public body: any[]) { super(); }
+  constructor(public test: BooleanLiteral, public body: any[]) {
+    super();
+  }
 
   public analyze(context: Context) {
     this.test.analyze(context);
     const bodyContext: Context = context.createChildContextForLoop();
-    this.body.forEach((s) => s.analyze(bodyContext));
+    this.body.forEach(s => s.analyze(bodyContext));
   }
 
   public optimize(): WhileStatement | null {
@@ -16,7 +18,7 @@ export default class WhileStatement extends Statement {
     if (this.test instanceof BooleanLiteral && this.test.value === false) {
       return null;
     }
-    this.body.map((s) => s.optimize()).filter((s) => s !== null);
+    this.body.map(s => s.optimize()).filter(s => s !== null);
     // Suggested: Look for returns/breaks in the middle of the body
     return this;
   }
