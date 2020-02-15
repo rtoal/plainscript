@@ -4,17 +4,17 @@
  * This is a command line application that compiles a PlainScript program from
  * a file. Synopsis:
  *
- * ./plainscript.js -a <filename>
+ * node plainscript.js -a <filename>
  *     writes out the AST and stops
  *
- * ./plainscript.js -i <filename>
+ * node plainscript.js -i <filename>
  *     writes the decorated AST then stops
  *
- * ./plainscript.js <filename>
+ * node plainscript.js <filename>
  *     compiles the PlainScript program to JavaScript, writing the generated
  *     JavaScript code to standard output.
  *
- * ./plainscript.js -o <filename>
+ * node plainscript.js -o <filename>
  *     optimizes the intermediate code before generating target JavaScript.
  *
  * Output of the AST and decorated AST uses the object inspection functionality
@@ -34,19 +34,16 @@ interface ICompileOptions {
 }
 
 // If compiling from a string, return the AST, IR, or compiled code as a string.
-export function compile(
-  sourceCode: string,
-  { astOnly, frontEndOnly, shouldOptimize }: ICompileOptions
-) {
+export function compile(sourceCode: string, options: ICompileOptions) {
   const program = parse(sourceCode);
-  if (astOnly) {
-    return util.inspect(program, { depth: null });
+  if (options.astOnly) {
+    return util.inspect(program, { depth: null, compact: true });
   }
   program.analyze();
-  if (frontEndOnly) {
-    return util.inspect(program, { depth: null });
+  if (options.frontEndOnly) {
+    return util.inspect(program, { depth: null, compact: true });
   }
-  if (shouldOptimize) {
+  if (options.shouldOptimize) {
     return program.optimize().gen();
   }
   return program.gen();
