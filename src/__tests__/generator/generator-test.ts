@@ -6,7 +6,7 @@
 
 import { spawn } from 'child_process';
 import fs from 'fs';
-import { compile } from '../../src/plainscript';
+import { compile } from '../../plainscript';
 
 describe('The code generator', () => {
   fs.readdirSync(__dirname).forEach(name => {

@@ -7,7 +7,7 @@
  */
 
 import fs from 'fs';
-import parse from '../../src/syntax/parser';
+import parse from '../../syntax/parser';
 
 describe('The grammar', () => {
   fs.readdirSync(__dirname).forEach(name => {

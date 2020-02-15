@@ -7,7 +7,7 @@
 
 import fs from 'fs';
 import util from 'util';
-import parse from '../../src/syntax/parser';
+import parse from '../../syntax/parser';
 
 describe('The parser', () => {
   fs.readdirSync(__dirname).forEach(name => {

@@ -8,7 +8,7 @@
  */
 
 import fs from 'fs';
-import withIndentsAndDedents from '../../src/syntax/preparser';
+import withIndentsAndDedents from '../../syntax/preparser';
 
 describe('The pre-parser', () => {
   // When testing that the preprocessor works as intended, we scan a bunch of
