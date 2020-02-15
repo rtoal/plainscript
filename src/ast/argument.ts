@@ -7,23 +7,12 @@ export default class Argument extends AstNode {
     super();
   }
 
-  public get isPositionalArgument() {
+  public get isPositionalArgument(): boolean {
     return !this.id;
   }
 
-  public get isKeywordArgument() {
-    // The !! coerces all values into corresponding
-    // truthy or falesy, even some null-like
-    // values.
-    //
-    // Ex:
-    // !!null => false
-    // !!undefined => false
-    //
-    // Whereas a single ! would only
-    // inverse the property,
-    // !null => true
-    // etc.
+  public get isKeywordArgument(): boolean {
+    // !! is a known JS idiom for casting to a boolean
     return !!this.id;
   }
 

@@ -56,7 +56,6 @@ export function compile(
 export function compileFile(filename: string, options: ICompileOptions) {
   fs.readFile(filename, 'utf-8', (error, sourceCode) => {
     if (error) {
-      // tslint:disable-next-line: no-console
       console.error(error);
       return;
     }
